@@ -31,6 +31,7 @@ const eslintConfig = [
       'src/app/(payload)/admin/importMap.js',
       'playwright-report/',
       'test-results/',
+      '.kilo/',
     ],
   },
 ]

@@ -2,7 +2,8 @@
  * Figma-переменные → src/styles/tokens.css
  *
  * Источник: scripts/figma/variables.json — сырые ответы Figma MCP `get_variable_defs`
- * по подготовленным фреймам (desktop 1440 и mobile 360).
+ * по подготовленным фреймам (desktop 1440 и mobile 360) и доскам UI-kit (`kit`: 01 · Цвета,
+ * 02 · Типографика, 03 · Сетка — полный список цветов, радиусов и стилей Desktop/Mobile).
  *
  * Обновление токенов:
  *   1. В Claude Code вызвать `get_variable_defs` для фреймов из variables.json и заменить их содержимое.
@@ -31,7 +32,7 @@ const output = path.join(root, 'src/styles/tokens.css')
 type Raw = Record<string, string>
 type Source = {
   fileKey: string
-  sources: { desktop: Record<string, Raw>; mobile: Record<string, Raw> }
+  sources: { desktop: Record<string, Raw>; mobile: Record<string, Raw>; kit?: Record<string, Raw> }
 }
 type Font = { size: number; weight: number; lineHeight: number; letterSpacing: number }
 type Pair<T> = { desktop?: T; mobile?: T }
@@ -60,13 +61,19 @@ const parseFont = (s: string): Font => {
   }
 }
 
-for (const mode of ['desktop', 'mobile'] as const) {
-  for (const raw of Object.values(data.sources[mode])) {
+for (const mode of ['desktop', 'mobile', 'kit'] as const) {
+  for (const raw of Object.values(data.sources[mode] ?? {})) {
     for (const [key, value] of Object.entries(raw)) {
       const varMatch = /^var\(--(.+)\)$/.exec(key)
       if (varMatch) {
         const entry = vars.get(varMatch[1]) ?? {}
-        entry[mode] ??= value
+        if (mode === 'kit') {
+          // Доски кита не привязаны к брейкпоинту: только дополняют недостающее.
+          entry.desktop ??= value
+          entry.mobile ??= value
+        } else {
+          entry[mode] ??= value
+        }
         vars.set(varMatch[1], entry)
         continue
       }

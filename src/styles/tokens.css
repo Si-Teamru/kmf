@@ -31,9 +31,6 @@
   --type-author-size: 12px;
   --type-author-line-height: 1.3;
   --type-author-weight: 400;
-  --type-block-title-size: clamp(22px, 21.3333px + 0.1852vw, 24px);
-  --type-block-title-line-height: 1;
-  --type-block-title-weight: 700;
   --type-body-l-size: clamp(14px, 13.3333px + 0.1852vw, 16px);
   --type-body-l-line-height: 1.4;
   --type-body-l-weight: 400;
@@ -49,9 +46,6 @@
   --type-caption-size: 12px;
   --type-caption-line-height: 1.5;
   --type-caption-weight: 400;
-  --type-card-title-size: 24px;
-  --type-card-title-line-height: 1.4;
-  --type-card-title-weight: 700;
   --type-chip-label-size: clamp(11px, 10.6667px + 0.0926vw, 12px);
   --type-chip-label-line-height: 1.2;
   --type-chip-label-weight: 500;
@@ -61,9 +55,24 @@
   --type-footer-about-size: 15px;
   --type-footer-about-line-height: 1.29;
   --type-footer-about-weight: 400;
-  --type-item-title-size: clamp(16px, 14.6667px + 0.3704vw, 20px);
-  --type-item-title-line-height: 1.24;
-  --type-item-title-weight: 600;
+  --type-h1-size: clamp(22px, 17.3333px + 1.2963vw, 36px);
+  --type-h1-line-height: 1.4;
+  --type-h1-weight: 700;
+  --type-h2-size: 30px;
+  --type-h2-line-height: 1.2;
+  --type-h2-weight: 600;
+  --type-h3-size: clamp(22px, 21.3333px + 0.1852vw, 24px);
+  --type-h3-line-height: 1;
+  --type-h3-weight: 700;
+  --type-h4-size: 24px;
+  --type-h4-line-height: 1.4;
+  --type-h4-weight: 700;
+  --type-h5-size: clamp(16px, 14.6667px + 0.3704vw, 20px);
+  --type-h5-line-height: 1.2;
+  --type-h5-weight: 700;
+  --type-h6-size: clamp(16px, 14.6667px + 0.3704vw, 20px);
+  --type-h6-line-height: 1.24;
+  --type-h6-weight: 600;
   --type-label-caps-size: 14px;
   --type-label-caps-line-height: 1.3;
   --type-label-caps-weight: 700;
@@ -85,34 +94,25 @@
   --type-overline-s-size: 12px;
   --type-overline-s-line-height: 1;
   --type-overline-s-weight: 700;
-  --type-page-title-size: clamp(22px, 17.3333px + 1.2963vw, 36px);
-  --type-page-title-line-height: 1.4;
-  --type-page-title-weight: 700;
   --type-price-size: clamp(22px, 21px + 0.2778vw, 25px);
   --type-price-line-height: 1.2;
   --type-price-weight: 400;
   --type-quote-size: 16px;
   --type-quote-line-height: 1.2;
   --type-quote-weight: 400;
-  --type-section-title-size: 30px;
-  --type-section-title-line-height: 1.2;
-  --type-section-title-weight: 600;
   --type-spec-size: clamp(12px, 11.3333px + 0.1852vw, 14px);
   --type-spec-line-height: 1.2;
   --type-spec-weight: 400;
   --type-tab-title-size: clamp(22px, 21.3333px + 0.1852vw, 24px);
   --type-tab-title-line-height: 1;
   --type-tab-title-weight: 400;
-  --type-title-m-size: clamp(16px, 14.6667px + 0.3704vw, 20px);
-  --type-title-m-line-height: 1.2;
-  --type-title-m-weight: 700;
 }
 
 @media (max-width: 767px) {
   :root {
     --type-body-l-accent-weight: 500;
     --type-button-line-height: 1.5;
-    --type-page-title-line-height: 1.2;
+    --type-h1-line-height: 1.2;
   }
 }
 
@@ -148,9 +148,6 @@
   --text-author: var(--type-author-size);
   --text-author--line-height: var(--type-author-line-height);
   --text-author--font-weight: var(--type-author-weight);
-  --text-block-title: var(--type-block-title-size);
-  --text-block-title--line-height: var(--type-block-title-line-height);
-  --text-block-title--font-weight: var(--type-block-title-weight);
   --text-body-l: var(--type-body-l-size);
   --text-body-l--line-height: var(--type-body-l-line-height);
   --text-body-l--font-weight: var(--type-body-l-weight);
@@ -166,9 +163,6 @@
   --text-caption: var(--type-caption-size);
   --text-caption--line-height: var(--type-caption-line-height);
   --text-caption--font-weight: var(--type-caption-weight);
-  --text-card-title: var(--type-card-title-size);
-  --text-card-title--line-height: var(--type-card-title-line-height);
-  --text-card-title--font-weight: var(--type-card-title-weight);
   --text-chip-label: var(--type-chip-label-size);
   --text-chip-label--line-height: var(--type-chip-label-line-height);
   --text-chip-label--font-weight: var(--type-chip-label-weight);
@@ -178,9 +172,24 @@
   --text-footer-about: var(--type-footer-about-size);
   --text-footer-about--line-height: var(--type-footer-about-line-height);
   --text-footer-about--font-weight: var(--type-footer-about-weight);
-  --text-item-title: var(--type-item-title-size);
-  --text-item-title--line-height: var(--type-item-title-line-height);
-  --text-item-title--font-weight: var(--type-item-title-weight);
+  --text-h1: var(--type-h1-size);
+  --text-h1--line-height: var(--type-h1-line-height);
+  --text-h1--font-weight: var(--type-h1-weight);
+  --text-h2: var(--type-h2-size);
+  --text-h2--line-height: var(--type-h2-line-height);
+  --text-h2--font-weight: var(--type-h2-weight);
+  --text-h3: var(--type-h3-size);
+  --text-h3--line-height: var(--type-h3-line-height);
+  --text-h3--font-weight: var(--type-h3-weight);
+  --text-h4: var(--type-h4-size);
+  --text-h4--line-height: var(--type-h4-line-height);
+  --text-h4--font-weight: var(--type-h4-weight);
+  --text-h5: var(--type-h5-size);
+  --text-h5--line-height: var(--type-h5-line-height);
+  --text-h5--font-weight: var(--type-h5-weight);
+  --text-h6: var(--type-h6-size);
+  --text-h6--line-height: var(--type-h6-line-height);
+  --text-h6--font-weight: var(--type-h6-weight);
   --text-label-caps: var(--type-label-caps-size);
   --text-label-caps--line-height: var(--type-label-caps-line-height);
   --text-label-caps--font-weight: var(--type-label-caps-weight);
@@ -202,25 +211,16 @@
   --text-overline-s: var(--type-overline-s-size);
   --text-overline-s--line-height: var(--type-overline-s-line-height);
   --text-overline-s--font-weight: var(--type-overline-s-weight);
-  --text-page-title: var(--type-page-title-size);
-  --text-page-title--line-height: var(--type-page-title-line-height);
-  --text-page-title--font-weight: var(--type-page-title-weight);
   --text-price: var(--type-price-size);
   --text-price--line-height: var(--type-price-line-height);
   --text-price--font-weight: var(--type-price-weight);
   --text-quote: var(--type-quote-size);
   --text-quote--line-height: var(--type-quote-line-height);
   --text-quote--font-weight: var(--type-quote-weight);
-  --text-section-title: var(--type-section-title-size);
-  --text-section-title--line-height: var(--type-section-title-line-height);
-  --text-section-title--font-weight: var(--type-section-title-weight);
   --text-spec: var(--type-spec-size);
   --text-spec--line-height: var(--type-spec-line-height);
   --text-spec--font-weight: var(--type-spec-weight);
   --text-tab-title: var(--type-tab-title-size);
   --text-tab-title--line-height: var(--type-tab-title-line-height);
   --text-tab-title--font-weight: var(--type-tab-title-weight);
-  --text-title-m: var(--type-title-m-size);
-  --text-title-m--line-height: var(--type-title-m-line-height);
-  --text-title-m--font-weight: var(--type-title-m-weight);
 }

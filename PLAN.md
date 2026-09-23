@@ -108,7 +108,7 @@ kmf-site/
 - Docker Compose для локальной разработки.
 - ESLint, Prettier, TypeScript strict.
 - `scripts/export-tokens`: переменные Figma (через MCP `get_variable_defs` или Variables REST) → `tokens.css` → тема Tailwind.
-- Шрифт: только Manrope (next/font, латиница + кириллица).
+- Шрифт: только Manrope, локально (`@fontsource-variable/manrope`, латиница + кириллица).
 
 **1. Вёрстка по Figma со статическими данными (5–7 дней)**
 

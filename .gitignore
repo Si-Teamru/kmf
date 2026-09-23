@@ -51,3 +51,7 @@ node_modules/
 
 # Claude Code local settings
 .claude/settings.local.json
+CLAUDE.local.md
+
+# Worktrees других ИИ-агентов
+.kilo/

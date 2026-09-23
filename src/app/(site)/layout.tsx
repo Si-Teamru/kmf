@@ -1,14 +1,9 @@
 import type { Metadata } from 'next'
-import { Manrope } from 'next/font/google'
 import React from 'react'
 
+// Manrope хранится локально (Google Fonts из РФ отвечает нестабильно).
+import '@fontsource-variable/manrope'
 import './globals.css'
-
-const manrope = Manrope({
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-manrope',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   title: 'KMF — мебель на заказ',
@@ -17,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={manrope.variable}>
+    <html lang="ru">
       <body>
         <main>{children}</main>
       </body>

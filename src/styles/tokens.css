@@ -1,0 +1,12 @@
+/*
+ * Дизайн-токены KMF.
+ * Источник — переменные Figma (коллекции KMF Colors / Spacing / Layout, файл 391WjOgpmjW5OdsbXgV1YO).
+ * Будут генерироваться скриптом scripts/export-tokens; до этого — временные значения.
+ */
+:root {
+  --kmf-color-bg: #ffffff;
+  --kmf-color-text: #1a1a1a;
+
+  --kmf-container-max: 1440px;
+  --kmf-gutter: 16px;
+}

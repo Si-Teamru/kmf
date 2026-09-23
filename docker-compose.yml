@@ -1,0 +1,42 @@
+# Локальная разработка.
+#   npm run db:up                  — только Postgres, приложение запускается через `npm run dev`
+#   docker compose --profile app up — Postgres + приложение в контейнере
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-kmf}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kmf}
+      POSTGRES_DB: ${POSTGRES_DB:-kmf}
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-kmf} -d ${POSTGRES_DB:-kmf}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    profiles: ['app']
+    image: node:22-alpine
+    working_dir: /home/node/app
+    command: sh -c "npm ci && npm run dev"
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-kmf}:${POSTGRES_PASSWORD:-kmf}@postgres:5432/${POSTGRES_DB:-kmf}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  node_modules:

@@ -1,0 +1,164 @@
+# План: сайт KMF на коде + CMS + интерактивный план (3D / изометрия)
+
+## Контекст
+
+Макеты страниц «Главная» и «Проект» (1440 / 360) и UI-kit уже готовы в Figma (файл `391WjOgpmjW5OdsbXgV1YO`, страницы «UI-kit» и «Проект — к вёрстке»). От вёрстки в TapTop отказываемся: сайт собирается кодом с помощью ИИ (Claude Code + Figma MCP).
+
+Этапы:
+
+1. Репозиторий на GitHub.
+2. Продакшен на своём VPS.
+
+Нужна CMS, чтобы добавлять новые проекты. Главная фича — блок «План проекта» с тремя состояниями, как `Plan Block` в ките:
+
+- модель помещения;
+- клик по зоне открывает боковую панель со списком мебели (State=Zone);
+- клик по предмету мебели открывает карточку изделия (State=Object).
+
+Исходные данные:
+
+- Модели двух видов: у части проектов будет **настоящее 3D (GLB)**, у части — **только картинка-изометрия** с кликабельными областями. Сайт поддерживает оба режима.
+- Контент добавляет **технический человек**. Допустима разметка в Blender или Figma по правилам именования.
+- Сервер — **VPS с root-доступом**, всё ставим через Docker.
+
+## Рекомендуемый стек
+
+| Задача             | Инструмент                                                                                             | Почему                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| Фреймворк          | **Next.js 15 (App Router, TypeScript)**                                                                | SSR/SSG для SEO, изображения, один проект для сайта и админки                          |
+| CMS                | **Payload CMS 3** (встраивается прямо в Next.js)                                                       | Самохостинг, TypeScript-схемы, удобная админка, загрузка медиа, без отдельного сервиса |
+| БД                 | **PostgreSQL 16**                                                                                      | Стандарт для Payload, надёжные бэкапы                                                  |
+| Стили              | **Tailwind CSS 4** + CSS-переменные из UI-kit                                                          | Токены 1:1 из переменных Figma (KMF Colors / Spacing / Layout)                         |
+| 3D                 | **React Three Fiber + @react-three/drei** (+ `@react-three/postprocessing` для подсветки)              | Загрузка GLB, клики по мешам, ортокамера под изометрию                                 |
+| Подготовка 3D      | **Blender** (разметка) + **gltf-transform** (сжатие Draco/Meshopt, текстуры WebP/KTX2)                 | Модели весом 3–8 МБ вместо 50+                                                         |
+| Режим «картинка»   | SVG-оверлей с полигонами поверх изометрии                                                              | Полигоны рисуются в Figma поверх рендера и экспортируются в SVG                        |
+| Слайдеры / галерея | **Embla Carousel**, **yet-another-react-lightbox**                                                     | Лёгкие, работают со свайпом                                                            |
+| Формы              | Server Actions + коллекция `leads` в Payload + уведомление в **Telegram-бот** / e-mail (SMTP)          | Заявки и файлы планировок сохраняются в CMS                                            |
+| Хостинг            | VPS (Timeweb Cloud / Selectel), **Docker Compose**: app + postgres + **Caddy** (авто-HTTPS)            | Сервер в РФ (152-ФЗ), простой деплой                                                   |
+| CI/CD              | **GitHub Actions**: lint/typecheck/build → Docker-образ в **GHCR** → деплой на VPS по SSH              | Пуш в `main` автоматически обновляет сайт                                              |
+| Медиа              | Локальный volume на VPS (позже можно S3: Selectel / Yandex Object Storage)                             | Просто на старте                                                                       |
+| Аналитика          | Яндекс Метрика                                                                                         | Стандарт для РФ                                                                        |
+| ИИ-разработка      | **Claude Code** + **Figma MCP** (`get_design_context` по фреймам `23:2`, `27:254`, `30:532`, `30:802`) | Вёрстка по готовым подготовленным макетам и компонентам                                |
+
+## Структура репозитория (монорепо не нужен)
+
+```
+kmf-site/
+  src/app/(site)/            — публичные страницы: /, /projects, /projects/[slug], /privacy
+  src/app/(payload)/admin/   — админка Payload
+  src/collections/           — Projects, Designers, Reviews, Media, Models, Leads, Pages
+  src/globals/               — Home, Contacts, Footer
+  src/components/ui/         — Button, Link, Chip, Field… (по компонентам UI-kit)
+  src/components/blocks/     — Header, Footer, SectionHeading, ProjectCard, Review, VideoTile…
+  src/components/plan/       — PlanBlock, Plan3DViewer, PlanImageViewer, PlanPanel (Zone/Object)
+  src/styles/tokens.css      — CSS-переменные из Figma
+  scripts/                   — export-tokens (Figma → CSS), optimize-model (gltf-transform), seed
+  docker/ + docker-compose.yml + Caddyfile
+  .github/workflows/deploy.yml
+```
+
+## Модель данных в CMS (Payload)
+
+- **Projects**:
+  - основное: slug, title, location, budget, duration, style, type, designer (связь), task, solution, gallery2x2, photos[], videos[], review (связь), status, SEO;
+  - **plan**:
+    - `mode`: `3d` | `image`;
+    - `model` — GLB (для 3d);
+    - `image` — изометрия (для image);
+    - `hotspotsSvg` — SVG с полигонами (для image);
+    - `zones[]`:
+      - `key` — совпадает с именем меша или id полигона;
+      - `title`, `icon` (Kitchen/Bedroom/Hallway/Wardrobe…);
+      - `items[]`: `key`, name, price, dims {h, w, d}, sketch, photos[], specs[] {title, text}.
+- **Designers** (имя, соцсети), **Reviews**, **Leads** (форма и файл), **Media**.
+- **Globals**: Home (hero, преимущества, шоурум), Contacts, Footer, юридические страницы.
+
+## Интерактивный план — как устроено
+
+**Одно правило именования для обоих режимов:** `zone--<key>` и `item--<key>`. `key` совпадает с `zones[].key` и `items[].key` в CMS.
+
+**Режим 3D:**
+
+1. Модель готовится в Blender. Меши и группы переименовываются: `zone--hallway`, внутри `item--wardrobe-01`. Экспорт в GLB.
+2. `scripts/optimize-model` (gltf-transform: Draco или Meshopt, текстуры WebP 2K, dedup) сжимает модель. Готовый файл загружается в CMS.
+3. `Plan3DViewer` (R3F) рисует сцену:
+   - ортографическая камера под изометрию, как в макете;
+   - `OrbitControls` с ограничением углов, зум колесом и жестом;
+   - hover подсвечивает зону или предмет (outline / emissive);
+   - по клику raycast находит ближайшего предка с именем `item--*`, иначе `zone--*`, и вызывает `setState`;
+   - `Suspense` + прогресс загрузки; модель подгружается лениво, когда блок попадает в экран;
+   - на слабых устройствах и при ошибке WebGL показывается fallback-картинка.
+
+**Режим «картинка»:**
+
+1. В Figma поверх рендера рисуются полигоны. Слоям даются имена `zone--*` / `item--*`, результат экспортируется в SVG и загружается в поле `hotspotsSvg`.
+2. `PlanImageViewer` накладывает SVG поверх картинки. Hover/клик по `path[id]` работают так же, как в 3D.
+
+**Общая часть:**
+
+- `PlanBlock` хранит состояние `{ state: 'closed' | 'zone' | 'object', zoneKey, itemKey }` и синхронизирует его с URL (`?zone=hallway&item=wardrobe-01`) для шаринга и кнопки «назад».
+- `PlanPanel` рендерит вёрстку Zone/Object по компонентам кита: Panel Header, Plan List Item, Product Info, Dimension Row, Photo Strip, Accordion Item, CTA.
+- Вкладки зон слева (десктоп) и сверху (мобайл) — `Zone Tab`. Клик по вкладке и клик по модели ведут к одному и тому же состоянию.
+
+## Этапы работ
+
+**0. Подготовка (1–2 дня)**
+
+- Репозиторий `kmf-site` на GitHub; `create-payload-app` с шаблоном Next.js + Postgres.
+- Docker Compose для локальной разработки.
+- ESLint, Prettier, TypeScript strict.
+- `scripts/export-tokens`: переменные Figma (через MCP `get_variable_defs` или Variables REST) → `tokens.css` → тема Tailwind.
+- Шрифты: Manrope (next/font), Evolventa Bold (локальный woff2).
+
+**1. Вёрстка по Figma со статическими данными (5–7 дней)**
+
+- UI-компоненты по доскам 05–10 кита.
+- Страницы «Главная» и «Проект» по подготовленным фреймам `23:2` / `27:254`; брейкпоинты 1440 → 360 (планшет — интерполяция).
+- Слайдеры, лайтбокс, липкая колонка галереи.
+
+**2. CMS (3–4 дня)**
+
+- Коллекции и глобалы из раздела выше.
+- Страницы проекта берут данные из Payload через Local API, ISR + revalidate по хуку `afterChange`.
+- Seed-скрипт переносит текущий проект «Мытищи. Проспект Астрахова» из макета.
+
+**3. Интерактивный план (5–8 дней)**
+
+- `PlanBlock`, `PlanPanel` (Zone/Object), `PlanImageViewer` — сначала режим картинки, он проще.
+- `Plan3DViewer`, тестовая модель из Blender, `optimize-model`.
+- Инструкция «Как подготовить модель / SVG» в `docs/plan-models.md`.
+
+**4. Формы и заявки (1–2 дня)**
+
+- Форма «Отправить проект»: валидация (zod), загрузка файла (≤ 20 МБ), запись в `leads`, уведомление в Telegram и на e-mail.
+- Капча: Яндекс SmartCaptcha.
+- Согласие на обработку ПД.
+
+**5. Продакшен (1–2 дня)**
+
+- VPS: Ubuntu 24.04, Docker, фаервол; Caddyfile с доменом.
+- Compose-сервисы: `app` (образ из GHCR), `postgres`, `caddy`, volume для медиа.
+- Бэкапы: ежедневный `pg_dump` + архив медиа (restic в S3 или на второй диск).
+- GitHub Actions `deploy.yml`: build → push в GHCR → `ssh docker compose pull && up -d` → миграции Payload.
+- Staging: отдельный поддомен из ветки `develop`.
+
+**6. Доводка (2–3 дня)**
+
+- SEO: metadata, OG-картинки, sitemap, robots, микроразметка.
+- Производительность: Lighthouse ≥ 90 на мобильном; 3D грузится лениво, а до загрузки показывается картинка.
+- Яндекс Метрика, страница 404, политика ПД.
+
+## Как работать с ИИ на каждом этапе
+
+- Сначала добавить в корень репозитория `CLAUDE.md`. В нём: стек, соглашения (именование `zone--`/`item--`, токены, компоненты кита), ссылки на фреймы Figma.
+- Каждую страницу или блок делать отдельной задачей для Claude Code. Схема: «сверстай блок X по фрейму Y, используя компоненты из `src/components/ui`».
+- Состояния плана брать из компонентов `Plan Block / Desktop|Mobile` (State=Closed/Zone/Object).
+- Работать через PR: CI проверяет сборку, ревью можно делать командой `/code-review`.
+
+## Проверка
+
+- Локально: `docker compose up` → в `/admin` создать проект, загрузить GLB и SVG, опубликовать → на `/projects/<slug>` работают клики по зонам и предметам, панель переключает Zone/Object, URL обновляется, «назад» работает.
+- Сверка вёрстки с Figma: скриншоты страниц 1440/360 (Playwright) против экспортов фреймов.
+- Модели: `optimize-model` выдаёт файл до 8 МБ; на реальном телефоне ≥ 30 fps, fallback при отключённом WebGL.
+- Формы: заявка появляется в `leads` и приходит в Telegram.
+- Деплой: пуш в `main` → Actions зелёные → сайт на VPS обновился, HTTPS валиден; восстановление из бэкапа проверено на staging.

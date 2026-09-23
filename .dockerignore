@@ -1,0 +1,12 @@
+.git
+.github
+.next
+node_modules
+media
+.env
+.env*.local
+docs
+tests
+playwright-report
+test-results
+*.md

@@ -37,7 +37,8 @@ npm run generate:importmap  # после добавления кастомных
 ## Дизайн-токены
 
 Источник — переменные Figma, выгруженные через MCP `get_variable_defs` в `scripts/figma/variables.json`
-(desktop: `23:2`, `30:532`; mobile: `27:254`, `30:802`). `npm run tokens` генерирует `tokens.css`.
+(desktop: `23:2`, `30:532`; mobile: `27:254`, `30:802`; kit: доски `8:2` цвета, `8:154` типографика,
+`11:2` радиусы). `npm run tokens` генерирует `tokens.css`.
 
 - Переменные в `:root` названы как в Figma (`--text-primary`, `--bg-sand`, `--layout-section-gap`),
   поэтому `var(--x, #fallback)` из `get_design_context` работает как есть.
@@ -47,7 +48,7 @@ npm run generate:importmap  # после добавления кастомных
 - Tailwind-утилиты:
   - цвета: `bg-bg-sand`, `text-text-primary`, `border-gray-200`, `bg-accent-red`…
   - отступы: `px-container-padding`, `gap-block-gap`, `py-section-gap`
-  - радиусы: `rounded-xs|sm|md|tab|full`
+  - радиусы: `rounded-none|xs|sm|md|lg|tab|full`
   - типографика (имя стиля Figma без `text_`): `text-h1`…`text-h6`, `text-body-l`,
     `text-chip-label`, `text-caption`… Исключение: `text_button` → `text-button-type`
     (имя `text-button` занято цветом).
@@ -55,6 +56,23 @@ npm run generate:importmap  # после добавления кастомных
     h5 — Title M, h6 — Item Title; на главной заголовок первого экрана — `text-hero-title`.
 - Не хардкодить цвета, размеры шрифтов и отступы из макета — брать утилиты/переменные выше.
 - Шрифт — только Manrope, локально из `@fontsource-variable/manrope` (Google Fonts из РФ нестабилен), утилита `font-sans`.
+
+## UI-kit в коде
+
+Кит в Figma — страница `6:12`, доски 01–10 (`04` иконки `11:157`, `05` кнопки и ссылки `12:2`,
+`06` формы `13:14`, `07` карточки `14:40`, `08` навигация `16:70`, `09` план `19:146`, `10` медиа `19:484`).
+Витрина всех примитивов — `/ui-kit` (только dev, в продакшене 404); сверять с досками после правок.
+
+- `src/components/ui` (импорт из `@/components/ui`): `Icon`, `ButtonCta`, `ButtonCard`,
+  `LinkArrow`, `LinkViewAll`, `LinkCapsDot`, `LinkCapsPlus`, `LinkWatchVideo`, `NavLink`,
+  `FormField`, `FormUpload`, `FormConsent`, `InfoChip`, `FeatureItem`, `StepNumber`, `TextBlock`,
+  `DesignerLine`, `SocialLink`. Кнопки и ссылки через `Pressable`: с `href` — ссылка, без — `<button>`.
+- Иконки — SVG в `public/icons`, реестр с размерами из Figma в `Icon.tsx`. Новая иконка:
+  `download_assets` (format svg) по id компонента → `public/icons/<name>.svg` →
+  `node scripts/clean-figma-svg.mjs public/icons/<name>.svg` (убирает фон холста и доски) → добавить в `icons`.
+- Hover по киту (в макете не нарисован): transition 0.2s; пилюля CTA — заливка `text-button` с белым
+  текстом; красный квадрат — `brightness-90`; ссылки — `opacity-70`. Фокус полей — рамка `text-primary`.
+- Мобильные варианты компонентов переключаются на `md:` (768px), размеры шрифтов — через токены.
 
 ## Соглашения
 

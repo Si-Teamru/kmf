@@ -24,7 +24,7 @@ export function LinkArrow({
       )}
     >
       {children}
-      <Icon name="link-arrow-98" />
+      <Icon name={tone === 'copper' ? 'link-arrow-98' : 'link-arrow-98-red'} />
     </Pressable>
   )
 }

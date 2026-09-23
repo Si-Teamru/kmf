@@ -2,14 +2,12 @@
 @import '../../styles/tokens.css';
 
 @theme inline {
-  --color-bg: var(--kmf-color-bg);
-  --color-text: var(--kmf-color-text);
   --font-sans: var(--font-manrope), system-ui, sans-serif;
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--bg-white);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }

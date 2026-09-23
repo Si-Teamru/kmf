@@ -1,12 +1,226 @@
 /*
- * Дизайн-токены KMF.
- * Источник — переменные Figma (коллекции KMF Colors / Spacing / Layout, файл 391WjOgpmjW5OdsbXgV1YO).
- * Будут генерироваться скриптом scripts/export-tokens; до этого — временные значения.
+ * Сгенерировано scripts/export-tokens.ts из Figma (391WjOgpmjW5OdsbXgV1YO). Не редактировать вручную —
+ * обновить scripts/figma/variables.json и запустить `npm run tokens`.
  */
 :root {
-  --kmf-color-bg: #ffffff;
-  --kmf-color-text: #1a1a1a;
+  /* Цвета */
+  --accent-copper: #b58676;
+  --accent-red: #db5440;
+  --bg-cream: #eeede8;
+  --bg-graphite: #4c4c4c;
+  --bg-sand: #d0c3b3;
+  --bg-sand-light: #d3c5b3;
+  --bg-stone: #d5d0c9;
+  --bg-white: #ffffff;
+  --gray-100: #f4f3f3;
+  --gray-200: #e2e2e2;
+  --gray-300: #d9d9d9;
+  --gray-chip: #d9d9d996;
+  --text-button: #444444;
+  --text-heading: #6a6664;
+  --text-inverse: #ffffff;
+  --text-primary: #4c4c4c;
+  --text-secondary: #4c4c4cad;
 
-  --kmf-container-max: 1440px;
-  --kmf-gutter: 16px;
+  /* Layout (радиусы — в @theme static) */
+  --layout-block-gap: 48px;
+  --layout-container-padding: clamp(12px, -10.6667px + 6.2963vw, 80px);
+  --layout-section-gap: clamp(120px, 93.3333px + 7.4074vw, 200px);
+
+  /* Типографика (Manrope) */
+  --type-author-size: 12px;
+  --type-author-line-height: 1.3;
+  --type-author-weight: 400;
+  --type-block-title-size: clamp(22px, 21.3333px + 0.1852vw, 24px);
+  --type-block-title-line-height: 1;
+  --type-block-title-weight: 700;
+  --type-body-l-size: clamp(14px, 13.3333px + 0.1852vw, 16px);
+  --type-body-l-line-height: 1.4;
+  --type-body-l-weight: 400;
+  --type-body-l-accent-size: 16px;
+  --type-body-l-accent-line-height: 1.4;
+  --type-body-l-accent-weight: 600;
+  --type-body-static-size: 16px;
+  --type-body-static-line-height: 1.4;
+  --type-body-static-weight: 400;
+  --type-button-size: clamp(15px, 14.6667px + 0.0926vw, 16px);
+  --type-button-line-height: 1.2;
+  --type-button-weight: 500;
+  --type-caption-size: 12px;
+  --type-caption-line-height: 1.5;
+  --type-caption-weight: 400;
+  --type-card-title-size: 24px;
+  --type-card-title-line-height: 1.4;
+  --type-card-title-weight: 700;
+  --type-chip-label-size: clamp(11px, 10.6667px + 0.0926vw, 12px);
+  --type-chip-label-line-height: 1.2;
+  --type-chip-label-weight: 500;
+  --type-chip-value-size: clamp(12px, 11.3333px + 0.1852vw, 14px);
+  --type-chip-value-line-height: 1.3;
+  --type-chip-value-weight: 700;
+  --type-footer-about-size: 15px;
+  --type-footer-about-line-height: 1.29;
+  --type-footer-about-weight: 400;
+  --type-item-title-size: clamp(16px, 14.6667px + 0.3704vw, 20px);
+  --type-item-title-line-height: 1.24;
+  --type-item-title-weight: 600;
+  --type-label-caps-size: 14px;
+  --type-label-caps-line-height: 1.3;
+  --type-label-caps-weight: 700;
+  --type-legal-size: 10px;
+  --type-legal-line-height: 1.2;
+  --type-legal-weight: 400;
+  --type-link-accent-size: 16px;
+  --type-link-accent-line-height: 1.2;
+  --type-link-accent-weight: 500;
+  --type-meta-caps-size: clamp(14px, 13.3333px + 0.1852vw, 16px);
+  --type-meta-caps-line-height: 1.2;
+  --type-meta-caps-weight: 400;
+  --type-nav-link-size: 14px;
+  --type-nav-link-line-height: 1.4;
+  --type-nav-link-weight: 400;
+  --type-overline-size: 16px;
+  --type-overline-line-height: 1;
+  --type-overline-weight: 700;
+  --type-overline-s-size: 12px;
+  --type-overline-s-line-height: 1;
+  --type-overline-s-weight: 700;
+  --type-page-title-size: clamp(22px, 17.3333px + 1.2963vw, 36px);
+  --type-page-title-line-height: 1.4;
+  --type-page-title-weight: 700;
+  --type-price-size: clamp(22px, 21px + 0.2778vw, 25px);
+  --type-price-line-height: 1.2;
+  --type-price-weight: 400;
+  --type-quote-size: 16px;
+  --type-quote-line-height: 1.2;
+  --type-quote-weight: 400;
+  --type-section-title-size: 30px;
+  --type-section-title-line-height: 1.2;
+  --type-section-title-weight: 600;
+  --type-spec-size: clamp(12px, 11.3333px + 0.1852vw, 14px);
+  --type-spec-line-height: 1.2;
+  --type-spec-weight: 400;
+  --type-tab-title-size: clamp(22px, 21.3333px + 0.1852vw, 24px);
+  --type-tab-title-line-height: 1;
+  --type-tab-title-weight: 400;
+  --type-title-m-size: clamp(16px, 14.6667px + 0.3704vw, 20px);
+  --type-title-m-line-height: 1.2;
+  --type-title-m-weight: 700;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --type-body-l-accent-weight: 500;
+    --type-button-line-height: 1.5;
+    --type-page-title-line-height: 1.2;
+  }
+}
+
+@theme static {
+  --radius-full: 1000px;
+  --radius-md: 16px;
+  --radius-sm: 7px;
+  --radius-tab: 10px;
+  --radius-xs: 4px;
+}
+
+@theme inline {
+  --color-accent-copper: var(--accent-copper);
+  --color-accent-red: var(--accent-red);
+  --color-bg-cream: var(--bg-cream);
+  --color-bg-graphite: var(--bg-graphite);
+  --color-bg-sand: var(--bg-sand);
+  --color-bg-sand-light: var(--bg-sand-light);
+  --color-bg-stone: var(--bg-stone);
+  --color-bg-white: var(--bg-white);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-chip: var(--gray-chip);
+  --color-text-button: var(--text-button);
+  --color-text-heading: var(--text-heading);
+  --color-text-inverse: var(--text-inverse);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --spacing-block-gap: var(--layout-block-gap);
+  --spacing-container-padding: var(--layout-container-padding);
+  --spacing-section-gap: var(--layout-section-gap);
+  --text-author: var(--type-author-size);
+  --text-author--line-height: var(--type-author-line-height);
+  --text-author--font-weight: var(--type-author-weight);
+  --text-block-title: var(--type-block-title-size);
+  --text-block-title--line-height: var(--type-block-title-line-height);
+  --text-block-title--font-weight: var(--type-block-title-weight);
+  --text-body-l: var(--type-body-l-size);
+  --text-body-l--line-height: var(--type-body-l-line-height);
+  --text-body-l--font-weight: var(--type-body-l-weight);
+  --text-body-l-accent: var(--type-body-l-accent-size);
+  --text-body-l-accent--line-height: var(--type-body-l-accent-line-height);
+  --text-body-l-accent--font-weight: var(--type-body-l-accent-weight);
+  --text-body-static: var(--type-body-static-size);
+  --text-body-static--line-height: var(--type-body-static-line-height);
+  --text-body-static--font-weight: var(--type-body-static-weight);
+  --text-button-type: var(--type-button-size);
+  --text-button-type--line-height: var(--type-button-line-height);
+  --text-button-type--font-weight: var(--type-button-weight);
+  --text-caption: var(--type-caption-size);
+  --text-caption--line-height: var(--type-caption-line-height);
+  --text-caption--font-weight: var(--type-caption-weight);
+  --text-card-title: var(--type-card-title-size);
+  --text-card-title--line-height: var(--type-card-title-line-height);
+  --text-card-title--font-weight: var(--type-card-title-weight);
+  --text-chip-label: var(--type-chip-label-size);
+  --text-chip-label--line-height: var(--type-chip-label-line-height);
+  --text-chip-label--font-weight: var(--type-chip-label-weight);
+  --text-chip-value: var(--type-chip-value-size);
+  --text-chip-value--line-height: var(--type-chip-value-line-height);
+  --text-chip-value--font-weight: var(--type-chip-value-weight);
+  --text-footer-about: var(--type-footer-about-size);
+  --text-footer-about--line-height: var(--type-footer-about-line-height);
+  --text-footer-about--font-weight: var(--type-footer-about-weight);
+  --text-item-title: var(--type-item-title-size);
+  --text-item-title--line-height: var(--type-item-title-line-height);
+  --text-item-title--font-weight: var(--type-item-title-weight);
+  --text-label-caps: var(--type-label-caps-size);
+  --text-label-caps--line-height: var(--type-label-caps-line-height);
+  --text-label-caps--font-weight: var(--type-label-caps-weight);
+  --text-legal: var(--type-legal-size);
+  --text-legal--line-height: var(--type-legal-line-height);
+  --text-legal--font-weight: var(--type-legal-weight);
+  --text-link-accent: var(--type-link-accent-size);
+  --text-link-accent--line-height: var(--type-link-accent-line-height);
+  --text-link-accent--font-weight: var(--type-link-accent-weight);
+  --text-meta-caps: var(--type-meta-caps-size);
+  --text-meta-caps--line-height: var(--type-meta-caps-line-height);
+  --text-meta-caps--font-weight: var(--type-meta-caps-weight);
+  --text-nav-link: var(--type-nav-link-size);
+  --text-nav-link--line-height: var(--type-nav-link-line-height);
+  --text-nav-link--font-weight: var(--type-nav-link-weight);
+  --text-overline: var(--type-overline-size);
+  --text-overline--line-height: var(--type-overline-line-height);
+  --text-overline--font-weight: var(--type-overline-weight);
+  --text-overline-s: var(--type-overline-s-size);
+  --text-overline-s--line-height: var(--type-overline-s-line-height);
+  --text-overline-s--font-weight: var(--type-overline-s-weight);
+  --text-page-title: var(--type-page-title-size);
+  --text-page-title--line-height: var(--type-page-title-line-height);
+  --text-page-title--font-weight: var(--type-page-title-weight);
+  --text-price: var(--type-price-size);
+  --text-price--line-height: var(--type-price-line-height);
+  --text-price--font-weight: var(--type-price-weight);
+  --text-quote: var(--type-quote-size);
+  --text-quote--line-height: var(--type-quote-line-height);
+  --text-quote--font-weight: var(--type-quote-weight);
+  --text-section-title: var(--type-section-title-size);
+  --text-section-title--line-height: var(--type-section-title-line-height);
+  --text-section-title--font-weight: var(--type-section-title-weight);
+  --text-spec: var(--type-spec-size);
+  --text-spec--line-height: var(--type-spec-line-height);
+  --text-spec--font-weight: var(--type-spec-weight);
+  --text-tab-title: var(--type-tab-title-size);
+  --text-tab-title--line-height: var(--type-tab-title-line-height);
+  --text-tab-title--font-weight: var(--type-tab-title-weight);
+  --text-title-m: var(--type-title-m-size);
+  --text-title-m--line-height: var(--type-title-m-line-height);
+  --text-title-m--font-weight: var(--type-title-m-weight);
 }

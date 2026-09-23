@@ -74,7 +74,7 @@ export function FeatureItem({
   )
 }
 
-/** Text Block (15:90): заголовок h5 + абзац body-l, gap 16 («Задача», «Решение»). */
+/** Text Block (15:90): заголовок h5 + абзац body-l, gap 16 (mobile 8) — «Задача», «Решение». */
 export function TextBlock({
   title,
   children,
@@ -85,7 +85,7 @@ export function TextBlock({
   className?: string
 }) {
   return (
-    <div className={cn('flex flex-col gap-4 text-text-primary', className)}>
+    <div className={cn('flex flex-col gap-2 text-text-primary md:gap-4', className)}>
       <h3 className="text-h5">{title}</h3>
       <p className="text-body-l">{children}</p>
     </div>

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import React from 'react'
 
+import { Header } from '@/components/blocks/Header'
+
 // Manrope хранится локально (Google Fonts из РФ отвечает нестабильно).
 import '@fontsource-variable/manrope'
 import './globals.css'
@@ -14,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru">
       <body>
+        <Header />
         <main>{children}</main>
       </body>
     </html>

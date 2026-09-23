@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
       {
         pathname: '/api/media/file/**',
       },
+      // Иконки UI-kit и статичные демо-фото до переноса контента в CMS.
+      { pathname: '/icons/**' },
+      { pathname: '/demo/**' },
     ],
   },
   webpack: (webpackConfig) => {

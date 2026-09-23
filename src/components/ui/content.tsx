@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 
 import { cn } from './cn'
 import { Icon } from './Icon'
+import { LinkCapsPlus } from './links'
 
 /**
  * Info Chip (15:65): параметр проекта «Тип проекта / КВАРТИРА».
@@ -89,6 +90,48 @@ export function TextBlock({
       <h3 className="text-h5">{title}</h3>
       <p className="text-body-l">{children}</p>
     </div>
+  )
+}
+
+/**
+ * Review (15:113): «ОТЗЫВ» (text_overline) → цитата (text_quote, части SemiBold) → подвал:
+ * автор (text_author, капс) + роль (text_caption, 60%) слева, «Весь отзыв +» справа. Gap 16.
+ */
+export function Review({
+  text,
+  author,
+  role,
+  href,
+  className,
+}: {
+  text: Array<{ text: string; strong?: boolean }>
+  author: ReactNode
+  role: ReactNode
+  href?: string
+  className?: string
+}) {
+  return (
+    <figure className={cn('flex flex-col gap-4 text-text-primary', className)}>
+      <figcaption className="text-overline uppercase">Отзыв</figcaption>
+      <blockquote className="text-quote">
+        {text.map((part, i) =>
+          part.strong ? (
+            <strong key={i} className="font-semibold">
+              {part.text}
+            </strong>
+          ) : (
+            <span key={i}>{part.text}</span>
+          ),
+        )}
+      </blockquote>
+      <div className="flex items-end justify-between">
+        <div className="flex flex-col gap-1">
+          <span className="text-author uppercase">{author}</span>
+          <span className="text-caption opacity-60">{role}</span>
+        </div>
+        <LinkCapsPlus {...(href ? { href } : {})}>Весь отзыв</LinkCapsPlus>
+      </div>
+    </figure>
   )
 }
 

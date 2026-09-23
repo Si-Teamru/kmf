@@ -8,6 +8,7 @@
 - Next.js 16 (App Router, TypeScript strict), React 19
 - Payload CMS 3 внутри Next.js, PostgreSQL 16 (`@payloadcms/db-postgres`)
 - Tailwind CSS 4 + CSS-переменные из UI-kit Figma (`src/styles/tokens.css`)
+- Анимации: `motion` (`motion/react`) — шапка Desktop ↔ Compact через `layoutId`
 - 3D: React Three Fiber + drei (этап 3)
 - Пакетный менеджер: **npm** (lockfile `package-lock.json`)
 

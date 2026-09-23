@@ -7,15 +7,27 @@ import { cn } from '@/components/ui'
  * Справа красная линия 1px accent-red с точкой ⌀5.33: 497px (desktop) / 210px (mobile).
  * Сделано на CSS, а не растянутым SVG, чтобы точки и стрелка не искажались.
  */
-export function StepDivider({ step, className }: { step?: string; className?: string }) {
+export function StepDivider({
+  step,
+  short = false,
+  className = 'flex w-full',
+}: {
+  step?: string
+  /** Вариант Mobile (красная линия 210px) — и на десктопе, как в aside галереи (23:187). */
+  short?: boolean
+  /** Задаёт display и ширину (по умолчанию `flex w-full`). */
+  className?: string
+}) {
   return (
-    <div className={cn('flex min-h-4 w-full items-center gap-3', className)} aria-hidden>
+    <div className={cn('min-h-4 items-center gap-3', className)} aria-hidden>
       <span className="relative h-px flex-1 bg-bg-stone/92">
         <span className="absolute top-1/2 left-0 size-[5.33px] -translate-y-1/2 rounded-full bg-bg-stone/92" />
         <span className="absolute top-1/2 right-0 h-0 w-0 -translate-y-1/2 border-y-[2.887px] border-l-[5px] border-y-transparent border-l-bg-stone/92" />
       </span>
       {step && <span className="text-step-number text-accent-red">{step}</span>}
-      <span className="relative h-px w-[210px] shrink-0 bg-accent-red md:w-[497px]">
+      <span
+        className={cn('relative h-px w-[210px] shrink-0 bg-accent-red', !short && 'md:w-[497px]')}
+      >
         <span className="absolute top-1/2 left-0 size-[5.33px] -translate-y-1/2 rounded-full bg-accent-red" />
       </span>
     </div>

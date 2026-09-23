@@ -20,7 +20,8 @@
     "test": "npm run test:int && npm run test:e2e",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
-    "tokens": "tsx scripts/export-tokens.ts"
+    "tokens": "tsx scripts/export-tokens.ts",
+    "check:layout": "node scripts/check-layout.mjs"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.3.0",

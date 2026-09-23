@@ -19,6 +19,7 @@ npm run db:up        # Postgres в Docker
 npm run dev          # http://localhost:3000, админка /admin
 npm run lint && npm run typecheck && npm run format:check
 npm run build
+npm run check:layout        # сверка вёрстки с координатами Figma (нужен запущенный dev)
 npm run tokens              # пересобрать src/styles/tokens.css из scripts/figma/variables.json
 npm run generate:types      # после изменения коллекций Payload
 npm run generate:importmap  # после добавления кастомных компонентов в админку
@@ -30,10 +31,17 @@ npm run generate:importmap  # после добавления кастомных
 - `src/app/(payload)/` — админка и API Payload (сгенерировано, руками не править без необходимости)
 - `src/collections/`, `src/globals/` — схемы Payload
 - `src/components/ui/` — примитивы по UI-kit (Button, Link, Chip, Field…)
-- `src/components/blocks/` — секции страниц (Header, Footer, ProjectCard…)
-- `src/components/plan/` — PlanBlock, Plan3DViewer, PlanImageViewer, PlanPanel
+- `src/components/blocks/` — секции страниц: Header (+ HeaderDesktop), Footer, ProjectIntro,
+  ProjectGallery, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine)
+- `src/components/plan/` — PlanBlock, Plan3DViewer, PlanImageViewer, PlanPanel (этап 3)
+- `src/data/` — статические данные до CMS (`site.ts` — контакты/меню, `projects.ts` — проекты);
+  поля повторяют будущие коллекции Payload
+- `src/lib/asset.ts` — `asset()` для путей из `public` (basePath для GitHub Pages)
 - `src/styles/tokens.css` — токены (генерируется, руками не править)
-- `scripts/` — export-tokens, optimize-model, seed
+- `public/icons` — иконки кита (SVG), `public/demo` — демо-фото до CMS
+- `scripts/` — export-tokens, clean-figma-svg, check-layout (далее optimize-model, seed)
+- `tests/layout/*.json` — спеки сверки с Figma для `npm run check:layout`
+- `CHANGELOG.md` — журнал изменений, дополнять в каждом PR
 
 ## Дизайн-токены
 
@@ -67,7 +75,7 @@ npm run generate:importmap  # после добавления кастомных
 - `src/components/ui` (импорт из `@/components/ui`): `Icon`, `ButtonCta`, `ButtonCard`,
   `LinkArrow`, `LinkViewAll`, `LinkCapsDot`, `LinkCapsPlus`, `LinkWatchVideo`, `NavLink`,
   `FormField`, `FormUpload`, `FormConsent`, `InfoChip`, `FeatureItem`, `StepNumber`, `TextBlock`,
-  `DesignerLine`, `SocialLink`. Кнопки и ссылки через `Pressable`: с `href` — ссылка, без — `<button>`.
+  `DesignerLine`, `SocialLink`, `Review`. Кнопки и ссылки через `Pressable`: с `href` — ссылка, без — `<button>`.
 - Иконки — SVG в `public/icons`, реестр с размерами из Figma в `Icon.tsx`. Новая иконка:
   `download_assets` (format svg) по id компонента → `public/icons/<name>.svg` →
   `node scripts/clean-figma-svg.mjs public/icons/<name>.svg` (убирает фон холста и доски) → добавить в `icons`.
@@ -88,20 +96,81 @@ npm run generate:importmap  # после добавления кастомных
 
 ## Figma
 
-- Файл: `391WjOgpmjW5OdsbXgV1YO`
-- Фреймы для вёрстки: `23:2`, `27:254`, `30:532`, `30:802`
+- Файл: `391WjOgpmjW5OdsbXgV1YO`. Страница UI-kit — `6:12`.
+- Фреймы «к вёрстке»: проект desktop `23:2`, mobile `27:254`; панель плана desktop `30:532`, mobile `30:802`.
+  Секции проекта (desktop / mobile): шапка `23:3` / `27:255`, intro `23:35` / `27:270`, план `23:92` / `27:373`,
+  галерея `23:118` / `27:460`, проекты `23:191` / `27:506`, подвал `23:277` / `27:551`.
 - Брейкпоинты: 1440 (десктоп) → 360 (мобайл), планшет — интерполяция.
 - Вёрстку делать через Figma MCP (`get_design_context`), переиспользуя `src/components/ui`.
 - Размеры, отступы, gap, выравнивание и стили текста брать из кода `get_design_context` и
   координат `get_metadata`, а не со скриншота. Скриншот — только для финальной сверки.
 - Чего нет в макете (раскрытое меню, hover, состояния) — не придумывать, а спрашивать.
-- Проверка: Playwright-замер `getBoundingClientRect` ключевых элементов на 1440 и 360 против
-  координат фреймов Figma (допуск ±2px), плюс отсутствие горизонтального скролла на 360–1920.
+- Проверка: `npm run check:layout` — Playwright-замер ключевых элементов на 1440 и 360 против
+  координат фреймов Figma (допуск ±2px), плюс отсутствие горизонтального скролла. Для каждой новой
+  секции добавлять её элементы в спеку `tests/layout/<страница>.json` (координаты из `get_metadata`,
+  абсолютные во фрейме страницы). Свой допуск элемента — только с пояснением в `notes`.
 
 ## Процесс
 
-- Работа через ветки и PR в `main`; CI (`.github/workflows/ci.yml`) должен быть зелёным.
+- Ветка на задачу (`feat/…`, `fix/…`, `docs/…`, `chore/…`) → PR в `main` → CI зелёный → squash-merge.
+  Коммиты — на английском, заголовок PR и описание — по-русски (заголовок PR становится коммитом в `main`).
+- В каждом PR: запись в `CHANGELOG.md` (раздел «Не выпущено»), обновить `CLAUDE.md`/`PLAN.md`, если
+  поменялись правила, структура или статус.
+- После merge: перемотать `develop` до `main` (`git push origin origin/main:refs/heads/develop`, только
+  fast-forward). Удалять ветки — вручную в GitHub (права на это у агента нет).
+- Push в `main` сам публикует витрину на GitHub Pages (`pages.yml`) — после merge проверить, что
+  страница открывается.
 - `develop` → staging, `main` → продакшен (деплой — этап 5).
+
+## Грабли и правила (выведены из реальных ошибок)
+
+### Ассеты из Figma
+
+- URL ассетов Figma живут 7 дней — скачивать сразу, в репозиторий класть файлы, не ссылки.
+- **Иконки**: `download_assets` по id компонента (format svg) → `clean-figma-svg.mjs`. После — открыть
+  `/ui-kit` и посмотреть глазами. Если в `get_design_context` у вектора отрицательные отступы
+  (`inset-[-7.36px_…]`), вектор больше своего бокса и экспорт компонента может его обрезать
+  (так сломалась `link-arrow-98`) — брать SVG из констант `get_design_context` (полный вектор).
+- **Фото**: брать `rawImages` (оригиналы), выбирать самый большой файл; совпадения искать по md5 и
+  переиспользовать. PNG-фото тяжелее ~1 МБ — пересохранять в JPEG q90 без смены разрешения (sharp).
+  На Pages картинки не оптимизируются — вес важен.
+- Если в узле > 20 картинок, `download_assets` обрезает список — выгружать по дочерним узлам.
+- Растягиваемые линии с точками/стрелками — CSS (`ArrowLine`, `StepDivider`), не растянутый SVG
+  (`preserveAspectRatio="none"` искажает точки).
+
+### Вёрстка
+
+- Если на мобильном и десктопе меняется только порядок — один DOM + `grid-template-areas`
+  (h1 не дублируется). Если раскладки принципиально разные — две ветки (`hidden xl:block` / `xl:hidden`).
+- Брейкпоинты: компоненты, шапка, подвал — `md` (768); секции, чьи колонки десктопа не влезают
+  уже (intro, галерея, слайдер проектов) — `xl` (1280). Указывать брейкпоинт в JSDoc компонента.
+- `cn()` не сливает конфликтующие классы (`w-full` + `w-[564px]` → непредсказуемо). В базовых классах
+  компонента не держать display/ширину/высоту, которые снаружи меняют, — выносить в проп с
+  дефолтом (`ButtonCard size`, `StepDivider className = 'flex w-full'`).
+- Плавающая мини-шапка (desktop) занимает место compact-bar из макета: в секциях с compact-bar
+  оставлять пустой отступ 41px, отдельную compact-bar не рисовать.
+- Картинки из `public` в `next/image` — через `asset()`; новые папки в `public` для `next/image`
+  добавлять в `images.localPatterns` в `next.config.ts`.
+- Страницы в `(site)` должны собираться статически (витрина Pages): без cookies/headers/серверных
+  API во время запроса; `params` — Promise, для динамических путей — `generateStaticParams`.
+
+### Окружение (Windows)
+
+- Не запускать `npm run build`, пока работает `npm run dev`: у них общий `.next`, dev-сервер ломается.
+  Остановить dev или перезапустить его после сборки.
+- Git Bash превращает значения вида `/kmf` в пути (`C:/Program Files/Git/kmf`) — для таких
+  переменных `MSYS_NO_PATHCONV=1`.
+- Turbopack не принимает `node_modules`, подключённый ссылкой/junction, — во временной копии
+  проекта ставить зависимости `npm ci` (кэш npm уже на D:).
+- Временные копии, сборки и кэши — на `D:\dev-cache\…` (см. `CLAUDE.local.md`), не в `%TEMP%` на C:.
+- Одноразовые Playwright-скрипты запускать из папки проекта (иначе не находится `@playwright/test`);
+  браузеры — `PLAYWRIGHT_BROWSERS_PATH=D:\dev-cache\ms-playwright`.
+
+### GitHub
+
+- У токена MCP нет прав на запуск workflow и защиту веток — перезапуск Pages и удаление веток
+  делает пользователь в интерфейсе GitHub. Прямые запросы к API с токеном в обход MCP не делать.
+- Merge PR через MCP — только при зелёном CI (разрешение в `.claude/settings.local.json`).
 
 <!-- BEGIN:nextjs-agent-rules -->
 

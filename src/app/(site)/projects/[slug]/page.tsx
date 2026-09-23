@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation'
 
 import { ProjectGallery } from '@/components/blocks/ProjectGallery'
 import { ProjectIntro } from '@/components/blocks/ProjectIntro'
-import { getProject, projects } from '@/data/projects'
+import { ProjectsSlider } from '@/components/blocks/ProjectsSlider'
+import { getProject, projectCards, projects } from '@/data/projects'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -25,6 +26,7 @@ export default async function ProjectPage({ params }: Props) {
       <ProjectIntro project={project} />
       <PlanPlaceholder />
       <ProjectGallery project={project} />
+      <ProjectsSlider cards={projectCards} />
     </>
   )
 }

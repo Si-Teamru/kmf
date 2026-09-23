@@ -115,3 +115,54 @@ export const projects: Project[] = [
 export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug)
 }
+
+/** Карточка в слайдере «Реализованные проекты» (Project Card 14:119). */
+export type ProjectCardData = {
+  title: string
+  /** Строка капсом: тип · площадь · цена. */
+  meta: string
+  photo: ProjectImage & { objectPosition?: string }
+  /** Фон карточки; в слайдере чередуются sand → gray → stone. */
+  color: 'sand' | 'gray' | 'stone'
+  /** Страница кейса; пока у проектов её нет — кнопка «Смотреть кейс» без ссылки. */
+  href?: string
+}
+
+/** Карточки из макета (23:234 / 27:516); тексты и мета — как в Figma. */
+export const projectCards: ProjectCardData[] = [
+  {
+    title: 'Loft 4.2 — Кухня',
+    meta: 'Кухня · 14 м² · 187 400 ₽',
+    color: 'sand',
+    photo: {
+      src: '/demo/projects/loft-4-2.jpg',
+      width: 1200,
+      height: 1600,
+      alt: 'Кухня Loft 4.2 с барной стойкой',
+    },
+  },
+  {
+    title: 'Scandi White — Гардеробная',
+    meta: 'Кухня · 14 м² · 187 400 ₽',
+    color: 'gray',
+    photo: {
+      src: '/demo/projects/scandi-white.jpg',
+      width: 1209,
+      height: 1145,
+      alt: 'Светлая гардеробная Scandi White',
+    },
+  },
+  {
+    title: 'Black Box — Шкаф-купе',
+    meta: 'Кухня · 14 м² · 187 400 ₽',
+    color: 'stone',
+    photo: {
+      src: '/demo/projects/black-box.jpg',
+      width: 2997,
+      height: 2000,
+      alt: 'Шкаф-купе Black Box',
+      // В макете кадр сдвинут: left −12.27% при ширине 133.24% → 36.7% по горизонтали.
+      objectPosition: '36.7% 50%',
+    },
+  },
+]

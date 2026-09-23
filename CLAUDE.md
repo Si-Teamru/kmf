@@ -42,13 +42,17 @@ npm run generate:importmap  # после добавления кастомных
 - Переменные в `:root` названы как в Figma (`--text-primary`, `--bg-sand`, `--layout-section-gap`),
   поэтому `var(--x, #fallback)` из `get_design_context` работает как есть.
 - Значения, разные на 1440 и 360, интерполируются через `clamp()`; вес/межстрочный — переключаются на 768px.
+- В Figma цвета называются `color_<группа>-<имя>` (`color_text-primary`, `color_bg-white`), а их
+  code syntax — `var(--text-primary)`; текстовые стили — `Desktop|Mobile/h1…h6` и `…/text_<имя>`.
 - Tailwind-утилиты:
   - цвета: `bg-bg-sand`, `text-text-primary`, `border-gray-200`, `bg-accent-red`…
   - отступы: `px-container-padding`, `gap-block-gap`, `py-section-gap`
   - радиусы: `rounded-xs|sm|md|tab|full`
-  - типографика (стили Figma без номера): `text-page-title`, `text-section-title`, `text-body-l`,
-    `text-chip-label`, `text-caption`… Исключение: стиль «Button» → `text-button-type`
+  - типографика (имя стиля Figma без `text_`): `text-h1`…`text-h6`, `text-body-l`,
+    `text-chip-label`, `text-caption`… Исключение: `text_button` → `text-button-type`
     (имя `text-button` занято цветом).
+  - соответствие: h1 — Page Title, h2 — Section Title, h3 — Block Title, h4 — Card Title,
+    h5 — Title M, h6 — Item Title; на главной заголовок первого экрана — `text-hero-title`.
 - Не хардкодить цвета, размеры шрифтов и отступы из макета — брать утилиты/переменные выше.
 - Шрифт — только Manrope, локально из `@fontsource-variable/manrope` (Google Fonts из РФ нестабилен), утилита `font-sans`.
 

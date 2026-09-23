@@ -13,7 +13,7 @@
  *     `get_design_context` (`var(--text-primary, #4c4c4c)`) работал без правок;
  *   - значения, различающиеся на 1440 и 360, интерполируются через clamp();
  *   - @theme для Tailwind: цвета (bg-bg-sand, text-text-primary), радиусы, отступы,
- *     текстовые стили (text-page-title, text-body-l…).
+ *     текстовые стили (Figma `h1`…`h6`, `text_body-l` → text-h1, text-body-l…).
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -41,9 +41,10 @@ const data = JSON.parse(fs.readFileSync(input, 'utf8')) as Source
 const vars = new Map<string, Pair<string>>()
 const fonts = new Map<string, Pair<Font>>()
 
+/** Имя стиля Figma → имя утилиты: `text_body-l` → `body-l`, `h1` → `h1`. */
 const slug = (s: string) =>
   s
-    .replace(/^\d+\s+/, '')
+    .replace(/^text_/, '')
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')

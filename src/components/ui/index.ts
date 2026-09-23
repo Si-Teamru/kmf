@@ -4,6 +4,7 @@ export {
   DesignerLine,
   FeatureItem,
   InfoChip,
+  Review,
   SocialLink,
   StepNumber,
   TextBlock,

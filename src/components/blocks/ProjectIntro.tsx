@@ -55,7 +55,7 @@ export function ProjectIntro({ project }: { project: Project }) {
         </div>
       </div>
 
-      <StepDivider className="hidden xl:flex" />
+      <StepDivider className="hidden w-full xl:flex" />
     </section>
   )
 }

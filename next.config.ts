@@ -6,9 +6,20 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
+/**
+ * STATIC_EXPORT=1 — статическая сборка страниц сайта для GitHub Pages (.github/workflows/pages.yml):
+ * без сервера, в подпапке NEXT_PUBLIC_BASE_PATH, без оптимизации картинок.
+ * Админка и API Payload в такую сборку не входят (workflow убирает src/app/(payload)).
+ */
+const staticExport = process.env.STATIC_EXPORT === '1'
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || undefined
+
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  ...(staticExport
+    ? { output: 'export', basePath, trailingSlash: true }
+    : { output: 'standalone' }),
   images: {
+    unoptimized: staticExport,
     localPatterns: [
       {
         pathname: '/api/media/file/**',

@@ -27,3 +27,14 @@ npm run build
 ```
 
 Те же проверки выполняет GitHub Actions на каждый PR и пуш в `main` / `develop`.
+
+## Витрина на GitHub Pages
+
+Статическая версия страниц сайта (без админки и API) публикуется workflow
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml) при каждом пуше в `main`:
+
+- https://si-teamru.github.io/kmf/ — главная
+- https://si-teamru.github.io/kmf/projects/mytishchi-prospekt-astrakhova/ — страница проекта
+
+Локально та же сборка: `STATIC_EXPORT=1 NEXT_PUBLIC_BASE_PATH=/kmf npm run build` (предварительно
+убрать `src/app/(payload)` во временной копии), результат — папка `out/`.

@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import { asset } from '@/lib/asset'
+
 import { cn } from '@/components/ui'
 import type { ProjectImage } from '@/data/projects'
 
@@ -19,7 +21,7 @@ export function ProjectGallery2x2({
       {images.slice(0, 4).map((img, i) => (
         <div key={img.src} className="relative size-[164px] overflow-hidden xl:size-[150px]">
           <Image
-            src={img.src}
+            src={asset(img.src)}
             alt={img.alt}
             fill
             sizes="(min-width: 1280px) 150px, 164px"

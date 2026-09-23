@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import { asset } from '@/lib/asset'
+
 import { cn, LinkWatchVideo } from '@/components/ui'
 import type { ProjectImage } from '@/data/projects'
 
@@ -24,7 +26,7 @@ export function VideoTile({
   const line = 'absolute bg-gray-300'
   return (
     <div className={cn('@container relative overflow-hidden', className)}>
-      <Image src={poster.src} alt={poster.alt} fill sizes={sizes} className="object-cover" />
+      <Image src={asset(poster.src)} alt={poster.alt} fill sizes={sizes} className="object-cover" />
       <span
         className={cn(
           line,

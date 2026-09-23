@@ -1,0 +1,54 @@
+name: GitHub Pages
+
+# Статическая витрина страниц сайта (без админки и API Payload) на
+# https://<owner>.github.io/<repo>/ — обновляется при каждом пуше в main.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      STATIC_EXPORT: '1'
+      NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+      # Конфиг Payload требует переменные, но в статическую сборку он не попадает.
+      DATABASE_URL: postgres://kmf:kmf@localhost:5432/kmf
+      PAYLOAD_SECRET: pages-build
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Админка и API Payload требуют сервер — в статический экспорт не входят.
+      - run: rm -rf "src/app/(payload)"
+      - run: npm run build
+      # Без .nojekyll GitHub Pages не отдаёт папку _next.
+      - run: touch out/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

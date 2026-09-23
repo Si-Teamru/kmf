@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import { asset } from '@/lib/asset'
+
 /**
  * Иконки UI-kit (доска «04 · Логотип и иконки»). SVG выгружены из Figma в public/icons
  * и очищены `scripts/clean-figma-svg.mjs`; размеры — как у компонентов в Figma.
@@ -50,7 +52,7 @@ export function Icon({ name, alt = '', className }: IconProps) {
   const [width, height] = icons[name]
   return (
     <Image
-      src={`/icons/${name}.svg`}
+      src={asset(`/icons/${name}.svg`)}
       width={width}
       height={height}
       alt={alt}

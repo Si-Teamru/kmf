@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import { asset } from '@/lib/asset'
+
 import { Icon, LinkCapsDot, Review } from '@/components/ui'
 import type { GalleryItem, Project } from '@/data/projects'
 
@@ -121,7 +123,7 @@ function MediaTile({
   }
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      <Image src={item.src} alt={item.alt} fill sizes={sizes} className="object-cover" />
+      <Image src={asset(item.src)} alt={item.alt} fill sizes={sizes} className="object-cover" />
     </div>
   )
 }

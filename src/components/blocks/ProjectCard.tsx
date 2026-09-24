@@ -15,13 +15,14 @@ const background: Record<ProjectCardData['color'], string> = {
  * Project Card (14:119). Mobile 314×478, p 16, content gap 16 (фото 282, текст gap 16,
  * мета text_meta-caps color_text-secondary), кнопки 140. Desktop (xl) 418×567, p 16/16/32,
  * content gap 24 (фото 342, текст gap 8, мета color_text-button), кнопки 156.
- * Контент и кнопки разнесены space-between. Срез нижнего правого угла — clip-path из описания кита.
+ * Контент и кнопки разнесены space-between. Срез нижнего правого угла — clip-path из описания кита:
+ * mobile 32×20 (не заходит на «Заказать»), desktop 101×65 (от 88.5% высоты до 76% ширины).
  */
 export function ProjectCard({ card, className }: { card: ProjectCardData; className?: string }) {
   return (
     <article
       className={cn(
-        'relative flex h-[478px] w-[314px] shrink-0 flex-col justify-between p-4 [clip-path:polygon(0_0,100%_0,100%_88.5%,76%_100%,0_100%)] xl:h-[567px] xl:w-[418px] xl:pb-8',
+        'relative flex h-[478px] w-[314px] shrink-0 flex-col justify-between p-4 [clip-path:polygon(0_0,100%_0,100%_calc(100%-20px),calc(100%-32px)_100%,0_100%)] xl:h-[567px] xl:w-[418px] xl:pb-8 xl:[clip-path:polygon(0_0,100%_0,100%_88.5%,76%_100%,0_100%)]',
         background[card.color],
         className,
       )}

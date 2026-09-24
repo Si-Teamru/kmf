@@ -11,6 +11,8 @@ import type { ProjectImage } from '@/data/projects'
  * Рамка в макете пропорциональна плитке на обоих размерах, поэтому задана в % и cqw:
  *   отступ 2% ширины / 3.1% высоты; верх/низ — 83.3% ширины (верхняя смещена на −1.33%);
  *   бока — 90.7% высоты; толщина 0.0833cqw (0.73px при 876, 0.29px при 351).
+ * Hover: линии дотягиваются до углов (верх/низ — 96% ширины, бока — 93.8% высоты), получается
+ * замкнутая рамка.
  */
 export function VideoTile({
   poster,
@@ -23,21 +25,34 @@ export function VideoTile({
   sizes: string
   className?: string
 }) {
-  const line = 'absolute bg-gray-300'
+  const line = 'absolute bg-gray-300 transition-[width,height,left] duration-200 ease-out'
   return (
-    <div className={cn('@container relative overflow-hidden', className)}>
+    <div className={cn('group @container relative overflow-hidden', className)}>
       <Image src={asset(poster.src)} alt={poster.alt} fill sizes={sizes} className="object-cover" />
       <span
         className={cn(
           line,
-          'top-[3.1%] left-[calc(50%-1.33%)] h-[0.0833cqw] w-[83.3%] -translate-x-1/2',
+          'top-[3.1%] left-[calc(50%-1.33%)] h-[0.0833cqw] w-[83.3%] -translate-x-1/2 group-hover:left-1/2 group-hover:w-[96%]',
         )}
       />
       <span
-        className={cn(line, 'bottom-[3.1%] left-1/2 h-[0.0833cqw] w-[83.3%] -translate-x-1/2')}
+        className={cn(
+          line,
+          'bottom-[3.1%] left-1/2 h-[0.0833cqw] w-[83.3%] -translate-x-1/2 group-hover:w-[96%]',
+        )}
       />
-      <span className={cn(line, 'top-1/2 left-[2%] h-[90.7%] w-[0.0833cqw] -translate-y-1/2')} />
-      <span className={cn(line, 'top-1/2 right-[2%] h-[90.7%] w-[0.0833cqw] -translate-y-1/2')} />
+      <span
+        className={cn(
+          line,
+          'top-1/2 left-[2%] h-[90.7%] w-[0.0833cqw] -translate-y-1/2 group-hover:h-[93.8%]',
+        )}
+      />
+      <span
+        className={cn(
+          line,
+          'top-1/2 right-[2%] h-[90.7%] w-[0.0833cqw] -translate-y-1/2 group-hover:h-[93.8%]',
+        )}
+      />
       <LinkWatchVideo
         {...(videoUrl ? { href: videoUrl } : {})}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"

@@ -12,12 +12,13 @@ const title = 'Галерея проекта'
 
 /**
  * Галерея проекта (section-gallery). Desktop 23:118, Mobile 27:460.
+ * `data-header-compact` — по верху секции сворачивается шапка (HeaderDesktop).
  * Раскладки сильно отличаются (липкая колонка vs горизонтальная лента), поэтому две ветки
  * разметки, переключение на xl (1280): 460 + 24 + колонка медиа не помещаются уже.
  */
 export function ProjectGallery({ project }: { project: Project }) {
   return (
-    <section aria-label={title}>
+    <section aria-label={title} data-header-compact>
       <DesktopGallery project={project} />
       <MobileGallery project={project} />
     </section>
@@ -28,8 +29,9 @@ export function ProjectGallery({ project }: { project: Project }) {
  * Desktop (23:118): pt section-gap; container — pl container-padding, gap 24, items-start;
  * gallery__aside 460 (sticky) | gallery__media 876 (gap 12), колонка медиа прижата к правому краю.
  *
- * aside прилипает к НИЗУ экрана (sticky bottom-0 + self-end): пока секция входит в экран,
- * он стоит в начале колонки, дальше держится у нижнего края, пока не закончится галерея.
+ * aside прилипает к НИЗУ экрана (sticky bottom-10 + self-end): пока секция входит в экран,
+ * он стоит в начале колонки, дальше держится в 40px от нижнего края (чтобы «Все проекты»
+ * не упиралась в край), пока не закончится галерея.
  * В макете в aside сверху compact-bar (pt 70 + 41) — её роль играет плавающая шапка,
  * место под неё сохранено отступом 111, чтобы координаты остальных элементов совпадали.
  * Step Divider (23:187): absolute, x 0, y section-gap + 38, ширина 564, вариант Mobile (без номера).
@@ -42,7 +44,7 @@ function DesktopGallery({ project }: { project: Project }) {
         className="absolute top-[calc(var(--layout-section-gap)+38px)] left-0 flex w-[564px]"
       />
       <div className="flex items-start gap-6 pl-container-padding">
-        <aside className="sticky bottom-0 flex w-[460px] shrink-0 flex-col self-end pt-[111px]">
+        <aside className="sticky bottom-10 flex w-[460px] shrink-0 flex-col self-end pt-[111px]">
           <h2 className="pt-[53px] pl-1.5 text-h3 text-text-primary uppercase">{title}</h2>
           {project.review && (
             <div className="pt-[111px]">

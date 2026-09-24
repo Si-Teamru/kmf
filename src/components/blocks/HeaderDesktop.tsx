@@ -7,8 +7,20 @@ import { useState } from 'react'
 import { cn, Icon, NavLink } from '@/components/ui'
 import { site } from '@/data/site'
 
-/** Порог скролла, после которого шапка сворачивается (≈ высота полной шапки). */
+/**
+ * Шапка сворачивается, когда верх элемента с `data-header-compact` доходит до верха экрана
+ * (на странице проекта — секция галереи: к этому моменту intro и план уже прокручены).
+ * На страницах без маркера — после скролла на высоту полной шапки.
+ */
 const COMPACT_AFTER = 80
+/** Гистерезис, чтобы шапка не дёргалась на границе порога. */
+const HYSTERESIS = 40
+
+/** Сколько пикселей осталось проскроллить до сворачивания (≤ 0 — порог пройден). */
+function distanceToCompact(scrollY: number) {
+  const marker = document.querySelector('[data-header-compact]')
+  return marker ? marker.getBoundingClientRect().top : COMPACT_AFTER - scrollY
+}
 const transition = { type: 'spring', stiffness: 380, damping: 36 } as const
 const fade = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } }
 
@@ -25,9 +37,9 @@ export function HeaderDesktop() {
   const [compact, setCompact] = useState(false)
   const { scrollY } = useScroll()
   useMotionValueEvent(scrollY, 'change', (y) => {
-    // Гистерезис, чтобы шапка не дёргалась на границе порога.
-    if (!compact && y > COMPACT_AFTER) setCompact(true)
-    else if (compact && y < COMPACT_AFTER / 2) setCompact(false)
+    const distance = distanceToCompact(y)
+    if (!compact && distance <= 0) setCompact(true)
+    else if (compact && distance > HYSTERESIS) setCompact(false)
   })
 
   const logo = (

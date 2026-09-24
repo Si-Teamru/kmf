@@ -1,8 +1,22 @@
+import { HomeBenefits } from '@/components/blocks/HomeBenefits'
+import { HomeForm } from '@/components/blocks/HomeForm'
+import { HomeHero } from '@/components/blocks/HomeHero'
+import { HomeProjects } from '@/components/blocks/HomeProjects'
+import { HomeShowroom } from '@/components/blocks/HomeShowroom'
+import { projectCards } from '@/data/projects'
+
+/**
+ * Главная (Figma «Главная — к вёрстке» 111:5: Desktop 111:6, Mobile 115:208).
+ * `data-footer="white"` — подвал на главной белый (правило в globals.css).
+ */
 export default function HomePage() {
   return (
-    <section className="flex min-h-screen flex-col items-center justify-center gap-4 px-container-padding text-center">
-      <h1 className="text-h1 text-text-heading">KMF</h1>
-      <p className="text-body-l">Сайт в разработке.</p>
-    </section>
+    <div data-footer="white">
+      <HomeHero />
+      <HomeBenefits />
+      <HomeShowroom />
+      <HomeForm />
+      <HomeProjects cards={projectCards} />
+    </div>
   )
 }

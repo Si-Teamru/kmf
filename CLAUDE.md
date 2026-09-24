@@ -18,7 +18,8 @@
 - Next.js 16 (App Router, TypeScript strict), React 19
 - Payload CMS 3 внутри Next.js, PostgreSQL 16 (`@payloadcms/db-postgres`)
 - Tailwind CSS 4 + CSS-переменные из UI-kit Figma (`src/styles/tokens.css`)
-- Анимации: `motion` (`motion/react`) — шапка Desktop ↔ Compact через `layoutId`
+- Анимации: `motion` (`motion/react`) — шапка Desktop ↔ Compact через `layoutId`; `gsap` (ScrollTrigger +
+  Observer) — закреплённые секции с пошаговым листанием (карусель преимуществ на главной)
 - 3D: React Three Fiber + drei (этап 3)
 - Пакетный менеджер: **npm** (lockfile `package-lock.json`)
 
@@ -42,7 +43,8 @@ npm run generate:importmap  # после добавления кастомных
 - `src/collections/`, `src/globals/` — схемы Payload
 - `src/components/ui/` — примитивы по UI-kit (Button, Link, Chip, Field…)
 - `src/components/blocks/` — секции страниц: Header (+ HeaderDesktop), Footer, ProjectIntro,
-  ProjectGallery, ProjectReview, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine)
+  ProjectGallery, ProjectReview, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine),
+  SectionHeading; главная — HomeHero (+ HeroSlider), HomeBenefits, HomeShowroom, HomeForm, HomeProjects
 - `src/components/popups/` — `Popup` (каркас на `<dialog>`), `PopupHost` (попапы «Отправить проект» /
   «Записаться в выставочный зал», в layout; открываются любой ссылкой на `#send-project` / `#showroom`),
   `Lightbox` (лайтбокс галереи: `LightboxProvider` + `LightboxTrigger`), `lockScroll`,
@@ -50,7 +52,8 @@ npm run generate:importmap  # после добавления кастомных
 - `src/lib/consent.ts` — выбор пользователя по категориям (`kmf_consent`, 12 месяцев). Аналитику и
   рекламу подключать только при `hasConsent(...)` и слушать `CONSENT_EVENT`
 - `src/components/plan/` — PlanBlock, Plan3DViewer, PlanImageViewer, PlanPanel (этап 3)
-- `src/data/` — статические данные до CMS (`site.ts` — контакты/меню, `projects.ts` — проекты);
+- `src/data/` — статические данные до CMS (`site.ts` — контакты/меню, `projects.ts` — проекты,
+  `home.ts` — главная);
   поля повторяют будущие коллекции Payload
 - `src/lib/asset.ts` — `asset()` для путей из `public` (basePath для GitHub Pages)
 - `src/styles/tokens.css` — токены (генерируется, руками не править)

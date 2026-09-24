@@ -69,9 +69,6 @@ export default function UiKitPage() {
         </Row>
         <Row label="Ссылки">
           <LinkArrow href="#">Записаться в выставочный зал</LinkArrow>
-          <LinkArrow href="#" tone="red">
-            Записаться в выставочный зал
-          </LinkArrow>
           <LinkViewAll href="#">Посмотреть все фото</LinkViewAll>
           <LinkCapsDot href="#">Все проекты</LinkCapsDot>
           <LinkCapsPlus>Весь отзыв</LinkCapsPlus>

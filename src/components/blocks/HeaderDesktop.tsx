@@ -2,7 +2,8 @@
 
 import { AnimatePresence, LayoutGroup, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { useState, type ReactNode } from 'react'
 
 import { ArrowSquare, cn, Icon, NavLink } from '@/components/ui'
 import { site } from '@/data/site'
@@ -34,6 +35,7 @@ const fade = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity
  * Логотип и стрелка — общие элементы (`layoutId`), поэтому они переезжают, а не появляются заново.
  */
 export function HeaderDesktop() {
+  const home = usePathname() === '/'
   const [compact, setCompact] = useState(false)
   const { scrollY } = useScroll()
   useMotionValueEvent(scrollY, 'change', (y) => {
@@ -45,7 +47,7 @@ export function HeaderDesktop() {
   const logo = (
     <motion.div layoutId="header-logo" transition={transition} className="shrink-0">
       <Link href="/" aria-label="KMF — на главную" className="block">
-        <Icon name="logo-desktop-51" className={compact ? 'size-[41px]' : undefined} />
+        <Icon name="logo-desktop-51" className={compact && !home ? 'size-[41px]' : undefined} />
       </Link>
     </motion.div>
   )
@@ -57,6 +59,14 @@ export function HeaderDesktop() {
       </Link>
     </motion.div>
   )
+
+  if (home) {
+    return (
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-50 hidden md:block">
+        <HomeBar compact={compact} logo={logo} arrow={arrow} />
+      </div>
+    )
+  }
 
   return (
     <div className="pointer-events-none fixed inset-x-0 top-0 z-50 hidden md:block">
@@ -120,6 +130,87 @@ export function HeaderDesktop() {
           )}
         </motion.div>
       </LayoutGroup>
+    </div>
+  )
+}
+
+/** Пункты меню и телефон уезжают к центру (в иконку меню) — сдвиг по x. */
+const toCenter = (dx: number) => ({
+  initial: { opacity: 0, x: dx },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: dx },
+  transition: { duration: 0.35, ease: 'easeInOut' as const },
+})
+
+/**
+ * Шапка главной (111:7 → compact-bar 112:77). Прозрачная, поверх первого экрана: лого на 30 от верха.
+ * При прокрутке лого и кнопка остаются по краям (от кнопки остаётся красная стрелка), а «Проекты»,
+ * «Контакты» и телефон съезжаются в центр, исчезают и превращаются в иконку меню (Icon/Burger Desktop).
+ */
+function HomeBar({
+  compact,
+  logo,
+  arrow,
+}: {
+  compact: boolean
+  logo: ReactNode
+  arrow: ReactNode
+}) {
+  return (
+    <div className="pointer-events-auto absolute inset-x-6 top-[30px] flex h-[51px] items-center justify-between">
+      <div className="flex items-center gap-6">
+        {logo}
+        <AnimatePresence initial={false}>
+          {!compact &&
+            site.nav.map((item) => (
+              <motion.div key={item.href} {...toCenter(160)}>
+                <NavLink href={item.href}>{item.label}</NavLink>
+              </motion.div>
+            ))}
+        </AnimatePresence>
+      </div>
+
+      <AnimatePresence initial={false}>
+        {compact && (
+          <motion.button
+            key="menu"
+            type="button"
+            aria-label="Меню"
+            className="absolute left-1/2 flex h-10 -translate-x-1/2 items-center"
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.6 }}
+            transition={{ duration: 0.25, delay: 0.2 }}
+          >
+            <Icon name="burger-desktop" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      <div className="flex items-center gap-6">
+        <AnimatePresence initial={false}>
+          {!compact && (
+            <motion.div key="phone" {...toCenter(-160)}>
+              <NavLink href={site.phone.href}>{site.phone.label}</NavLink>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <div className="group flex items-center">
+          <AnimatePresence initial={false}>
+            {!compact && (
+              <motion.div key="cta" {...toCenter(-120)}>
+                <Link
+                  href={site.cta.href}
+                  className="inline-flex h-[41px] items-center justify-center rounded-full border-[1.2px] border-text-button px-7 text-button-type whitespace-nowrap text-text-button transition-colors duration-200 group-hover:border-accent-red group-hover:bg-accent-red group-hover:text-text-inverse"
+                >
+                  {site.cta.label}
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          {arrow}
+        </div>
+      </div>
     </div>
   )
 }

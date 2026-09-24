@@ -6,25 +6,15 @@ import { Pressable, type PressableProps } from './Pressable'
 const linkBase =
   'inline-flex items-center whitespace-nowrap transition-opacity duration-200 hover:opacity-70'
 
-/** Link / Arrow (12:44): «Записаться в выставочный зал ———→». На мобильном цвет может быть accent-red. */
-export function LinkArrow({
-  tone = 'copper',
-  className,
-  children,
-  ...props
-}: PressableProps & { tone?: 'copper' | 'red' }) {
+/** Link / Arrow (12:44): «Записаться в выставочный зал ———→», accent-copper на всех ширинах. */
+export function LinkArrow({ className, children, ...props }: PressableProps) {
   return (
     <Pressable
       {...props}
-      className={cn(
-        linkBase,
-        'gap-[7px] text-link-accent',
-        tone === 'copper' ? 'text-accent-copper' : 'text-accent-red',
-        className,
-      )}
+      className={cn(linkBase, 'gap-[7px] text-link-accent text-accent-copper', className)}
     >
       {children}
-      <Icon name={tone === 'copper' ? 'link-arrow-98' : 'link-arrow-98-red'} />
+      <Icon name="link-arrow-98" />
     </Pressable>
   )
 }

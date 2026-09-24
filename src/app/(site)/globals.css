@@ -19,6 +19,11 @@
   }
 }
 
+/* Подвал (Footer в layout) по умолчанию bg-cream; на главной — белый (страница с data-footer="white"). */
+body:has([data-footer='white']) footer {
+  background-color: var(--bg-white);
+}
+
 body {
   background: var(--bg-white);
   color: var(--text-primary);

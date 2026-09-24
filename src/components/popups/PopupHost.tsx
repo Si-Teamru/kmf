@@ -130,13 +130,14 @@ function FormLayout({
 /** Отправка заявок появится вместе с CMS (этап 2), пока форма только проверяет поля. */
 const onSubmit = (e: FormEvent<HTMLFormElement>) => e.preventDefault()
 
-function SendProjectFields() {
+/** Поля формы «Отправить проект»: в попапе и в секции 03 главной (`idPrefix` — чтобы id не совпадали). */
+export function SendProjectFields({ idPrefix = 'sp' }: { idPrefix?: string }) {
   return (
     <form className="flex flex-col gap-4" onSubmit={onSubmit}>
       <FormField
         label="Имя"
         name="name"
-        id="sp-name"
+        id={`${idPrefix}-name`}
         placeholder="Ваше имя"
         autoComplete="name"
         required
@@ -144,7 +145,7 @@ function SendProjectFields() {
       <FormField
         label="Электронная почта"
         name="email"
-        id="sp-email"
+        id={`${idPrefix}-email`}
         type="email"
         placeholder="adres@pochta.ru"
         autoComplete="email"
@@ -152,7 +153,7 @@ function SendProjectFields() {
       <FormField
         label="Телефон (для связи)"
         name="phone"
-        id="sp-phone"
+        id={`${idPrefix}-phone`}
         type="tel"
         placeholder="+7 (___) ___-__-__"
         autoComplete="tel"
@@ -161,17 +162,17 @@ function SendProjectFields() {
       <FormField
         label="Дополнительный метод связи (соц. сети, мессенджеры)"
         name="messenger"
-        id="sp-messenger"
+        id={`${idPrefix}-messenger`}
         placeholder="Телеграм — @имя, ВКонтакте — @имя"
       />
-      <FormUpload label="Загрузить планировку или чертеж" name="file" id="sp-file" />
+      <FormUpload label="Загрузить планировку или чертеж" name="file" id={`${idPrefix}-file`} />
       <FormField
         label="Бюджет (необязательно)"
         name="budget"
-        id="sp-budget"
+        id={`${idPrefix}-budget`}
         placeholder="Например, 200 000 — 400 000 ₽"
       />
-      <FormConsent id="sp-consent" required />
+      <FormConsent id={`${idPrefix}-consent`} required />
       <ButtonCta type="submit" fullWidth>
         Отправить проект
       </ButtonCta>

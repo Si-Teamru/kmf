@@ -16,6 +16,11 @@ export type Benefit = {
   shape: Polygon
 }
 
+/** Страница проекта для всех слайдов, пока в CMS нет других проектов. */
+const DEMO_PROJECT = '/projects/mytishchi-prospekt-astrakhova'
+
+export type HeroSlide = { title: string; href: string; image: ProjectImage }
+
 const img = (src: string, width: number, height: number, alt: string): ProjectImage => ({
   src,
   width,
@@ -31,26 +36,88 @@ export const home = {
       accent: 'Работаем с дизайнерами интерьера.',
       text: ' Пришлите проект — получите точный расчёт и реализацию по образцу',
     },
-    photo: img(
-      '/demo/mytishchi/04-bedroom.jpg',
-      4096,
-      2730,
-      'Спальня с панелью и светильником-луной',
-    ),
-    caption: 'Мытищи. Проспект Астрахова',
-    /** Лента превью (Hero Thumb 116:466): в макете слева направо — 5 до фото и 5 после. */
-    thumbs: [
-      img('/demo/projects/black-box.jpg', 2997, 2000, 'Шкаф-купе Чёрный куб'),
-      img('/demo/mytishchi/gallery/photo-07.jpg', 2730, 4096, 'Рабочее место у окна'),
-      img('/demo/mytishchi/gallery/photo-05.jpg', 4096, 2731, 'Ванная: тумба и круглое зеркало'),
-      img('/demo/home/kitchen-blue.jpg', 1532, 1024, 'Белая кухня с синей панелью'),
-      img('/demo/home/bathroom-orange.jpg', 1536, 900, 'Ванная с оранжевой тумбой'),
-      img('/demo/mytishchi/03-kitchen.jpg', 3072, 4096, 'Светлая кухня с шестиугольной плиткой'),
-      img('/demo/home/hallway-blue.jpg', 2947, 2000, 'Прихожая с синими шкафами'),
-      img('/demo/mytishchi/01-panel.jpg', 4096, 2730, 'Жёлтая стеновая панель с фрезеровкой'),
-      img('/demo/projects/loft-4-2.jpg', 1200, 1600, 'Кухня Лофт 4.2 с барной стойкой'),
-      img('/demo/mytishchi/02-hallway.jpg', 2730, 4096, 'Прихожая с подвесной консолью'),
-    ],
+    /**
+     * Слайды первого экрана: активный — большое фото с подписью (Hero Photo), остальные — лента
+     * превью (Hero Thumb): 5 справа (следующие) и 5 слева. Названия, кроме первого, — демо;
+     * все ведут на страницу единственного пока проекта.
+     */
+    slides: [
+      {
+        title: 'Мытищи. Проспект Астрахова',
+        href: DEMO_PROJECT,
+        image: img(
+          '/demo/mytishchi/04-bedroom.jpg',
+          4096,
+          2730,
+          'Спальня с панелью и светильником-луной',
+        ),
+      },
+      {
+        title: 'Москва. Хамовники',
+        href: DEMO_PROJECT,
+        image: img(
+          '/demo/mytishchi/03-kitchen.jpg',
+          3072,
+          4096,
+          'Светлая кухня с шестиугольной плиткой',
+        ),
+      },
+      {
+        title: 'Химки. Левобережный',
+        href: DEMO_PROJECT,
+        image: img('/demo/home/hallway-blue.jpg', 2947, 2000, 'Прихожая с синими шкафами'),
+      },
+      {
+        title: 'Королёв. Юбилейный',
+        href: DEMO_PROJECT,
+        image: img(
+          '/demo/mytishchi/01-panel.jpg',
+          4096,
+          2730,
+          'Жёлтая стеновая панель с фрезеровкой',
+        ),
+      },
+      {
+        title: 'Москва. Сокол',
+        href: DEMO_PROJECT,
+        image: img('/demo/projects/loft-4-2.jpg', 1200, 1600, 'Кухня Лофт 4.2 с барной стойкой'),
+      },
+      {
+        title: 'Пушкино. Клязьма',
+        href: DEMO_PROJECT,
+        image: img('/demo/mytishchi/02-hallway.jpg', 2730, 4096, 'Прихожая с подвесной консолью'),
+      },
+      {
+        title: 'Москва. Пресня',
+        href: DEMO_PROJECT,
+        image: img('/demo/projects/black-box.jpg', 2997, 2000, 'Шкаф-купе Чёрный куб'),
+      },
+      {
+        title: 'Красногорск. Павшино',
+        href: DEMO_PROJECT,
+        image: img('/demo/mytishchi/gallery/photo-07.jpg', 2730, 4096, 'Рабочее место у окна'),
+      },
+      {
+        title: 'Москва. Остоженка',
+        href: DEMO_PROJECT,
+        image: img(
+          '/demo/mytishchi/gallery/photo-05.jpg',
+          4096,
+          2731,
+          'Ванная: тумба и круглое зеркало',
+        ),
+      },
+      {
+        title: 'Балашиха. Центр',
+        href: DEMO_PROJECT,
+        image: img('/demo/home/kitchen-blue.jpg', 1532, 1024, 'Белая кухня с синей панелью'),
+      },
+      {
+        title: 'Реутов. Новокосино',
+        href: DEMO_PROJECT,
+        image: img('/demo/home/bathroom-orange.jpg', 1536, 900, 'Ванная с оранжевой тумбой'),
+      },
+    ] satisfies HeroSlide[],
   },
   benefits: {
     title: 'Мы знаем цену дизайнерского решения',

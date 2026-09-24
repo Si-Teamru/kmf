@@ -155,7 +155,7 @@ Desktop/Mobile переключаются сами. Исключение: `text_
 | Project Gallery 2×2 `19:572` / `26:361`                                                                                      | `blocks/ProjectGallery2x2`                                                |                                                           |
 | Lightbox Thumb `79:1418`                                                                                                     | в `popups/Lightbox`                                                       |                                                           |
 | Cookie Category `95:499`                                                                                                     | в `popups/ConsentBanner`                                                  |                                                           |
-| Section Heading `17:138` / `17:147`, Hero Photo `116:463`, Hero Thumb `116:466` (Size=Desktop/Mobile)                        | `blocks/SectionHeading`, `blocks/HomeHero` (+ `HeroRibbon`)               | h2 на 48 ниже линии                                       |
+| Section Heading `17:138` / `17:147`, Hero Photo `116:463`, Hero Thumb `116:466` (Size=Desktop/Mobile)                        | `blocks/SectionHeading`, `blocks/HomeHero` (+ `HeroSlider`)               | h2 на 48 ниже линии                                       |
 | Zone Tab, Plan List Item, Panel Header, Product Info, Dimension Row, Product Sketch, Accordion Item, Photo Strip, Plan Block | —                                                                         | план, этап 3 (`src/components/plan/`)                     |
 
 Витрина всех примитивов — `/ui-kit` (только dev). Новый примитив — добавить туда доской с тем же
@@ -180,15 +180,19 @@ Desktop/Mobile переключаются сами. Исключение: `text_
   80px. Мини-шапка занимает место compact-bar из макета: в секциях с compact-bar оставлять отступ 41px.
   На главной лого и кнопка остаются по краям (от кнопки остаётся красная стрелка), а пункты меню у
   лого и телефон съезжаются в центр, исчезают и превращаются в иконку меню.
-- **Главная:** ленты превью первого экрана — бесконечный слайдер (`HeroRibbon`: крутится сам,
-  24px/с, листается перетаскиванием). `section-benefits` (`HomeBenefits`) закрепляется (sticky, как
-  pin в ScrollTrigger GSAP): 400px прокрутки на пункт, активный пункт — под линией, фото справа
-  меняется наплывом, срез — переход `clip-path` (многоугольники дополняются до 8 точек, 0.7s). В
-  `section-showroom` — видео справа на месте фото (тот же размер и срез); пока ролика нет —
-  постер. Мини-шапка главной — ветка `HomeBar` в `HeaderDesktop` (по `usePathname() === '/'`).
-  Подвал на главной — `bg-white` (на странице проекта `bg-cream`): страница ставит
-  `data-footer="white"`, правило в `globals.css`. Срез карточек — clip-path, под ним фон страницы.
-  В `check:layout` всё ниже закреплённой секции сдвинуто на 2000px (см. `tests/layout/home.json`).
+- **Главная:** первый экран — слайдер (`HeroSlider`): активный слайд — большое фото с
+  подписью-названием проекта, остальные — превью по бокам; каждые 4,5 с следующее превью вырастает
+  в большое (переход left/top/width/height 0.7s); клик по превью, свайп; клик по большому фото —
+  страница проекта. `section-benefits` (`HomeBenefits`) — **GSAP**: ScrollTrigger закрепляет блок
+  по центру экрана, Observer ловит жест (колесо, свайп, клавиши) — ровно один пункт за жест. Номер
+  пункта стоит над ним и приезжает на линию (место на линии держит невидимый номер
+  `StepDivider stepHidden`); над 01 виден 06, под 06 пусто. Фото меняется наплывом, срез — переход
+  `clip-path` (8 точек, 0.7s). Фото 447×668 и видео 475×617 — фиксированного размера. В
+  `section-showroom` — видео на месте фото; пока ролика нет — постер. Мини-шапка главной — ветка
+  `HomeBar` в `HeaderDesktop` (по `usePathname() === '/'`). Подвал на главной — `bg-white` (на
+  странице проекта `bg-cream`): страница ставит `data-footer="white"`, правило в `globals.css`. Срез
+  карточек — clip-path. В `check:layout` всё ниже закреплённой секции сдвинуто на 200px (см.
+  `tests/layout/home.json`).
 - **Попапы:** fade затемнения + панель снизу вверх 24px (`animate-[popup-in_…]`, keyframes в
   `globals.css`).
 

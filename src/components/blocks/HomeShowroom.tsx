@@ -16,7 +16,7 @@ const polygon = (shape: Polygon) => `polygon(${shape.map(([x, y]) => `${x}% ${y}
  * ссылка-стрелка под видео на всю ширину (через 24). Текст тянется до низа видео, чтобы ссылка
  * не наезжала на него при любой ширине.
  * xl (контейнер 1360×617): Section Heading с y 139 (линия на 179); текст 392 (Body L) с (158, 315),
- * ссылка через 56; видео 475×617 с x 913 — выходит за край экрана на 28.
+ * ссылка через 56; видео 475×617 с x 913 — размер фиксирован, на 1440 выходит за край экрана на 28.
  */
 export function HomeShowroom() {
   const { title, text, link, video, shape } = home.showroom
@@ -27,7 +27,7 @@ export function HomeShowroom() {
     >
       <div className="relative xl:h-[617px]">
         <div
-          className="absolute top-[41px] right-0 aspect-[182/236] w-[50.5%] xl:top-0 xl:-right-7 xl:left-[913px] xl:aspect-auto xl:h-[617px] xl:w-auto"
+          className="absolute top-[41px] right-0 aspect-[182/236] w-[50.5%] xl:top-0 xl:right-auto xl:left-[913px] xl:aspect-auto xl:h-[617px] xl:w-[475px]"
           style={{ clipPath: polygon(shape) }}
         >
           {video.src ? (

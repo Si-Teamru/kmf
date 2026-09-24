@@ -21,10 +21,13 @@ export function ArrowLine({ className }: { className?: string }) {
  */
 export function StepDivider({
   step,
+  stepHidden = false,
   short = false,
   className = 'flex w-full',
 }: {
   step?: string
+  /** Номер только держит место на линии — его рисует снаружи, например пункт карусели, приезжающий на линию. */
+  stepHidden?: boolean
   /** Вариант Mobile (красная линия 210px) — и на десктопе, как в aside галереи (23:187). */
   short?: boolean
   /** Задаёт display и ширину (по умолчанию `flex w-full`). */
@@ -33,7 +36,11 @@ export function StepDivider({
   return (
     <div className={cn('min-h-4 items-center gap-3', className)} aria-hidden>
       <ArrowLine className="flex-1" />
-      {step && <span className="text-step-number text-accent-red">{step}</span>}
+      {step && (
+        <span className={cn('text-step-number text-accent-red', stepHidden && 'invisible')}>
+          {step}
+        </span>
+      )}
       <span
         className={cn('relative h-px w-[210px] shrink-0 bg-accent-red', !short && 'md:w-[497px]')}
       >

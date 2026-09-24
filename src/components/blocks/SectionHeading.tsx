@@ -7,17 +7,20 @@ import { StepDivider } from './StepDivider'
  * Mobile: номер (text_numeral 40) + h2 в строку, gap 16; через 24 — Step Divider (красная 210).
  * xl: номер в колонке 160 + Step Divider (красная 497) в строку высотой 80, через 8 — h2 392
  * с отступом 158 (h2 на 48 ниже линии).
- * `step` — номер на линии: у карусели преимуществ он меняется вместе с активным пунктом.
+ * `step` — номер на линии; `stepHidden` — только место под него (карусель преимуществ рисует
+ * номер сама: цифра пункта приезжает на линию).
  */
 export function SectionHeading({
   number,
   title,
   step,
+  stepHidden,
   className,
 }: {
   number: string
   title: string
   step?: string
+  stepHidden?: boolean
   className?: string
 }) {
   return (
@@ -30,7 +33,11 @@ export function SectionHeading({
       <span className="text-numeral-type text-text-numeral [grid-area:num]" aria-hidden>
         {number}
       </span>
-      <StepDivider step={step} className="-mr-3 flex [grid-area:line] xl:mr-0 xl:h-20" />
+      <StepDivider
+        step={step}
+        stepHidden={stepHidden}
+        className="-mr-3 flex [grid-area:line] xl:mr-0 xl:h-20"
+      />
       <h2 className="w-[270px] max-w-full text-h2 text-text-heading uppercase [grid-area:title] xl:-ml-0.5 xl:w-[392px]">
         {title}
       </h2>

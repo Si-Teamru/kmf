@@ -18,7 +18,8 @@
 - Next.js 16 (App Router, TypeScript strict), React 19
 - Payload CMS 3 внутри Next.js, PostgreSQL 16 (`@payloadcms/db-postgres`)
 - Tailwind CSS 4 + CSS-переменные из UI-kit Figma (`src/styles/tokens.css`)
-- Анимации: `motion` (`motion/react`) — шапка Desktop ↔ Compact через `layoutId`
+- Анимации: `motion` (`motion/react`) — шапка Desktop ↔ Compact через `layoutId`; `gsap` (ScrollTrigger +
+  Observer) — закреплённые секции с пошаговым листанием (карусель преимуществ на главной)
 - 3D: React Three Fiber + drei (этап 3)
 - Пакетный менеджер: **npm** (lockfile `package-lock.json`)
 
@@ -43,7 +44,7 @@ npm run generate:importmap  # после добавления кастомных
 - `src/components/ui/` — примитивы по UI-kit (Button, Link, Chip, Field…)
 - `src/components/blocks/` — секции страниц: Header (+ HeaderDesktop), Footer, ProjectIntro,
   ProjectGallery, ProjectReview, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine),
-  SectionHeading; главная — HomeHero (+ HeroRibbon), HomeBenefits, HomeShowroom, HomeForm, HomeProjects
+  SectionHeading; главная — HomeHero (+ HeroSlider), HomeBenefits, HomeShowroom, HomeForm, HomeProjects
 - `src/components/popups/` — `Popup` (каркас на `<dialog>`), `PopupHost` (попапы «Отправить проект» /
   «Записаться в выставочный зал», в layout; открываются любой ссылкой на `#send-project` / `#showroom`),
   `Lightbox` (лайтбокс галереи: `LightboxProvider` + `LightboxTrigger`), `lockScroll`,

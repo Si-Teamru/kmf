@@ -27,7 +27,7 @@ const fade = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity
 /**
  * Header / Desktop (16:77) ↔ Header / Compact (16:106), плавный переход по скроллу.
  *
- * Полная: 111px, белый фон, px 24 / py 30; слева логотип 51 + «Кейсы», «Контакты» (gap 24),
+ * Полная: 75px, белый фон, px 24 / py 12; слева логотип 51 + «Кейсы», «Контакты» (gap 24),
  * справа телефон + CTA-пилюля + красная стрелка (gap 24).
  * Компактная (как compact-bar в aside галереи, 23:121): от x = container-padding + 6,
  * ширина 454, без фона; логотип 41 + красная стрелка (gap 15) слева, Icon/Burger Desktop справа.
@@ -72,7 +72,7 @@ export function HeaderDesktop() {
             'pointer-events-auto flex items-center justify-between transition-colors duration-300',
             compact
               ? 'absolute top-[35px] left-[calc(var(--layout-container-padding)+6px)] h-[41px] w-[454px] bg-transparent'
-              : 'absolute inset-x-0 top-0 h-[111px] bg-bg-white px-6 py-[30px]',
+              : 'absolute inset-x-0 top-0 h-[75px] bg-bg-white px-6 py-3',
           )}
         >
           {compact ? (

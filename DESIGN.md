@@ -147,7 +147,7 @@ Desktop/Mobile переключаются сами. Исключение: `text_
 | Icon/Back Circle `11:292`, Plus 15 `11:308`, Minus 15 `94:489`                                                               | `Icon` `back-circle`, `plus-15`, `minus-15`                               |                                                           |
 | Project Card `14:119`                                                                                                        | `blocks/ProjectCard`                                                      | срез угла, чередование sand/gray/stone                    |
 | Header / Desktop `16:77`, Compact `16:106`, Mobile `16:97`                                                                   | `blocks/Header` + `HeaderDesktop`                                         | desktop 75, mobile 56                                     |
-| Footer / Desktop `16:118`, Mobile `16:149`                                                                                   | `blocks/Footer`                                                           |                                                           |
+| Footer / Desktop `16:118`, Mobile `16:149`                                                                                   | `blocks/Footer`                                                           | фон `bg-cream`, на главной — `bg-white`                   |
 | Step Divider `17:130` / `17:183`                                                                                             | `blocks/StepDivider`, `ArrowLine`                                         |                                                           |
 | Slider Nav `17:159`                                                                                                          | в `blocks/ProjectsSlider`                                                 |                                                           |
 | Video Tile `19:503` / `26:172`                                                                                               | `blocks/VideoTile`                                                        |                                                           |
@@ -177,6 +177,12 @@ Desktop/Mobile переключаются сами. Исключение: `text_
 - **Шапка desktop:** сворачивается в мини-шапку (`layoutId` из `motion`), когда элемент с
   `data-header-compact` (на странице проекта — галерея) доходит до верха экрана; без маркера — после
   80px. Мини-шапка занимает место compact-bar из макета: в секциях с compact-bar оставлять отступ 41px.
+  На главной мини-шапка стоит по центру: пункты меню и телефон съезжаются к центру и сворачиваются
+  в иконку меню (лого + красная стрелка + меню).
+- **Главная:** ленты превью первого экрана — бесконечный слайдер (крутится сам и листается
+  перетаскиванием); `section-benefits` закрепляется у верха экрана (pin, как ScrollTrigger в GSAP),
+  прокрутка листает Feature Item, фото справа меняется на каждый пункт; в `section-showroom` —
+  видео. Подвал на главной — `bg-white` (на странице проекта `bg-cream`), срез карточек — clip-path.
 - **Попапы:** fade затемнения + панель снизу вверх 24px (`animate-[popup-in_…]`, keyframes в
   `globals.css`).
 

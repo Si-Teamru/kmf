@@ -15,9 +15,9 @@ const popups = {
     lead: 'Приложите планировку или чертёж — рассчитаем стоимость и сроки изготовления. Нет чертежа — оставьте контакты, мы свяжемся и уточним детали.',
   },
   showroom: {
-    label: 'Записаться в шоурум',
-    title: 'Запишитесь в шоурум',
-    lead: 'Посмотрите образцы фасадов, фурнитуры и материалов вживую и обсудите проект с менеджером. Перезвоним, чтобы подтвердить время визита.',
+    label: 'Записаться в выставочный зал',
+    title: 'Запишитесь в выставочный зал',
+    lead: 'Посмотрите образцы фасадов, фурнитуры и материалов вживую и обсудите проект с специалистом. Перезвоним, чтобы подтвердить время визита.',
   },
 } as const
 
@@ -26,7 +26,7 @@ type PopupKey = keyof typeof popups
 const isPopupKey = (hash: string): hash is PopupKey => hash in popups
 
 /**
- * Попапы «Отправить проект» (он же «Заказать») и «Записаться в шоурум».
+ * Попапы «Отправить проект» (он же «Заказать») и «Записаться в выставочный зал».
  * Открываются любой ссылкой на `#send-project` / `#showroom` (шапка, CTA, карточки проектов)
  * и при заходе на страницу с таким хэшем; при закрытии хэш убирается из адреса.
  */
@@ -114,7 +114,7 @@ function FormLayout({
       <span className="hidden bg-bg-stone [grid-area:line] xl:block" aria-hidden />
       <div className="flex flex-col gap-2 self-end [grid-area:contacts] xl:pt-10">
         <span className="text-form-label text-text-secondary">
-          {contacts === 'showroom' ? 'Адрес шоурума' : 'Или свяжитесь напрямую'}
+          {contacts === 'showroom' ? 'Адрес выставочного зала' : 'Или свяжитесь напрямую'}
         </span>
         {contacts === 'showroom' && (
           <span className="text-nav-link text-text-primary">{site.address}</span>
@@ -142,11 +142,11 @@ function SendProjectFields() {
         required
       />
       <FormField
-        label="Email"
+        label="Электронная почта"
         name="email"
         id="sp-email"
         type="email"
-        placeholder="example@site.com"
+        placeholder="adres@pochta.ru"
         autoComplete="email"
       />
       <FormField
@@ -162,7 +162,7 @@ function SendProjectFields() {
         label="Дополнительный метод связи (соц. сети, мессенджеры)"
         name="messenger"
         id="sp-messenger"
-        placeholder="Телеграм - @designer / VK - @designer"
+        placeholder="Телеграм — @имя, ВКонтакте — @имя"
       />
       <FormUpload label="Загрузить планировку или чертеж" name="file" id="sp-file" />
       <FormField
@@ -207,7 +207,7 @@ function ShowroomFields() {
       />
       <FormConsent id="sr-consent" required />
       <ButtonCta type="submit" fullWidth>
-        Записаться в шоурум
+        Записаться в выставочный зал
       </ButtonCta>
     </form>
   )

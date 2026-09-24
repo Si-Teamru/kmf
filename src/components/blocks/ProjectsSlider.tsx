@@ -11,7 +11,7 @@ import { ArrowLine } from './StepDivider'
 const title = 'Реализованные проекты'
 const lead =
   'Реализуем проект чётко по вашей задумке. Все наши проекты индивидуальны и рассчитываются по вашим чертежам'
-const showroom = { label: 'Записаться в шоурум', href: '#showroom' }
+const showroom = { label: 'Записаться в выставочный зал', href: '#showroom' }
 const allProjects = { label: 'Все проекты', href: '/projects' }
 
 /**

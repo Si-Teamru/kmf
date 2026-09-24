@@ -3,7 +3,7 @@ import type { SocialNetwork } from '@/components/ui'
 /** Общие данные сайта. На этапе 2 переедут в глобалы Payload (Contacts, Header, Footer). */
 export const site = {
   nav: [
-    { label: 'Кейсы', href: '/projects' },
+    { label: 'Проекты', href: '/projects' },
     { label: 'Контакты', href: '#contacts' },
   ],
   phone: { label: '+7 (926) 207-15-10', href: 'tel:+79262071510' },

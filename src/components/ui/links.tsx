@@ -6,7 +6,7 @@ import { Pressable, type PressableProps } from './Pressable'
 const linkBase =
   'inline-flex items-center whitespace-nowrap transition-opacity duration-200 hover:opacity-70'
 
-/** Link / Arrow (12:44): «Записаться в шоурум ———→». На мобильном цвет может быть accent-red. */
+/** Link / Arrow (12:44): «Записаться в выставочный зал ———→». На мобильном цвет может быть accent-red. */
 export function LinkArrow({
   tone = 'copper',
   className,
@@ -81,7 +81,7 @@ export function LinkWatchVideo({ className, children, ...props }: PressableProps
   )
 }
 
-/** Link / Nav (12:67): пункт меню шапки (Кейсы, Контакты, телефон), между пунктами 24px. */
+/** Link / Nav (12:67): пункт меню шапки (Проекты, Контакты, телефон), между пунктами 24px. */
 export function NavLink({ className, ...props }: PressableProps) {
   return (
     <Pressable {...props} className={cn(linkBase, 'text-nav-link text-text-primary', className)} />

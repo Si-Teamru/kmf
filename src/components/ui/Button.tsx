@@ -42,6 +42,7 @@ export function ButtonCta({
  * иконка 18px прижата к правому краю (right −7.5 / top −10) — выступает за правый верхний угол
  * на любой ширине кнопки; при наведении стрелка поворачивается на 45° (→).
  * Hover (State=Hover в ките): у всех стилей заливка color_accent-red и белый текст.
+ * Отступы: py 8, px 4 — чтобы «Смотреть проект» помещался в мобильную кнопку 140.
  * `size` — классы размера (по умолчанию `h-10 w-[156px]`): мобильная карточка 140, «Все проекты» 240×36.
  */
 export function ButtonCard({
@@ -55,7 +56,7 @@ export function ButtonCard({
     <Pressable
       {...props}
       className={cn(
-        'relative inline-flex items-center justify-center p-2 text-button-type whitespace-nowrap transition-colors duration-200',
+        'relative inline-flex items-center justify-center px-1 py-2 text-button-type whitespace-nowrap transition-colors duration-200',
         size,
         variant === 'outline' &&
           'border border-text-primary text-text-primary hover:border-accent-red hover:bg-accent-red hover:text-text-inverse',

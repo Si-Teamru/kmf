@@ -60,16 +60,16 @@ export default function UiKitPage() {
           <ButtonCta arrow="outline">Заказать проект</ButtonCta>
         </Row>
         <Row label="Button / Card">
-          <ButtonCard href="#">Смотреть кейс</ButtonCard>
+          <ButtonCard href="#">Смотреть проект</ButtonCard>
           <ButtonCard variant="dark">Заказать</ButtonCard>
           <ButtonCard variant="sand" href="#">
             Все проекты
           </ButtonCard>
         </Row>
         <Row label="Ссылки">
-          <LinkArrow href="#">Записаться в шоурум</LinkArrow>
+          <LinkArrow href="#">Записаться в выставочный зал</LinkArrow>
           <LinkArrow href="#" tone="red">
-            Записаться в шоурум
+            Записаться в выставочный зал
           </LinkArrow>
           <LinkViewAll href="#">Посмотреть все фото</LinkViewAll>
           <LinkCapsDot href="#">Все проекты</LinkCapsDot>
@@ -77,7 +77,7 @@ export default function UiKitPage() {
           <span className="bg-bg-graphite p-4">
             <LinkWatchVideo>Смотреть видео</LinkWatchVideo>
           </span>
-          <NavLink href="#">Кейсы</NavLink>
+          <NavLink href="#">Проекты</NavLink>
         </Row>
       </Board>
 
@@ -86,7 +86,12 @@ export default function UiKitPage() {
           <form className="flex w-full max-w-[537px] flex-col gap-8">
             <div className="flex flex-col gap-[13px]">
               <FormField label="Имя" name="name" placeholder="Ваше имя" />
-              <FormField label="Email" name="email" type="email" placeholder="example@site.com" />
+              <FormField
+                label="Электронная почта"
+                name="email"
+                type="email"
+                placeholder="adres@pochta.ru"
+              />
               <FormField
                 label="Телефон (для связи)"
                 name="phone"
@@ -96,7 +101,7 @@ export default function UiKitPage() {
               <FormField
                 label="Дополнительный метод связи (соц. сети, мессенджеры)"
                 name="contact"
-                placeholder="Телеграм - @designer / VK - @designer"
+                placeholder="Телеграм — @имя, ВКонтакте — @имя"
               />
               <FormUpload label="Загрузить планировку или чертеж" name="file" />
               <FormField
@@ -159,7 +164,7 @@ export default function UiKitPage() {
         </Row>
         <Row label="Попапы (открываются ссылками #send-project / #showroom)">
           <NavLink href="#send-project">Отправить проект</NavLink>
-          <NavLink href="#showroom">Записаться в шоурум</NavLink>
+          <NavLink href="#showroom">Записаться в выставочный зал</NavLink>
         </Row>
       </Board>
     </div>

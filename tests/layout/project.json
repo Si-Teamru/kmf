@@ -42,7 +42,7 @@
         "section[aria-label='Реализованные проекты'] > div:first-child article:nth-of-type(1)",
         [557, 8248, 418, 567]
       ],
-      "footer": ["footer", [0, 8895, 1440, 500]],
+      "footer": ["footer", [0, 8895, 1440, 604]],
       "footer-social": ["footer > div:first-child a[aria-label='Instagram']", [80, 9049, 36, 36]],
       "footer-logo": [
         "footer > div:first-child a[aria-label='KMF — на главную']",
@@ -85,8 +85,8 @@
         "section[aria-label='Реализованные проекты'] > div:last-child a[href='/projects']",
         [60, 3097, 240, 36]
       ],
-      "footer": ["footer", [0, 3173, 360, 608]],
-      "footer-made": ["text:footer > div:last-child > p:last-child", [12, 3739, 105, 18]]
+      "footer": ["footer", [0, 3173, 360, 634]],
+      "footer-made": ["text:footer > div:last-child > p:last-child", [12, 3765, 105, 18]]
     }
   }
 }

@@ -3,6 +3,7 @@ import React from 'react'
 
 import { Footer } from '@/components/blocks/Footer'
 import { Header } from '@/components/blocks/Header'
+import { ConsentBanner } from '@/components/popups/ConsentBanner'
 import { PopupHost } from '@/components/popups/PopupHost'
 
 // Manrope хранится локально (Google Fonts из РФ отвечает нестабильно).
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <Footer />
         <PopupHost />
+        <ConsentBanner />
       </body>
     </html>
   )

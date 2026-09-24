@@ -35,7 +35,10 @@ npm run generate:importmap  # после добавления кастомных
   ProjectGallery, ProjectReview, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine)
 - `src/components/popups/` — `Popup` (каркас на `<dialog>`), `PopupHost` (попапы «Отправить проект» /
   «Записаться в шоурум», в layout; открываются любой ссылкой на `#send-project` / `#showroom`),
-  `Lightbox` (лайтбокс галереи: `LightboxProvider` + `LightboxTrigger`), `lockScroll`
+  `Lightbox` (лайтбокс галереи: `LightboxProvider` + `LightboxTrigger`), `lockScroll`,
+  `ConsentBanner` (согласие на текстовые файлы данных: баннер + панель настроек, в layout)
+- `src/lib/consent.ts` — выбор пользователя по категориям (`kmf_consent`, 12 месяцев). Аналитику и
+  рекламу подключать только при `hasConsent(...)` и слушать `CONSENT_EVENT`
 - `src/components/plan/` — PlanBlock, Plan3DViewer, PlanImageViewer, PlanPanel (этап 3)
 - `src/data/` — статические данные до CMS (`site.ts` — контакты/меню, `projects.ts` — проекты);
   поля повторяют будущие коллекции Payload
@@ -80,7 +83,7 @@ npm run generate:importmap  # после добавления кастомных
 - `src/components/ui` (импорт из `@/components/ui`): `Icon`, `ButtonCta`, `ButtonCard`,
   `LinkArrow`, `LinkViewAll`, `LinkCapsDot`, `LinkCapsPlus`, `LinkWatchVideo`, `NavLink`,
   `FormField`, `FormUpload`, `FormConsent`, `InfoChip`, `FeatureItem`, `StepNumber`, `TextBlock`,
-  `DesignerLine`, `SocialLink`, `Review`, `IconButtonClose`, `ArrowSquare`, `SliderArrows` (client). Кнопки и ссылки
+  `DesignerLine`, `SocialLink`, `Review`, `IconButtonClose`, `ArrowSquare`, `SliderArrows` (client), `Toggle`. Кнопки и ссылки
   через `Pressable`: с `href` — ссылка, без — `<button>`.
 - Иконки — SVG в `public/icons`, реестр с размерами из Figma в `Icon.tsx`. Новая иконка:
   `download_assets` (format svg) по id компонента → `public/icons/<name>.svg` →

@@ -31,6 +31,7 @@ export const icons = {
   'swipe-hint': [36, 19],
   'plus-15': [15, 17],
   'plus-11': [11, 13],
+  'minus-15': [15, 17],
   enlarge: [13, 14],
   'dot-red': [8, 8],
   'zone-kitchen': [26, 15],

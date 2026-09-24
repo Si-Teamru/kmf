@@ -20,6 +20,7 @@ import {
   LinkViewAll,
   LinkWatchVideo,
   NavLink,
+  Toggle,
   SocialLink,
   StepNumber,
   TextBlock,
@@ -165,6 +166,16 @@ export default function UiKitPage() {
         <Row label="Попапы (открываются ссылками #send-project / #showroom)">
           <NavLink href="#send-project">Отправить проект</NavLink>
           <NavLink href="#showroom">Записаться в выставочный зал</NavLink>
+        </Row>
+      </Board>
+
+      <Board title="13 · Текстовые файлы данных">
+        <Row label="Toggle">
+          <Toggle aria-label="Выключен" />
+          <Toggle aria-label="Включён" defaultChecked />
+        </Row>
+        <Row label="Панель настроек (открывается ссылкой из подвала)">
+          <NavLink href="#data-files-settings">Настройки текстовых файлов данных</NavLink>
         </Row>
       </Board>
     </div>

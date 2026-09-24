@@ -4,7 +4,7 @@ import { AnimatePresence, LayoutGroup, motion, useMotionValueEvent, useScroll } 
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { cn, Icon, NavLink } from '@/components/ui'
+import { ArrowSquare, cn, Icon, NavLink } from '@/components/ui'
 import { site } from '@/data/site'
 
 /**
@@ -27,7 +27,7 @@ const fade = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity
 /**
  * Header / Desktop (16:77) ↔ Header / Compact (16:106), плавный переход по скроллу.
  *
- * Полная: 75px, белый фон, px 24 / py 12; слева логотип 51 + «Кейсы», «Контакты» (gap 24),
+ * Полная: 75px, белый фон, px 24 / py 12; слева логотип 51 + «Проекты», «Контакты» (gap 24),
  * справа телефон + CTA-пилюля + красная стрелка (gap 24).
  * Компактная (как compact-bar в aside галереи, 23:121): от x = container-padding + 6,
  * ширина 454, без фона; логотип 41 + красная стрелка (gap 15) слева, Icon/Burger Desktop справа.
@@ -52,12 +52,8 @@ export function HeaderDesktop() {
 
   const arrow = (
     <motion.div layoutId="header-arrow" transition={transition} className="shrink-0">
-      <Link
-        href={site.cta.href}
-        aria-label={site.cta.label}
-        className="block transition-[filter] duration-200 hover:brightness-90"
-      >
-        <Icon name="cta-arrow-red" />
+      <Link href={site.cta.href} aria-label={site.cta.label} className="group block">
+        <ArrowSquare variant="red" />
       </Link>
     </motion.div>
   )
@@ -112,7 +108,7 @@ export function HeaderDesktop() {
                   <motion.div {...fade}>
                     <Link
                       href={site.cta.href}
-                      className="inline-flex h-[41px] items-center justify-center rounded-full border-[1.2px] border-text-button px-7 text-button-type whitespace-nowrap text-text-button transition-colors duration-200 hover:bg-text-button hover:text-text-inverse"
+                      className="inline-flex h-[41px] items-center justify-center rounded-full border-[1.2px] border-text-button px-7 text-button-type whitespace-nowrap text-text-button transition-colors duration-200 group-hover:border-accent-red group-hover:bg-accent-red group-hover:text-text-inverse"
                     >
                       {site.cta.label}
                     </Link>

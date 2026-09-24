@@ -11,6 +11,7 @@ import {
   FormField,
   FormUpload,
   Icon,
+  IconButtonClose,
   icons,
   InfoChip,
   LinkArrow,
@@ -19,6 +20,7 @@ import {
   LinkViewAll,
   LinkWatchVideo,
   NavLink,
+  Toggle,
   SocialLink,
   StepNumber,
   TextBlock,
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-/** Витрина компонентов для сверки с досками 04–07 UI-kit в Figma. Только для разработки. */
+/** Витрина компонентов для сверки с досками 04–07 и 12 UI-kit в Figma. Только для разработки. */
 export default function UiKitPage() {
   if (process.env.NODE_ENV === 'production') notFound()
 
@@ -59,16 +61,16 @@ export default function UiKitPage() {
           <ButtonCta arrow="outline">Заказать проект</ButtonCta>
         </Row>
         <Row label="Button / Card">
-          <ButtonCard href="#">Смотреть кейс</ButtonCard>
+          <ButtonCard href="#">Смотреть проект</ButtonCard>
           <ButtonCard variant="dark">Заказать</ButtonCard>
           <ButtonCard variant="sand" href="#">
             Все проекты
           </ButtonCard>
         </Row>
         <Row label="Ссылки">
-          <LinkArrow href="#">Записаться в шоурум</LinkArrow>
+          <LinkArrow href="#">Записаться в выставочный зал</LinkArrow>
           <LinkArrow href="#" tone="red">
-            Записаться в шоурум
+            Записаться в выставочный зал
           </LinkArrow>
           <LinkViewAll href="#">Посмотреть все фото</LinkViewAll>
           <LinkCapsDot href="#">Все проекты</LinkCapsDot>
@@ -76,7 +78,7 @@ export default function UiKitPage() {
           <span className="bg-bg-graphite p-4">
             <LinkWatchVideo>Смотреть видео</LinkWatchVideo>
           </span>
-          <NavLink href="#">Кейсы</NavLink>
+          <NavLink href="#">Проекты</NavLink>
         </Row>
       </Board>
 
@@ -85,7 +87,12 @@ export default function UiKitPage() {
           <form className="flex w-full max-w-[537px] flex-col gap-8">
             <div className="flex flex-col gap-[13px]">
               <FormField label="Имя" name="name" placeholder="Ваше имя" />
-              <FormField label="Email" name="email" type="email" placeholder="example@site.com" />
+              <FormField
+                label="Электронная почта"
+                name="email"
+                type="email"
+                placeholder="adres@pochta.ru"
+              />
               <FormField
                 label="Телефон (для связи)"
                 name="phone"
@@ -95,7 +102,7 @@ export default function UiKitPage() {
               <FormField
                 label="Дополнительный метод связи (соц. сети, мессенджеры)"
                 name="contact"
-                placeholder="Телеграм - @designer / VK - @designer"
+                placeholder="Телеграм — @имя, ВКонтакте — @имя"
               />
               <FormUpload label="Загрузить планировку или чертеж" name="file" />
               <FormField
@@ -146,6 +153,29 @@ export default function UiKitPage() {
           <SocialLink network="instagram" href="https://instagram.com" />
           <SocialLink network="whatsapp" href="https://wa.me/" />
           <SocialLink network="telegram" href="https://t.me/" />
+        </Row>
+      </Board>
+
+      <Board title="12 · Попапы и лайтбокс">
+        <Row label="Icon Button / Close">
+          <IconButtonClose />
+          <span className="bg-icon-dark">
+            <IconButtonClose tone="inverse" />
+          </span>
+        </Row>
+        <Row label="Попапы (открываются ссылками #send-project / #showroom)">
+          <NavLink href="#send-project">Отправить проект</NavLink>
+          <NavLink href="#showroom">Записаться в выставочный зал</NavLink>
+        </Row>
+      </Board>
+
+      <Board title="13 · Текстовые файлы данных">
+        <Row label="Toggle">
+          <Toggle aria-label="Выключен" />
+          <Toggle aria-label="Включён" defaultChecked />
+        </Row>
+        <Row label="Панель настроек (открывается ссылкой из подвала)">
+          <NavLink href="#data-files-settings">Настройки текстовых файлов данных</NavLink>
         </Row>
       </Board>
     </div>

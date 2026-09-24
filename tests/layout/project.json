@@ -16,7 +16,7 @@
       "plan": ["section[aria-label='План проекта']", [0, 495, 1440, 958]],
       "gallery-aside": [
         "section[aria-label='Галерея проекта'] > div:first-child aside",
-        [80, 1653, 460, 547]
+        [80, 1653, 460, 566]
       ],
       "gallery-title": [
         "section[aria-label='Галерея проекта'] > div:first-child aside h2",
@@ -24,7 +24,7 @@
       ],
       "gallery-review": [
         "section[aria-label='Галерея проекта'] > div:first-child aside figure",
-        [80, 1952, 350, 162]
+        [80, 1952, 350, 181]
       ],
       "gallery-video1": [
         "section[aria-label='Галерея проекта'] > div:first-child > div:last-child > div:last-child > :first-child",
@@ -42,7 +42,7 @@
         "section[aria-label='Реализованные проекты'] > div:first-child article:nth-of-type(1)",
         [557, 8248, 418, 567]
       ],
-      "footer": ["footer", [0, 8895, 1440, 500]],
+      "footer": ["footer", [0, 8895, 1440, 604]],
       "footer-social": ["footer > div:first-child a[aria-label='Instagram']", [80, 9049, 36, 36]],
       "footer-logo": [
         "footer > div:first-child a[aria-label='KMF — на главную']",
@@ -62,15 +62,15 @@
       "intro-tasks": ["main > section:first-child > div > :nth-child(4)", [12, 556, 334, 242]],
       "plan": ["section[aria-label='План проекта']", [0, 798, 360, 698]],
       "gallery-title": [
-        "section[aria-label='Галерея проекта'] > div:last-child h2",
+        "section[aria-label='Галерея проекта'] > div:nth-child(2) h2",
         [12, 1616, 203, 22]
       ],
       "gallery-tile1": [
-        "section[aria-label='Галерея проекта'] > div:last-child > div:nth-child(2) > :first-child",
+        "section[aria-label='Галерея проекта'] > div:nth-child(2) > div:nth-child(2) > :first-child",
         [0, 1670, 351, 225]
       ],
       "gallery-review": [
-        "section[aria-label='Галерея проекта'] > div:last-child figure",
+        "section[aria-label='Галерея проекта'] > div:nth-child(2) figure",
         [12, 1927, 336, 181]
       ],
       "projects": [
@@ -85,8 +85,8 @@
         "section[aria-label='Реализованные проекты'] > div:last-child a[href='/projects']",
         [60, 3097, 240, 36]
       ],
-      "footer": ["footer", [0, 3173, 360, 608]],
-      "footer-made": ["text:footer > div:last-child > p:last-child", [12, 3739, 105, 18]]
+      "footer": ["footer", [0, 3173, 360, 634]],
+      "footer-made": ["text:footer > div:last-child > p:last-child", [12, 3765, 105, 18]]
     }
   }
 }

@@ -10,10 +10,12 @@ const link = 'transition-opacity duration-200 hover:opacity-70'
  *
  * Footer / Desktop (16:118): pt 120, pb 100, pl 80, pr 75, justify-between.
  *   Слева: «СОЦ. СЕТИ» (text_label-caps) → иконки 36 (gap 8, pt 16, pb 88) →
- *   контакты text_caption, gap 16: почта + телефон, адрес, «Политика обработки персональных данных».
+ *   контакты text_caption, gap 16: почта + телефон, адрес, «Политика обработки персональных данных»,
+ *   «Политика использования текстовых файлов данных», «Настройки текстовых файлов данных».
  *   Справа: логотип 60 + описание text_footer-about 265 (часть — Medium), gap 13.
  * Footer / Mobile (16:149): pt 80, pb 24, px 12, колонка gap 40 — логотип + описание 211,
- *   соцсети (gap 16), контакты (gap 8), 3 юридические ссылки (gap 8), сноска text_legal 50%,
+ *   соцсети (gap 16), контакты (gap 8), 3 юридические ссылки + «Настройки текстовых файлов данных»
+ *   (gap 8), сноска text_legal 50%,
  *   «Сделано в si-team».
  * Переключение на md: десктопная раскладка помещается уже с 768.
  */
@@ -60,6 +62,16 @@ export function Footer() {
               <br />
               персональных данных
             </Link>
+            <Link href={site.legal[2].href} className={link}>
+              Политика использования
+              <br />
+              текстовых файлов данных
+            </Link>
+            <a href={site.consentSettings.href} className={link}>
+              Настройки текстовых
+              <br />
+              файлов данных
+            </a>
           </div>
         </div>
         <div className="flex items-start gap-[13px]">
@@ -99,6 +111,9 @@ export function Footer() {
               {item.label}
             </Link>
           ))}
+          <a href={site.consentSettings.href} className={link}>
+            {site.consentSettings.label}
+          </a>
         </nav>
         <p className="text-legal opacity-50">
           *Instagram и WhatsApp входят в состав организации Meta

@@ -3,7 +3,7 @@ import type { SocialNetwork } from '@/components/ui'
 /** Общие данные сайта. На этапе 2 переедут в глобалы Payload (Contacts, Header, Footer). */
 export const site = {
   nav: [
-    { label: 'Кейсы', href: '/projects' },
+    { label: 'Проекты', href: '/projects' },
     { label: 'Контакты', href: '#contacts' },
   ],
   phone: { label: '+7 (926) 207-15-10', href: 'tel:+79262071510' },
@@ -21,6 +21,8 @@ export const site = {
     { label: 'Согласие на обработку персональных данных', href: '/consent' },
     { label: 'Политика использования текстовых файлов данных', href: '/cookies' },
   ],
+  /** Открывает панель настроек текстовых файлов данных (ConsentBanner), ссылка в подвале. */
+  consentSettings: { label: 'Настройки текстовых файлов данных', href: '#data-files-settings' },
   about: {
     text: 'Корпусная мебель из МДФ на заказ по цене ДСП. ',
     accent: 'Работа с дизайнерами и студиями',

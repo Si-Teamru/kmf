@@ -49,7 +49,7 @@ export function ProjectCard({ card, className }: { card: ProjectCardData; classN
       </div>
       <div className="flex">
         <ButtonCard {...(card.href ? { href: card.href } : {})} size="h-10 w-[140px] xl:w-[156px]">
-          Смотреть кейс
+          Смотреть проект
         </ButtonCard>
         <ButtonCard href={site.cta.href} variant="dark" size="h-10 w-[140px] xl:w-[156px]">
           Заказать

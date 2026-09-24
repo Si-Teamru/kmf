@@ -32,7 +32,13 @@ npm run generate:importmap  # после добавления кастомных
 - `src/collections/`, `src/globals/` — схемы Payload
 - `src/components/ui/` — примитивы по UI-kit (Button, Link, Chip, Field…)
 - `src/components/blocks/` — секции страниц: Header (+ HeaderDesktop), Footer, ProjectIntro,
-  ProjectGallery, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine)
+  ProjectGallery, ProjectReview, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine)
+- `src/components/popups/` — `Popup` (каркас на `<dialog>`), `PopupHost` (попапы «Отправить проект» /
+  «Записаться в шоурум», в layout; открываются любой ссылкой на `#send-project` / `#showroom`),
+  `Lightbox` (лайтбокс галереи: `LightboxProvider` + `LightboxTrigger`), `lockScroll`,
+  `ConsentBanner` (согласие на текстовые файлы данных: баннер + панель настроек, в layout)
+- `src/lib/consent.ts` — выбор пользователя по категориям (`kmf_consent`, 12 месяцев). Аналитику и
+  рекламу подключать только при `hasConsent(...)` и слушать `CONSENT_EVENT`
 - `src/components/plan/` — PlanBlock, Plan3DViewer, PlanImageViewer, PlanPanel (этап 3)
 - `src/data/` — статические данные до CMS (`site.ts` — контакты/меню, `projects.ts` — проекты);
   поля повторяют будущие коллекции Payload
@@ -69,18 +75,23 @@ npm run generate:importmap  # после добавления кастомных
 ## UI-kit в коде
 
 Кит в Figma — страница `6:12`, доски 01–10 (`04` иконки `11:157`, `05` кнопки и ссылки `12:2`,
-`06` формы `13:14`, `07` карточки `14:40`, `08` навигация `16:70`, `09` план `19:146`, `10` медиа `19:484`).
+`06` формы `13:14`, `07` карточки `14:40`, `08` навигация `16:70`, `09` план `19:146`, `10` медиа `19:484`,
+`12` попапы и лайтбокс `79:448`, `13` текстовые файлы данных (cookie) `94:452`). Макеты попапов — секция «Попапы и лайтбокс —
+к вёрстке» (`80:1332`), баннера cookie — «Cookie — к вёрстке» (`96:1533`).
 Витрина всех примитивов — `/ui-kit` (только dev, в продакшене 404); сверять с досками после правок.
 
 - `src/components/ui` (импорт из `@/components/ui`): `Icon`, `ButtonCta`, `ButtonCard`,
   `LinkArrow`, `LinkViewAll`, `LinkCapsDot`, `LinkCapsPlus`, `LinkWatchVideo`, `NavLink`,
   `FormField`, `FormUpload`, `FormConsent`, `InfoChip`, `FeatureItem`, `StepNumber`, `TextBlock`,
-  `DesignerLine`, `SocialLink`, `Review`. Кнопки и ссылки через `Pressable`: с `href` — ссылка, без — `<button>`.
+  `DesignerLine`, `SocialLink`, `Review`, `IconButtonClose`, `ArrowSquare`, `SliderArrows` (client), `Toggle`. Кнопки и ссылки
+  через `Pressable`: с `href` — ссылка, без — `<button>`.
 - Иконки — SVG в `public/icons`, реестр с размерами из Figma в `Icon.tsx`. Новая иконка:
   `download_assets` (format svg) по id компонента → `public/icons/<name>.svg` →
   `node scripts/clean-figma-svg.mjs public/icons/<name>.svg` (убирает фон холста и доски) → добавить в `icons`.
-- Hover по киту (в макете не нарисован): transition 0.2s; пилюля CTA — заливка `text-button` с белым
-  текстом; красный квадрат — `brightness-90`; ссылки — `opacity-70`. Фокус полей — рамка `text-primary`.
+- Hover по киту (варианты `State=Hover` у Button / CTA, Button / Card и иконок с квадратом): transition
+  0.2s; кнопки (пилюля CTA, Outline, Dark, Sand) — заливка `accent-red` с белым текстом; квадрат со
+  стрелкой (`ArrowSquare`) — стрелка поворачивается на 45° (↗ → →), размер квадрата не меняется,
+  красный темнеет на 10%; ссылки — `opacity-70`. Фокус полей — рамка `text-primary`.
 - Мобильные варианты компонентов переключаются на `md:` (768px), размеры шрифтов — через токены.
 - Пути к файлам из `public` в `next/image` оборачивать в `asset()` из `@/lib/asset` — иначе картинки
   сломаются в статической сборке для GitHub Pages (basePath `/kmf`).
@@ -112,6 +123,10 @@ npm run generate:importmap  # после добавления кастомных
 
 ## Процесс
 
+- **Сначала работаем локально.** Правки копятся в локальной ветке (коммиты — локально), проверка —
+  на `npm run dev` (дать ссылку на localhost) + lint/typecheck/format и `check:layout`. Push, PR,
+  merge и публикация на Pages — только когда пользователь скажет запушить изменения; тогда весь
+  накопленный пакет проходит процесс ниже одним PR.
 - Ветка на задачу (`feat/…`, `fix/…`, `docs/…`, `chore/…`) → PR в `main` → CI зелёный → squash-merge.
   Коммиты — на английском, заголовок PR и описание — по-русски (заголовок PR становится коммитом в `main`).
 - В каждом PR: запись в `CHANGELOG.md` (раздел «Не выпущено»), обновить `CLAUDE.md`/`PLAN.md`, если
@@ -142,6 +157,8 @@ npm run generate:importmap  # после добавления кастомных
 
 ### Вёрстка
 
+- Не анимировать CSS `filter` (brightness и т.п.) на картинках при hover: Chrome выносит их на
+  отдельный слой, и они дёргаются на пиксель в начале и конце перехода. Менять заливку inline-SVG.
 - Если на мобильном и десктопе меняется только порядок — один DOM + `grid-template-areas`
   (h1 не дублируется). Если раскладки принципиально разные — две ветки (`hidden xl:block` / `xl:hidden`).
 - Брейкпоинты: компоненты, шапка, подвал — `md` (768); секции, чьи колонки десктопа не влезают

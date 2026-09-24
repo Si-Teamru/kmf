@@ -62,24 +62,24 @@
 
 **Цвета** (Tailwind: `bg-*`, `text-*`, `border-*`, `fill-*`, `stroke-*` + имя):
 
-| Токен                              | Значение    | Где используется                                                                                                              |
-| ---------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `text-primary`                     | #4c4c4c     | основной текст, рамки полей в фокусе, иконки-линии                                                                            |
-| `text-secondary`                   | #4c4c4c 68% | подписи, статусы, роли, вторичный текст                                                                                       |
-| `text-heading`                     | #6a6664     | заголовки секций h2/h3 капсом                                                                                                 |
-| `text-button`                      | #444444     | текст и рамка пилюли CTA, стрелки в квадратах                                                                                 |
-| `text-inverse`                     | #fff        | текст на тёмном/акцентном фоне                                                                                                |
-| `text-muted`, `text-numeral`       |             | приглушённый текст, крупные номера секций                                                                                     |
-| `accent-red`                       | #db5440     | **единственный акцент**: CTA-квадрат, hover всех кнопок, активные стрелки и тумблеры, линии Step Divider, ссылки на мобильном |
-| `accent-copper`, `accent-beige`    |             | редкие акценты (по макету)                                                                                                    |
-| `bg-white`                         | #fff        | фон страницы                                                                                                                  |
-| `bg-cream`                         | #eeede8     | фон подвала, полосы под слайдером, панели попапов и баннеров                                                                  |
-| `bg-sand` / `bg-sand-light`        |             | карточки, «Все проекты», рамки полей формы                                                                                    |
-| `bg-stone` / `bg-stone-light`      |             | карточки, разделители в панелях, неактивные стрелки и тумблеры                                                                |
-| `bg-graphite`                      | #4c4c4c     | тёмная пилюля «Заказать», затемнение попапов (60%)                                                                            |
-| `icon-dark`                        | #2e2e2e     | фон лайтбокса (96%)                                                                                                           |
-| `gray-50…400`, `gray-chip`         |             | фоны зон загрузки, чипы, вспомогательные линии                                                                                |
-| `border-checkbox`, `border-sketch` |             | чекбокс, эскизы в плане                                                                                                       |
+| Токен                              | Значение    | Где используется                                                                                         |
+| ---------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
+| `text-primary`                     | #4c4c4c     | основной текст, рамки полей в фокусе, иконки-линии                                                       |
+| `text-secondary`                   | #4c4c4c 68% | подписи, статусы, роли, вторичный текст                                                                  |
+| `text-heading`                     | #6a6664     | заголовки секций h2/h3 капсом                                                                            |
+| `text-button`                      | #444444     | текст и рамка пилюли CTA, стрелки в квадратах                                                            |
+| `text-inverse`                     | #fff        | текст на тёмном/акцентном фоне                                                                           |
+| `text-muted`, `text-numeral`       |             | приглушённый текст, крупные номера секций                                                                |
+| `accent-red`                       | #db5440     | **единственный акцент**: CTA-квадрат, hover всех кнопок, активные стрелки и тумблеры, линии Step Divider |
+| `accent-copper`, `accent-beige`    |             | редкие акценты (по макету)                                                                               |
+| `bg-white`                         | #fff        | фон страницы                                                                                             |
+| `bg-cream`                         | #eeede8     | фон подвала, полосы под слайдером, панели попапов и баннеров                                             |
+| `bg-sand` / `bg-sand-light`        |             | карточки, «Все проекты», рамки полей формы                                                               |
+| `bg-stone` / `bg-stone-light`      |             | карточки, разделители в панелях, неактивные стрелки и тумблеры                                           |
+| `bg-graphite`                      | #4c4c4c     | тёмная пилюля «Заказать», затемнение попапов (60%)                                                       |
+| `icon-dark`                        | #2e2e2e     | фон лайтбокса (96%)                                                                                      |
+| `gray-50…400`, `gray-chip`         |             | фоны зон загрузки, чипы, вспомогательные линии                                                           |
+| `border-checkbox`, `border-sketch` |             | чекбокс, эскизы в плане                                                                                  |
 
 **Отступы:** `px-container-padding` (80 → 12), `py-section-gap` / `pt-section-gap` (200 → 120),
 `gap-block-gap` (48); остальное — шкала Tailwind (кратно 4, совпадает с `space/*` в Figma).
@@ -135,7 +135,7 @@ Desktop/Mobile переключаются сами. Исключение: `text_
 | Button / CTA `12:21` (Arrow=Red/Outline × State)                                                                             | `ButtonCta` (`arrow`, `fullWidth`)                                        | пилюля + квадрат `ArrowSquare`                            |
 | Button / Card `12:34` (Style=Outline/Dark/Sand × State)                                                                      | `ButtonCard` (`variant`, `size`)                                          | ширину задаёт `size`, по умолчанию `h-10 w-[156px]`; px 4 |
 | Icon Button/CTA Arrow Red `90:614`, Arrow Outline 45 `90:617`, External Arrow 18 `90:620` (State)                            | `ArrowSquare` (`red`/`outline`/`external`)                                | inline-SVG, стрелка вращается                             |
-| Link / Arrow `12:44`                                                                                                         | `LinkArrow` (`tone="red"` на мобильном)                                   | на главной на мобильном — медная, как на десктопе         |
+| Link / Arrow `12:44`                                                                                                         | `LinkArrow`                                                               | медная (accent-copper) на всех ширинах                    |
 | Link / View All Photos `12:48`, Caps Dot `12:52`, Caps Plus `12:55`, Watch Video `12:61`, Nav `12:67`                        | `LinkViewAll`, `LinkCapsDot`, `LinkCapsPlus`, `LinkWatchVideo`, `NavLink` |                                                           |
 | Form / Field `13:29`, Upload `13:33`, Consent `13:37`                                                                        | `FormField`, `FormUpload`, `FormConsent`                                  | фокус — рамка `text-primary`                              |
 | Info Chip `15:65`, Feature Item `15:82`, Text Block `15:90`, Designer Line `15:93`                                           | `InfoChip`, `FeatureItem`, `TextBlock`, `DesignerLine`                    |                                                           |
@@ -155,7 +155,7 @@ Desktop/Mobile переключаются сами. Исключение: `text_
 | Project Gallery 2×2 `19:572` / `26:361`                                                                                      | `blocks/ProjectGallery2x2`                                                |                                                           |
 | Lightbox Thumb `79:1418`                                                                                                     | в `popups/Lightbox`                                                       |                                                           |
 | Cookie Category `95:499`                                                                                                     | в `popups/ConsentBanner`                                                  |                                                           |
-| Section Heading `17:138` / `17:147`, Hero Photo `116:463`, Hero Thumb `116:466` (Size=Desktop/Mobile)                        | —                                                                         | главная, ещё не свёрстаны; h2 на 48 ниже линии            |
+| Section Heading `17:138` / `17:147`, Hero Photo `116:463`, Hero Thumb `116:466` (Size=Desktop/Mobile)                        | `blocks/SectionHeading`, `blocks/HomeHero` (+ `HeroRibbon`)               | h2 на 48 ниже линии                                       |
 | Zone Tab, Plan List Item, Panel Header, Product Info, Dimension Row, Product Sketch, Accordion Item, Photo Strip, Plan Block | —                                                                         | план, этап 3 (`src/components/plan/`)                     |
 
 Витрина всех примитивов — `/ui-kit` (только dev). Новый примитив — добавить туда доской с тем же
@@ -180,10 +180,15 @@ Desktop/Mobile переключаются сами. Исключение: `text_
   80px. Мини-шапка занимает место compact-bar из макета: в секциях с compact-bar оставлять отступ 41px.
   На главной лого и кнопка остаются по краям (от кнопки остаётся красная стрелка), а пункты меню у
   лого и телефон съезжаются в центр, исчезают и превращаются в иконку меню.
-- **Главная:** ленты превью первого экрана — бесконечный слайдер (крутится сам и листается
-  перетаскиванием); `section-benefits` закрепляется у верха экрана (pin, как ScrollTrigger в GSAP),
-  прокрутка листает Feature Item, фото справа меняется на каждый пункт; в `section-showroom` —
-  видео справа на месте фото (тот же размер и срез углов). Подвал на главной — `bg-white` (на странице проекта `bg-cream`), срез карточек — clip-path.
+- **Главная:** ленты превью первого экрана — бесконечный слайдер (`HeroRibbon`: крутится сам,
+  24px/с, листается перетаскиванием). `section-benefits` (`HomeBenefits`) закрепляется (sticky, как
+  pin в ScrollTrigger GSAP): 400px прокрутки на пункт, активный пункт — под линией, фото справа
+  меняется наплывом, срез — переход `clip-path` (многоугольники дополняются до 8 точек, 0.7s). В
+  `section-showroom` — видео справа на месте фото (тот же размер и срез); пока ролика нет —
+  постер. Мини-шапка главной — ветка `HomeBar` в `HeaderDesktop` (по `usePathname() === '/'`).
+  Подвал на главной — `bg-white` (на странице проекта `bg-cream`): страница ставит
+  `data-footer="white"`, правило в `globals.css`. Срез карточек — clip-path, под ним фон страницы.
+  В `check:layout` всё ниже закреплённой секции сдвинуто на 2000px (см. `tests/layout/home.json`).
 - **Попапы:** fade затемнения + панель снизу вверх 24px (`animate-[popup-in_…]`, keyframes в
   `globals.css`).
 

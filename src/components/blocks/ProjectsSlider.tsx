@@ -70,7 +70,7 @@ function Desktop({ cards }: { cards: ProjectCardData[] }) {
 
 /**
  * Mobile (27:506): pt section-gap, pb 40, pl container-padding.
- * projects__text gap 16: h3 капсом 275 + body-static 319 + ссылка-стрелка (accent-red).
+ * projects__text gap 16: h3 капсом 275 + body-static 319 + ссылка-стрелка (accent-copper, как на десктопе).
  * Лента pt 48, карточки 314×478, gap 8. slider-nav pt 51, pr 12: линия flex-1 + стрелки, gap 24.
  * projects__all pt 41, pr 12, по центру: «Все проекты» 240×36.
  */
@@ -82,9 +82,7 @@ function Mobile({ cards }: { cards: ProjectCardData[] }) {
       <div className="relative flex flex-col items-start gap-4">
         <h2 className="w-[275px] text-h3 text-text-primary uppercase">{title}</h2>
         <p className="w-[319px] max-w-full text-body-static text-text-primary">{lead}</p>
-        <LinkArrow href={showroom.href} tone="red">
-          {showroom.label}
-        </LinkArrow>
+        <LinkArrow href={showroom.href}>{showroom.label}</LinkArrow>
       </div>
       <Track track={track} cards={cards} className="relative gap-2 pt-12" />
       <div className="relative flex items-center gap-6 pt-[51px] pr-3">
@@ -100,7 +98,7 @@ function Mobile({ cards }: { cards: ProjectCardData[] }) {
   )
 }
 
-function Track({
+export function Track({
   track,
   cards,
   className,
@@ -125,7 +123,7 @@ function Track({
 const EDGE = 2
 
 /** Slider Arrows для ленты: листает на одну карточку, цвета стрелок — по возможности прокрутки. */
-function TrackArrows({ track }: { track: RefObject<HTMLDivElement | null> }) {
+export function TrackArrows({ track }: { track: RefObject<HTMLDivElement | null> }) {
   const [can, setCan] = useState({ prev: false, next: false })
 
   useEffect(() => {

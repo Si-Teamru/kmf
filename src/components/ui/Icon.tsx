@@ -23,7 +23,6 @@ export const icons = {
   'slider-arrows': [95, 16],
   'external-arrow-18': [18, 18],
   'link-arrow-98': [99, 15],
-  'link-arrow-98-red': [99, 15],
   'view-all-arrow': [131, 15],
   'chevron-down': [19, 8],
   'back-circle': [23, 23],

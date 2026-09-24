@@ -42,7 +42,8 @@ npm run generate:importmap  # после добавления кастомных
 - `src/collections/`, `src/globals/` — схемы Payload
 - `src/components/ui/` — примитивы по UI-kit (Button, Link, Chip, Field…)
 - `src/components/blocks/` — секции страниц: Header (+ HeaderDesktop), Footer, ProjectIntro,
-  ProjectGallery, ProjectReview, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine)
+  ProjectGallery, ProjectReview, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine),
+  SectionHeading; главная — HomeHero (+ HeroRibbon), HomeBenefits, HomeShowroom, HomeForm, HomeProjects
 - `src/components/popups/` — `Popup` (каркас на `<dialog>`), `PopupHost` (попапы «Отправить проект» /
   «Записаться в выставочный зал», в layout; открываются любой ссылкой на `#send-project` / `#showroom`),
   `Lightbox` (лайтбокс галереи: `LightboxProvider` + `LightboxTrigger`), `lockScroll`,
@@ -50,7 +51,8 @@ npm run generate:importmap  # после добавления кастомных
 - `src/lib/consent.ts` — выбор пользователя по категориям (`kmf_consent`, 12 месяцев). Аналитику и
   рекламу подключать только при `hasConsent(...)` и слушать `CONSENT_EVENT`
 - `src/components/plan/` — PlanBlock, Plan3DViewer, PlanImageViewer, PlanPanel (этап 3)
-- `src/data/` — статические данные до CMS (`site.ts` — контакты/меню, `projects.ts` — проекты);
+- `src/data/` — статические данные до CMS (`site.ts` — контакты/меню, `projects.ts` — проекты,
+  `home.ts` — главная);
   поля повторяют будущие коллекции Payload
 - `src/lib/asset.ts` — `asset()` для путей из `public` (basePath для GitHub Pages)
 - `src/styles/tokens.css` — токены (генерируется, руками не править)

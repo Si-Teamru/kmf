@@ -16,7 +16,7 @@
       "plan": ["section[aria-label='План проекта']", [0, 495, 1440, 958]],
       "gallery-aside": [
         "section[aria-label='Галерея проекта'] > div:first-child aside",
-        [80, 1653, 460, 547]
+        [80, 1653, 460, 566]
       ],
       "gallery-title": [
         "section[aria-label='Галерея проекта'] > div:first-child aside h2",
@@ -24,7 +24,7 @@
       ],
       "gallery-review": [
         "section[aria-label='Галерея проекта'] > div:first-child aside figure",
-        [80, 1952, 350, 162]
+        [80, 1952, 350, 181]
       ],
       "gallery-video1": [
         "section[aria-label='Галерея проекта'] > div:first-child > div:last-child > div:last-child > :first-child",
@@ -62,15 +62,15 @@
       "intro-tasks": ["main > section:first-child > div > :nth-child(4)", [12, 556, 334, 242]],
       "plan": ["section[aria-label='План проекта']", [0, 798, 360, 698]],
       "gallery-title": [
-        "section[aria-label='Галерея проекта'] > div:last-child h2",
+        "section[aria-label='Галерея проекта'] > div:nth-child(2) h2",
         [12, 1616, 203, 22]
       ],
       "gallery-tile1": [
-        "section[aria-label='Галерея проекта'] > div:last-child > div:nth-child(2) > :first-child",
+        "section[aria-label='Галерея проекта'] > div:nth-child(2) > div:nth-child(2) > :first-child",
         [0, 1670, 351, 225]
       ],
       "gallery-review": [
-        "section[aria-label='Галерея проекта'] > div:last-child figure",
+        "section[aria-label='Галерея проекта'] > div:nth-child(2) figure",
         [12, 1927, 336, 181]
       ],
       "projects": [

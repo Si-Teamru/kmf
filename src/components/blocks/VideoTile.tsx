@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import type { ReactNode } from 'react'
 
 import { asset } from '@/lib/asset'
 
@@ -13,17 +14,20 @@ import type { ProjectImage } from '@/data/projects'
  *   бока — 90.7% высоты; толщина 0.0833cqw (0.73px при 876, 0.29px при 351).
  * Hover: линии дотягиваются до углов (верх/низ — 96% ширины, бока — 93.8% высоты), получается
  * замкнутая рамка.
+ * `children` — поверх плитки (кнопка лайтбокса).
  */
 export function VideoTile({
   poster,
   videoUrl,
   sizes,
   className,
+  children,
 }: {
   poster: ProjectImage
   videoUrl?: string
   sizes: string
   className?: string
+  children?: ReactNode
 }) {
   const line = 'absolute bg-gray-300 transition-[width,height,left] duration-200 ease-out'
   return (
@@ -59,6 +63,7 @@ export function VideoTile({
       >
         Смотреть видео
       </LinkWatchVideo>
+      {children}
     </div>
   )
 }

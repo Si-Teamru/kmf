@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode, Ref } from 'react'
 
 import { cn } from './cn'
 import { Icon } from './Icon'
@@ -96,24 +96,36 @@ export function TextBlock({
 /**
  * Review (15:113): «ОТЗЫВ» (text_overline) → цитата (text_quote, части SemiBold) → подвал:
  * автор (text_author, капс) + роль (text_caption, 60%) слева, «Весь отзыв +» справа. Gap 16.
+ * `lines` — обрезать цитату до N строк (многоточие); `more` — своя ссылка вместо «Весь отзыв +»
+ * (`null` — без ссылки); `quoteRef` — чтобы снаружи проверить, обрезан ли текст.
  */
 export function Review({
   text,
   author,
   role,
   href,
+  lines,
+  more,
+  quoteRef,
   className,
 }: {
   text: Array<{ text: string; strong?: boolean }>
   author: ReactNode
   role: ReactNode
   href?: string
+  lines?: number
+  more?: ReactNode
+  quoteRef?: Ref<HTMLQuoteElement>
   className?: string
 }) {
   return (
     <figure className={cn('flex flex-col gap-4 text-text-primary', className)}>
       <figcaption className="text-overline uppercase">Отзыв</figcaption>
-      <blockquote className="text-quote">
+      <blockquote
+        ref={quoteRef}
+        className={cn('text-quote', lines !== undefined && 'line-clamp-(--lines)')}
+        style={lines ? ({ '--lines': lines } as CSSProperties) : undefined}
+      >
         {text.map((part, i) =>
           part.strong ? (
             <strong key={i} className="font-semibold">
@@ -129,7 +141,11 @@ export function Review({
           <span className="text-author uppercase">{author}</span>
           <span className="text-caption opacity-60">{role}</span>
         </div>
-        <LinkCapsPlus {...(href ? { href } : {})}>Весь отзыв</LinkCapsPlus>
+        {more === undefined ? (
+          <LinkCapsPlus {...(href ? { href } : {})}>Весь отзыв</LinkCapsPlus>
+        ) : (
+          more
+        )}
       </div>
     </figure>
   )

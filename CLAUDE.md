@@ -32,7 +32,10 @@ npm run generate:importmap  # после добавления кастомных
 - `src/collections/`, `src/globals/` — схемы Payload
 - `src/components/ui/` — примитивы по UI-kit (Button, Link, Chip, Field…)
 - `src/components/blocks/` — секции страниц: Header (+ HeaderDesktop), Footer, ProjectIntro,
-  ProjectGallery, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine)
+  ProjectGallery, ProjectReview, ProjectsSlider, ProjectCard, VideoTile, StepDivider (+ ArrowLine)
+- `src/components/popups/` — `Popup` (каркас на `<dialog>`), `PopupHost` (попапы «Отправить проект» /
+  «Записаться в шоурум», в layout; открываются любой ссылкой на `#send-project` / `#showroom`),
+  `Lightbox` (лайтбокс галереи: `LightboxProvider` + `LightboxTrigger`), `lockScroll`
 - `src/components/plan/` — PlanBlock, Plan3DViewer, PlanImageViewer, PlanPanel (этап 3)
 - `src/data/` — статические данные до CMS (`site.ts` — контакты/меню, `projects.ts` — проекты);
   поля повторяют будущие коллекции Payload
@@ -69,13 +72,15 @@ npm run generate:importmap  # после добавления кастомных
 ## UI-kit в коде
 
 Кит в Figma — страница `6:12`, доски 01–10 (`04` иконки `11:157`, `05` кнопки и ссылки `12:2`,
-`06` формы `13:14`, `07` карточки `14:40`, `08` навигация `16:70`, `09` план `19:146`, `10` медиа `19:484`).
+`06` формы `13:14`, `07` карточки `14:40`, `08` навигация `16:70`, `09` план `19:146`, `10` медиа `19:484`,
+`12` попапы и лайтбокс `79:448`). Макеты попапов — секция «Попапы и лайтбокс — к вёрстке» (`80:1332`).
 Витрина всех примитивов — `/ui-kit` (только dev, в продакшене 404); сверять с досками после правок.
 
 - `src/components/ui` (импорт из `@/components/ui`): `Icon`, `ButtonCta`, `ButtonCard`,
   `LinkArrow`, `LinkViewAll`, `LinkCapsDot`, `LinkCapsPlus`, `LinkWatchVideo`, `NavLink`,
   `FormField`, `FormUpload`, `FormConsent`, `InfoChip`, `FeatureItem`, `StepNumber`, `TextBlock`,
-  `DesignerLine`, `SocialLink`, `Review`. Кнопки и ссылки через `Pressable`: с `href` — ссылка, без — `<button>`.
+  `DesignerLine`, `SocialLink`, `Review`, `IconButtonClose`, `SliderArrows` (client). Кнопки и ссылки
+  через `Pressable`: с `href` — ссылка, без — `<button>`.
 - Иконки — SVG в `public/icons`, реестр с размерами из Figma в `Icon.tsx`. Новая иконка:
   `download_assets` (format svg) по id компонента → `public/icons/<name>.svg` →
   `node scripts/clean-figma-svg.mjs public/icons/<name>.svg` (убирает фон холста и доски) → добавить в `icons`.

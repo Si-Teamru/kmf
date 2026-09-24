@@ -1,9 +1,8 @@
 'use client'
 
-import { useAnimate } from 'motion/react'
 import { useEffect, useRef, useState, type RefObject } from 'react'
 
-import { ButtonCard, cn, LinkArrow } from '@/components/ui'
+import { ButtonCard, LinkArrow, SliderArrows } from '@/components/ui'
 import type { ProjectCardData } from '@/data/projects'
 
 import { ProjectCard } from './ProjectCard'
@@ -12,7 +11,7 @@ import { ArrowLine } from './StepDivider'
 const title = 'Реализованные проекты'
 const lead =
   'Реализуем проект чётко по вашей задумке. Все наши проекты индивидуальны и рассчитываются по вашим чертежам'
-const showroom = { label: 'Записаться в шоурум', href: '#send-project' }
+const showroom = { label: 'Записаться в шоурум', href: '#showroom' }
 const allProjects = { label: 'Все проекты', href: '/projects' }
 
 /**
@@ -45,7 +44,7 @@ function Desktop({ cards }: { cards: ProjectCardData[] }) {
       <div className="relative flex h-10 items-center gap-6">
         <ArrowLine className="flex-1" />
         <div className="flex items-center gap-10">
-          <SliderArrows track={track} />
+          <TrackArrows track={track} />
           <ButtonCard href={allProjects.href} variant="sand">
             {allProjects.label}
           </ButtonCard>
@@ -90,7 +89,7 @@ function Mobile({ cards }: { cards: ProjectCardData[] }) {
       <Track track={track} cards={cards} className="relative gap-2 pt-12" />
       <div className="relative flex items-center gap-6 pt-[51px] pr-3">
         <ArrowLine className="flex-1" />
-        <SliderArrows track={track} />
+        <TrackArrows track={track} />
       </div>
       <div className="relative flex justify-center pt-[41px] pr-3">
         <ButtonCard href={allProjects.href} variant="sand" size="h-9 w-[240px]">
@@ -122,36 +121,21 @@ function Track({
   )
 }
 
-type Side = 'left' | 'right'
-
-/** Центр кружка: у хвоста правой стрелки (x 56) или, зеркально, левой (x 44). */
-const dotX: Record<Side, number> = { left: 44, right: 56 }
 /** Запас на дробный scrollLeft при snap. */
 const EDGE = 2
 
-/**
- * Icon/Slider Arrows (11:269), 95×16: левая стрелка 0–44, gap 12, правая 56–94, линии 2px.
- * Стрелка color_accent-red, когда в её сторону можно листать, иначе color_bg-stone-light.
- * Кружок ⌀10.67 стоит на хвосте активной стрелки: по умолчанию справа, при клике перепрыгивает
- * на нажатую стрелку, в конце ленты — на ту, что осталась активной.
- * Поверх — две прозрачные кнопки на левую и правую половины.
- */
-function SliderArrows({ track }: { track: RefObject<HTMLDivElement | null> }) {
-  const [can, setCan] = useState({ left: false, right: false })
-  const [side, setSide] = useState<Side>('right')
-  const [dot, animate] = useAnimate<SVGCircleElement>()
-  const mounted = useRef(false)
+/** Slider Arrows для ленты: листает на одну карточку, цвета стрелок — по возможности прокрутки. */
+function TrackArrows({ track }: { track: RefObject<HTMLDivElement | null> }) {
+  const [can, setCan] = useState({ prev: false, next: false })
 
   useEffect(() => {
     const el = track.current
     if (!el) return
-    const update = () => {
-      const left = el.scrollLeft > EDGE
-      const right = el.scrollLeft + el.clientWidth < el.scrollWidth - EDGE
-      setCan({ left, right })
-      if (left && !right) setSide('left')
-      else if (right && !left) setSide('right')
-    }
+    const update = () =>
+      setCan({
+        prev: el.scrollLeft > EDGE,
+        next: el.scrollLeft + el.clientWidth < el.scrollWidth - EDGE,
+      })
     const ro = new ResizeObserver(update)
     ro.observe(el)
     el.addEventListener('scroll', update, { passive: true })
@@ -161,60 +145,21 @@ function SliderArrows({ track }: { track: RefObject<HTMLDivElement | null> }) {
     }
   }, [track])
 
-  useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true
-      return
-    }
-    animate(dot.current, { cx: dotX[side], cy: [8, 1, 8] }, { duration: 0.35, ease: 'easeInOut' })
-  }, [side, animate, dot])
-
-  const scroll = (to: Side) => {
+  const scroll = (dir: -1 | 1) => {
     const el = track.current
     const card = el?.firstElementChild as HTMLElement | null
-    if (!el || !card || !can[to]) return
+    if (!el || !card) return
     const gap = parseFloat(getComputedStyle(el).columnGap) || 0
-    el.scrollBy({ left: (to === 'left' ? -1 : 1) * (card.offsetWidth + gap), behavior: 'smooth' })
-    setSide(to)
+    el.scrollBy({ left: dir * (card.offsetWidth + gap), behavior: 'smooth' })
   }
 
-  const tone = (active: boolean) =>
-    cn(
-      'transition-[stroke,fill] duration-200',
-      active ? 'stroke-accent-red' : 'stroke-bg-stone-light',
-    )
-  const arrow = 'fill-none stroke-2 [stroke-linecap:round] [stroke-linejoin:round]'
-
   return (
-    <div className="relative shrink-0">
-      <svg width="95" height="16" viewBox="0 0 95 16" className="overflow-visible" aria-hidden>
-        <path d="M44 8H0M6.36 1.64 0 8l6.36 6.36" className={cn(arrow, tone(can.left))} />
-        <path d="M56 8h38m-6.36-6.36L94 8l-6.36 6.36" className={cn(arrow, tone(can.right))} />
-        <circle
-          ref={dot}
-          cx={dotX.right}
-          cy={8}
-          r={5.33}
-          className={cn(
-            'stroke-0 transition-[fill] duration-200',
-            can[side] ? 'fill-accent-red' : 'fill-bg-stone-light',
-          )}
-        />
-      </svg>
-      <button
-        type="button"
-        aria-label="Предыдущий проект"
-        disabled={!can.left}
-        onClick={() => scroll('left')}
-        className="absolute inset-y-[-12px] left-0 w-1/2 cursor-pointer disabled:cursor-default"
-      />
-      <button
-        type="button"
-        aria-label="Следующий проект"
-        disabled={!can.right}
-        onClick={() => scroll('right')}
-        className="absolute inset-y-[-12px] right-0 w-1/2 cursor-pointer disabled:cursor-default"
-      />
-    </div>
+    <SliderArrows
+      canPrev={can.prev}
+      canNext={can.next}
+      onPrev={() => scroll(-1)}
+      onNext={() => scroll(1)}
+      labels={['Предыдущий проект', 'Следующий проект']}
+    />
   )
 }

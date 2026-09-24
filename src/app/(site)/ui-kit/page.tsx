@@ -11,6 +11,7 @@ import {
   FormField,
   FormUpload,
   Icon,
+  IconButtonClose,
   icons,
   InfoChip,
   LinkArrow,
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-/** Витрина компонентов для сверки с досками 04–07 UI-kit в Figma. Только для разработки. */
+/** Витрина компонентов для сверки с досками 04–07 и 12 UI-kit в Figma. Только для разработки. */
 export default function UiKitPage() {
   if (process.env.NODE_ENV === 'production') notFound()
 
@@ -146,6 +147,19 @@ export default function UiKitPage() {
           <SocialLink network="instagram" href="https://instagram.com" />
           <SocialLink network="whatsapp" href="https://wa.me/" />
           <SocialLink network="telegram" href="https://t.me/" />
+        </Row>
+      </Board>
+
+      <Board title="12 · Попапы и лайтбокс">
+        <Row label="Icon Button / Close">
+          <IconButtonClose />
+          <span className="bg-icon-dark">
+            <IconButtonClose tone="inverse" />
+          </span>
+        </Row>
+        <Row label="Попапы (открываются ссылками #send-project / #showroom)">
+          <NavLink href="#send-project">Отправить проект</NavLink>
+          <NavLink href="#showroom">Записаться в шоурум</NavLink>
         </Row>
       </Board>
     </div>

@@ -5,6 +5,20 @@
   --font-sans: 'Manrope Variable', system-ui, sans-serif;
 }
 
+/* Появление попапов и лайтбокса (Popup, Lightbox). */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
 body {
   background: var(--bg-white);
   color: var(--text-primary);

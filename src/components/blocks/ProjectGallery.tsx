@@ -2,9 +2,11 @@ import Image from 'next/image'
 
 import { asset } from '@/lib/asset'
 
-import { Icon, LinkCapsDot, Review } from '@/components/ui'
+import { Icon, LinkCapsDot } from '@/components/ui'
+import { LightboxProvider, LightboxTrigger } from '@/components/popups/Lightbox'
 import type { GalleryItem, Project } from '@/data/projects'
 
+import { ProjectReview } from './ProjectReview'
 import { StepDivider } from './StepDivider'
 import { VideoTile } from './VideoTile'
 
@@ -19,8 +21,10 @@ const title = 'Галерея проекта'
 export function ProjectGallery({ project }: { project: Project }) {
   return (
     <section aria-label={title} data-header-compact>
-      <DesktopGallery project={project} />
-      <MobileGallery project={project} />
+      <LightboxProvider items={project.gallery}>
+        <DesktopGallery project={project} />
+        <MobileGallery project={project} />
+      </LightboxProvider>
     </section>
   )
 }
@@ -48,7 +52,7 @@ function DesktopGallery({ project }: { project: Project }) {
           <h2 className="pt-[53px] pl-1.5 text-h3 text-text-primary uppercase">{title}</h2>
           {project.review && (
             <div className="pt-[111px]">
-              <Review {...project.review} className="w-[350px]" />
+              <ProjectReview review={project.review} className="w-[350px]" />
             </div>
           )}
           <div className="flex justify-end pt-[74px]">
@@ -59,6 +63,7 @@ function DesktopGallery({ project }: { project: Project }) {
           {project.gallery.map((item, i) => (
             <MediaTile
               key={i}
+              index={i}
               item={item}
               sizes="(min-width: 1280px) 876px, 100vw"
               className="aspect-[876/564] w-full"
@@ -88,6 +93,7 @@ function MobileGallery({ project }: { project: Project }) {
         {project.gallery.map((item, i) => (
           <MediaTile
             key={i}
+            index={i}
             item={item}
             sizes="351px"
             className="h-[225px] w-[351px] shrink-0 snap-start"
@@ -95,7 +101,7 @@ function MobileGallery({ project }: { project: Project }) {
         ))}
       </div>
       <div className="flex flex-col gap-10 px-container-padding">
-        {project.review && <Review {...project.review} className="w-full" />}
+        {project.review && <ProjectReview review={project.review} className="w-full" />}
         <LinkCapsDot href="/projects" className="self-start">
           Все проекты
         </LinkCapsDot>
@@ -104,28 +110,29 @@ function MobileGallery({ project }: { project: Project }) {
   )
 }
 
+/** Плитка галереи; клик по ней открывает лайтбокс на этом кадре. */
 function MediaTile({
+  index,
   item,
   sizes,
   className,
 }: {
+  index: number
   item: GalleryItem
   sizes: string
   className: string
 }) {
   if (item.type === 'video') {
     return (
-      <VideoTile
-        poster={item.poster}
-        videoUrl={item.videoUrl}
-        sizes={sizes}
-        className={className}
-      />
+      <VideoTile poster={item.poster} sizes={sizes} className={className}>
+        <LightboxTrigger index={index} label={`видео «${item.poster.alt}»`} />
+      </VideoTile>
     )
   }
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <Image src={asset(item.src)} alt={item.alt} fill sizes={sizes} className="object-cover" />
+      <LightboxTrigger index={index} label={item.alt} />
     </div>
   )
 }

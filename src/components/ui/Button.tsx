@@ -41,7 +41,8 @@ export function ButtonCta({
 /**
  * Button / Card (Figma 12:34): кнопки карточки проекта 156×40.
  * Outline — рамка 1px; Dark — графитовая пилюля; Sand — «Все проекты» со стрелкой:
- * иконка 18px на left 145.5 / top −10 (у 156px — выступает за правый угол, у 240px — над кнопкой).
+ * иконка 18px прижата к правому краю (right −7.5 / top −10) — выступает за правый верхний угол
+ * на любой ширине кнопки.
  * `size` — классы размера (по умолчанию `h-10 w-[156px]`): мобильная карточка 140, «Все проекты» 240×36.
  */
 export function ButtonCard({
@@ -66,7 +67,7 @@ export function ButtonCard({
     >
       {children}
       {variant === 'sand' && (
-        <Icon name="external-arrow-18" className="absolute -top-2.5 left-[145.5px]" />
+        <Icon name="external-arrow-18" className="absolute -top-2.5 -right-[7.5px]" />
       )}
     </Pressable>
   )

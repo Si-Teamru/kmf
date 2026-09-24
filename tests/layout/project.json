@@ -4,87 +4,89 @@
   "notes": "intro-tasks @1440: допуск 4 — два текстовых блока дают +1..2px округления межстрочного каждый",
   "viewports": {
     "1440": {
-      "header-logo": ["header a[aria-label='KMF — на главную']", [24, 30, 51, 51]],
-      "intro-h1": ["main > section:first-child h1", [428, 159, 479, 100]],
-      "intro-gallery": ["main > section:first-child > div > :nth-child(2)", [80, 159, 308, 308]],
+      "header-logo": ["header a[aria-label='KMF — на главную']", [24, 12, 51, 51]],
+      "intro-h1": ["main > section:first-child h1", [428, 123, 479, 100]],
+      "intro-gallery": ["main > section:first-child > div > :nth-child(2)", [80, 123, 308, 308]],
       "intro-designer": [
         "text:main > section:first-child > div > :nth-child(3)",
-        [428, 445, 215, 22]
+        [428, 409, 215, 22]
       ],
-      "intro-tasks": ["main > section:first-child > div > :nth-child(4)", [947, 159, 334, 304], 4],
-      "intro-divider": ["main > section:first-child > div[aria-hidden]", [0, 515, 1440, 16]],
-      "plan": ["section[aria-label='План проекта']", [0, 531, 1440, 958]],
+      "intro-tasks": ["main > section:first-child > div > :nth-child(4)", [947, 123, 334, 304], 4],
+      "intro-divider": ["main > section:first-child > div[aria-hidden]", [0, 479, 1440, 16]],
+      "plan": ["section[aria-label='План проекта']", [0, 495, 1440, 958]],
       "gallery-aside": [
         "section[aria-label='Галерея проекта'] > div:first-child aside",
-        [80, 1689, 460, 547]
+        [80, 1653, 460, 547]
       ],
       "gallery-title": [
         "section[aria-label='Галерея проекта'] > div:first-child aside h2",
-        [80, 1800, 460, 77]
+        [80, 1764, 460, 77]
       ],
       "gallery-review": [
         "section[aria-label='Галерея проекта'] > div:first-child aside figure",
-        [80, 1988, 350, 162]
+        [80, 1952, 350, 162]
       ],
       "gallery-video1": [
         "section[aria-label='Галерея проекта'] > div:first-child > div:last-child > div:last-child > :first-child",
-        [564, 1689, 876, 564]
+        [564, 1653, 876, 564]
       ],
       "projects": [
         "section[aria-label='Реализованные проекты'] > div:first-child",
-        [0, 8012, 1440, 919]
+        [0, 7976, 1440, 919]
       ],
       "projects-h2": [
         "section[aria-label='Реализованные проекты'] > div:first-child h2",
-        [80, 8471, 268, 72]
+        [80, 8435, 268, 72]
       ],
       "projects-card1": [
         "section[aria-label='Реализованные проекты'] > div:first-child article:nth-of-type(1)",
-        [557, 8284, 418, 567]
+        [557, 8248, 418, 567]
       ],
-      "footer": ["footer", [0, 8931, 1440, 500]],
-      "footer-social": ["footer > div:first-child a[aria-label='Instagram']", [80, 9085, 36, 36]],
+      "footer": ["footer", [0, 8895, 1440, 500]],
+      "footer-social": ["footer > div:first-child a[aria-label='Instagram']", [80, 9049, 36, 36]],
       "footer-logo": [
         "footer > div:first-child a[aria-label='KMF — на главную']",
-        [1027, 9051, 60, 60]
+        [1027, 9015, 60, 60]
       ]
     },
     "360": {
-      "header": ["header > div:last-child", [0, 0, 360, 62]],
-      "intro-h1": ["main > section:first-child h1", [12, 62, 336, 26]],
-      "intro-gallery": ["main > section:first-child > div > :nth-child(2)", [12, 172, 336, 336]],
+      "header": ["header > div:last-child", [0, 0, 360, 56]],
+      "header-logo": ["header > div:last-child a", [12, 12, 32, 32]],
+      "header-burger": ["header > div:last-child button", [316, 12, 32, 32]],
+      "intro-h1": ["main > section:first-child h1", [12, 56, 336, 26]],
+      "intro-gallery": ["main > section:first-child > div > :nth-child(2)", [12, 166, 336, 336]],
       "intro-designer": [
         "text:main > section:first-child > div > :nth-child(3)",
-        [12, 516, 215, 22]
+        [12, 510, 215, 22]
       ],
-      "intro-tasks": ["main > section:first-child > div > :nth-child(4)", [12, 562, 334, 242]],
-      "plan": ["section[aria-label='План проекта']", [0, 804, 360, 698]],
+      "intro-tasks": ["main > section:first-child > div > :nth-child(4)", [12, 556, 334, 242]],
+      "plan": ["section[aria-label='План проекта']", [0, 798, 360, 698]],
       "gallery-title": [
         "section[aria-label='Галерея проекта'] > div:last-child h2",
-        [12, 1622, 203, 22]
+        [12, 1616, 203, 22]
       ],
       "gallery-tile1": [
         "section[aria-label='Галерея проекта'] > div:last-child > div:nth-child(2) > :first-child",
-        [0, 1676, 351, 225]
+        [0, 1670, 351, 225]
       ],
       "gallery-review": [
         "section[aria-label='Галерея проекта'] > div:last-child figure",
-        [12, 1933, 336, 181]
+        [12, 1927, 336, 181]
       ],
       "projects": [
         "section[aria-label='Реализованные проекты'] > div:last-child",
-        [0, 2166, 360, 1013]
+        [0, 2160, 360, 1013]
       ],
       "projects-card1": [
         "section[aria-label='Реализованные проекты'] > div:last-child article:nth-of-type(1)",
-        [12, 2517, 314, 478]
+        [12, 2511, 314, 478]
       ],
       "projects-all": [
         "section[aria-label='Реализованные проекты'] > div:last-child a[href='/projects']",
-        [60, 3103, 240, 36]
+        [60, 3097, 240, 36]
       ],
-      "footer": ["footer", [0, 3179, 360, 608]],
-      "footer-made": ["text:footer > div:last-child > p:last-child", [12, 3745, 105, 18]]
+      "footer": ["footer", [0, 3173, 360, 608]],
+      "footer-made": ["text:footer > div:last-child > p:last-child", [12, 3739, 105, 18]]
     }
   }
 }

@@ -108,7 +108,7 @@ export function HeaderDesktop() {
                   <motion.div {...fade}>
                     <Link
                       href={site.cta.href}
-                      className="inline-flex h-[41px] items-center justify-center rounded-full border-[1.2px] border-text-button px-7 text-button-type whitespace-nowrap text-text-button transition-colors duration-200 hover:bg-text-button hover:text-text-inverse"
+                      className="inline-flex h-[41px] items-center justify-center rounded-full border-[1.2px] border-text-button px-7 text-button-type whitespace-nowrap text-text-button transition-colors duration-200 group-hover:border-accent-red group-hover:bg-accent-red group-hover:text-text-inverse"
                     >
                       {site.cta.label}
                     </Link>

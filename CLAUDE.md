@@ -84,9 +84,10 @@ npm run generate:importmap  # после добавления кастомных
 - Иконки — SVG в `public/icons`, реестр с размерами из Figma в `Icon.tsx`. Новая иконка:
   `download_assets` (format svg) по id компонента → `public/icons/<name>.svg` →
   `node scripts/clean-figma-svg.mjs public/icons/<name>.svg` (убирает фон холста и доски) → добавить в `icons`.
-- Hover по киту (в макете не нарисован): transition 0.2s; пилюля CTA — заливка `text-button` с белым
-  текстом; квадрат со стрелкой (`ArrowSquare`) — стрелка поворачивается на 45° (↗ → →), размер
-  квадрата не меняется, красный темнеет на 10%; ссылки — `opacity-70`. Фокус полей — рамка `text-primary`.
+- Hover по киту (варианты `State=Hover` у Button / CTA, Button / Card и иконок с квадратом): transition
+  0.2s; кнопки (пилюля CTA, Outline, Dark, Sand) — заливка `accent-red` с белым текстом; квадрат со
+  стрелкой (`ArrowSquare`) — стрелка поворачивается на 45° (↗ → →), размер квадрата не меняется,
+  красный темнеет на 10%; ссылки — `opacity-70`. Фокус полей — рамка `text-primary`.
 - Мобильные варианты компонентов переключаются на `md:` (768px), размеры шрифтов — через токены.
 - Пути к файлам из `public` в `next/image` оборачивать в `asset()` из `@/lib/asset` — иначе картинки
   сломаются в статической сборке для GitHub Pages (basePath `/kmf`).

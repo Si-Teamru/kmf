@@ -234,7 +234,7 @@ function Settings({
         onClick={onBack}
         className="flex cursor-pointer items-center gap-2 self-start transition-opacity duration-200 hover:opacity-70"
       >
-        <Icon name="back-circle" className="rotate-180" />
+        <Icon name="back-circle" />
         <span className="text-label-caps text-text-primary uppercase">Назад</span>
       </button>
       <h2 className="text-h3 text-text-heading uppercase">Настройки текстовых файлов данных</h2>

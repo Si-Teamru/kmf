@@ -4,7 +4,7 @@ import { AnimatePresence, LayoutGroup, motion, useMotionValueEvent, useScroll } 
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { cn, Icon, NavLink } from '@/components/ui'
+import { ArrowSquare, cn, Icon, NavLink } from '@/components/ui'
 import { site } from '@/data/site'
 
 /**
@@ -52,12 +52,8 @@ export function HeaderDesktop() {
 
   const arrow = (
     <motion.div layoutId="header-arrow" transition={transition} className="shrink-0">
-      <Link
-        href={site.cta.href}
-        aria-label={site.cta.label}
-        className="block transition-[filter] duration-200 hover:brightness-90"
-      >
-        <Icon name="cta-arrow-red" />
+      <Link href={site.cta.href} aria-label={site.cta.label} className="group block">
+        <ArrowSquare variant="red" />
       </Link>
     </motion.div>
   )

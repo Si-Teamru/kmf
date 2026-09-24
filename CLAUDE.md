@@ -79,13 +79,14 @@ npm run generate:importmap  # после добавления кастомных
 - `src/components/ui` (импорт из `@/components/ui`): `Icon`, `ButtonCta`, `ButtonCard`,
   `LinkArrow`, `LinkViewAll`, `LinkCapsDot`, `LinkCapsPlus`, `LinkWatchVideo`, `NavLink`,
   `FormField`, `FormUpload`, `FormConsent`, `InfoChip`, `FeatureItem`, `StepNumber`, `TextBlock`,
-  `DesignerLine`, `SocialLink`, `Review`, `IconButtonClose`, `SliderArrows` (client). Кнопки и ссылки
+  `DesignerLine`, `SocialLink`, `Review`, `IconButtonClose`, `ArrowSquare`, `SliderArrows` (client). Кнопки и ссылки
   через `Pressable`: с `href` — ссылка, без — `<button>`.
 - Иконки — SVG в `public/icons`, реестр с размерами из Figma в `Icon.tsx`. Новая иконка:
   `download_assets` (format svg) по id компонента → `public/icons/<name>.svg` →
   `node scripts/clean-figma-svg.mjs public/icons/<name>.svg` (убирает фон холста и доски) → добавить в `icons`.
 - Hover по киту (в макете не нарисован): transition 0.2s; пилюля CTA — заливка `text-button` с белым
-  текстом; красный квадрат — `brightness-90`; ссылки — `opacity-70`. Фокус полей — рамка `text-primary`.
+  текстом; квадрат со стрелкой (`ArrowSquare`) — стрелка поворачивается на 45° (↗ → →), размер
+  квадрата не меняется, красный темнеет на 10%; ссылки — `opacity-70`. Фокус полей — рамка `text-primary`.
 - Мобильные варианты компонентов переключаются на `md:` (768px), размеры шрифтов — через токены.
 - Пути к файлам из `public` в `next/image` оборачивать в `asset()` из `@/lib/asset` — иначе картинки
   сломаются в статической сборке для GitHub Pages (basePath `/kmf`).
@@ -151,6 +152,8 @@ npm run generate:importmap  # после добавления кастомных
 
 ### Вёрстка
 
+- Не анимировать CSS `filter` (brightness и т.п.) на картинках при hover: Chrome выносит их на
+  отдельный слой, и они дёргаются на пиксель в начале и конце перехода. Менять заливку inline-SVG.
 - Если на мобильном и десктопе меняется только порядок — один DOM + `grid-template-areas`
   (h1 не дублируется). Если раскладки принципиально разные — две ветки (`hidden xl:block` / `xl:hidden`).
 - Брейкпоинты: компоненты, шапка, подвал — `md` (768); секции, чьи колонки десктопа не влезают

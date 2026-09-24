@@ -1,12 +1,13 @@
+import { ArrowSquare } from './ArrowSquare'
 import { cn } from './cn'
-import { Icon } from './Icon'
 import { Pressable, type PressableProps } from './Pressable'
 
 /**
  * Button / CTA (Figma 12:21): пилюля + квадрат со стрелкой.
  * Red — «Отправить проект» (41px, красный квадрат), Outline — «Заказать проект» в панели плана (45px).
  * `fullWidth` — пилюля растягивается (в форме).
- * Hover по киту: пилюля заливается color_text-button с белым текстом, квадрат темнеет на 10%.
+ * Hover по киту: пилюля заливается color_text-button с белым текстом, квадрат темнеет на 10%,
+ * стрелка поворачивается на 45° (→) — см. ArrowSquare.
  */
 export function ButtonCta({
   arrow = 'red',
@@ -30,10 +31,7 @@ export function ButtonCta({
       >
         {children}
       </span>
-      <Icon
-        name={outline ? 'arrow-outline-45' : 'cta-arrow-red'}
-        className="shrink-0 transition-[filter] duration-200 group-hover:brightness-90"
-      />
+      <ArrowSquare variant={outline ? 'outline' : 'red'} />
     </Pressable>
   )
 }
@@ -42,7 +40,7 @@ export function ButtonCta({
  * Button / Card (Figma 12:34): кнопки карточки проекта 156×40.
  * Outline — рамка 1px; Dark — графитовая пилюля; Sand — «Все проекты» со стрелкой:
  * иконка 18px прижата к правому краю (right −7.5 / top −10) — выступает за правый верхний угол
- * на любой ширине кнопки.
+ * на любой ширине кнопки; при наведении стрелка поворачивается на 45° (→).
  * `size` — классы размера (по умолчанию `h-10 w-[156px]`): мобильная карточка 140, «Все проекты» 240×36.
  */
 export function ButtonCard({
@@ -61,13 +59,13 @@ export function ButtonCard({
         variant === 'outline' &&
           'border border-text-primary text-text-primary hover:bg-text-primary hover:text-text-inverse',
         variant === 'dark' && 'rounded-full bg-bg-graphite text-text-inverse hover:bg-text-button',
-        variant === 'sand' && 'bg-bg-sand-light text-text-button hover:bg-bg-sand',
+        variant === 'sand' && 'group bg-bg-sand-light text-text-button hover:bg-bg-sand',
         className,
       )}
     >
       {children}
       {variant === 'sand' && (
-        <Icon name="external-arrow-18" className="absolute -top-2.5 -right-[7.5px]" />
+        <ArrowSquare variant="external" className="absolute -top-2.5 -right-[7.5px]" />
       )}
     </Pressable>
   )

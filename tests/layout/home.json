@@ -5,7 +5,7 @@
   "viewports": {
     "360": {
       "hero-h1": ["main h1", [89, 19, 182, 18]],
-      "hero-lead": ["main section:first-of-type > p", [51, 77, 259, 45]],
+      "hero-lead": ["main section:first-of-type > div > p", [51, 77, 259, 45]],
       "hero-photo": ["main section:first-of-type a[aria-label^='Проект']", [42, 143, 276, 370]],
       "benefits-h2": [
         "section[aria-label='Мы знаем цену дизайнерского решения'] h2",
@@ -50,7 +50,7 @@
     },
     "1440": {
       "hero-photo": ["main section:first-of-type a[aria-label^='Проект']", [505, 30, 431, 577]],
-      "hero-lead": ["main section:first-of-type > p", [1153, 523, 263, 54]],
+      "hero-lead": ["main section:first-of-type > div > p", [1153, 523, 263, 54]],
       "benefits-h2": [
         "section[aria-label='Мы знаем цену дизайнерского решения'] h2",
         [238, 1121, 392, 108]

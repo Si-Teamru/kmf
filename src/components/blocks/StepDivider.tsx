@@ -18,11 +18,14 @@ export function ArrowLine({ className }: { className?: string }) {
  * Step Divider (Desktop 17:130 / Mobile 17:183): flex, gap 12, min-h 16.
  * Слева серая линия (flex-1), затем номер шага (text_step-number, accent-red) — опционально,
  * справа красная линия 1px accent-red с точкой ⌀5.33: 497px (desktop) / 210px (mobile).
+ * С `anchor` наоборот: серая линия фиксированной ширины, красная тянется — номер стоит на месте
+ * при любой ширине экрана.
  */
 export function StepDivider({
   step,
   stepHidden = false,
   short = false,
+  anchor,
   className = 'flex w-full',
 }: {
   step?: string
@@ -30,19 +33,24 @@ export function StepDivider({
   stepHidden?: boolean
   /** Вариант Mobile (красная линия 210px) — и на десктопе, как в aside галереи (23:187). */
   short?: boolean
+  /** Ширина серой линии (классы) — закрепляет номер на месте, красная линия занимает остаток. */
+  anchor?: string
   /** Задаёт display и ширину (по умолчанию `flex w-full`). */
   className?: string
 }) {
   return (
     <div className={cn('min-h-4 items-center gap-3', className)} aria-hidden>
-      <ArrowLine className="flex-1" />
+      <ArrowLine className={anchor ? cn('shrink-0', anchor) : 'flex-1'} />
       {step && (
         <span className={cn('text-step-number text-accent-red', stepHidden && 'invisible')}>
           {step}
         </span>
       )}
       <span
-        className={cn('relative h-px w-[210px] shrink-0 bg-accent-red', !short && 'md:w-[497px]')}
+        className={cn(
+          'relative h-px bg-accent-red',
+          anchor ? 'min-w-0 flex-1' : cn('w-[210px] shrink-0', !short && 'md:w-[497px]'),
+        )}
       >
         <span className="absolute top-1/2 left-0 size-[5.33px] -translate-y-1/2 rounded-full bg-accent-red" />
       </span>

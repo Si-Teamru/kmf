@@ -30,33 +30,38 @@ export function HomeProjects({ cards }: { cards: ProjectCardData[] }) {
  * xl: pt section-gap, pb 80, pl container-padding. Строка 80: номер 04 в колонке 160 + Slider Nav
  * (линия flex-1 | стрелки + «Все проекты», gap 40 | линия 200; gap 24). Через 8: h2 268 с x 158
  * и лента карточек 418 (gap 16) с x 477 до правого края экрана.
- * Фон bg-cream продолжается из формы до 243px высоты карточек.
+ * Фон bg-cream продолжается из формы до 243px высоты карточек — на всю ширину экрана,
+ * содержимое — не шире 1920 и по центру.
+ * Стрелки и «Все проекты» стоят на месте (как на 1440): левая линия 661 (сжимается на узких
+ * экранах), на широких тянется правая линия (от 200).
  */
 function Desktop({ cards, title }: { cards: ProjectCardData[]; title: string }) {
   const track = useRef<HTMLDivElement>(null)
   return (
-    <div className="relative hidden pt-section-gap pb-20 pl-container-padding xl:block">
+    <div className="relative hidden pt-section-gap pb-20 xl:block">
       <div className="absolute inset-x-0 top-0 h-[calc(var(--layout-section-gap)+331px)] bg-bg-cream" />
-      <div className="relative flex h-20 items-center">
-        <span className="w-40 shrink-0 text-numeral-type text-text-numeral" aria-hidden>
-          04
-        </span>
-        <div className="flex flex-1 items-center gap-6">
-          <ArrowLine className="flex-1" />
-          <div className="flex items-center gap-10">
-            <TrackArrows track={track} />
-            <ButtonCard href={allProjects.href} variant="sand">
-              {allProjects.label}
-            </ButtonCard>
+      <div className="relative mx-auto max-w-[1920px] pl-container-padding">
+        <div className="flex h-20 items-center">
+          <span className="w-40 shrink-0 text-numeral-type text-text-numeral" aria-hidden>
+            04
+          </span>
+          <div className="flex flex-1 items-center gap-6">
+            <ArrowLine className="w-[661px] min-w-0" />
+            <div className="flex shrink-0 items-center gap-10">
+              <TrackArrows track={track} />
+              <ButtonCard href={allProjects.href} variant="sand">
+                {allProjects.label}
+              </ButtonCard>
+            </div>
+            <ArrowLine className="min-w-[200px] flex-1" />
           </div>
-          <ArrowLine className="w-[200px] shrink-0" />
         </div>
-      </div>
-      <div className="relative mt-2 flex">
-        <h2 className="absolute top-0 left-[158px] w-[268px] text-h2 text-text-heading uppercase">
-          {title}
-        </h2>
-        <Track track={track} cards={cards} className="ml-[477px] gap-4" />
+        <div className="relative mt-2 flex">
+          <h2 className="absolute top-0 left-[158px] w-[268px] text-h2 text-text-heading uppercase">
+            {title}
+          </h2>
+          <Track track={track} cards={cards} className="ml-[477px] gap-4" />
+        </div>
       </div>
     </div>
   )

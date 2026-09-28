@@ -159,68 +159,71 @@ export function HomeBenefits() {
   const fade = 'transition-[opacity,color] duration-700 motion-reduce:transition-none'
 
   return (
-    <section aria-label={title} className="overflow-x-clip pt-section-gap xl:pl-container-padding">
-      <div ref={box} className="relative h-[432px] xl:h-[707px]">
-        <div
-          className="absolute top-[41px] right-0 aspect-[182/272] w-[50.5%] transition-[clip-path] duration-700 ease-in-out motion-reduce:transition-none xl:top-[39px] xl:right-auto xl:left-[913px] xl:aspect-auto xl:h-[668px] xl:w-[447px]"
-          style={{ clipPath: polygon(items[active].shape) }}
-        >
-          {items.map((item, i) => (
-            <Image
-              key={item.title}
-              src={asset(item.image.src)}
-              alt={i === active ? item.image.alt : ''}
-              fill
-              sizes="(min-width: 1280px) 447px, 50vw"
-              className={cn(
-                'object-cover transition-opacity duration-700 motion-reduce:transition-none',
-                i === active ? 'opacity-100' : 'opacity-0',
-              )}
-            />
-          ))}
-        </div>
-
-        <SectionHeading
-          number="01"
-          title={title}
-          step={num(active)}
-          stepHidden
-          className="absolute inset-x-0 top-0 xl:top-[193px]"
-        />
-
-        <div className="absolute top-[60px] bottom-0 left-3 w-[calc(49.5%-19px)] overflow-hidden [mask-image:linear-gradient(#000_80%,transparent)] xl:top-0 xl:left-[546px] xl:w-[317px] xl:overflow-visible xl:[mask-image:none]">
+    <section aria-label={title} className="overflow-x-clip pt-section-gap">
+      <div className="mx-auto max-w-[1920px] xl:pl-container-padding">
+        <div ref={box} className="relative h-[432px] xl:h-[707px]">
           <div
-            ref={list}
-            className={cn(
-              'flex flex-col gap-12 xl:gap-[72px]',
-              shift.smooth &&
-                'transition-transform duration-700 ease-in-out motion-reduce:transition-none',
-            )}
-            style={{ transform: `translateY(${shift.value}px)` }}
+            className="absolute top-[41px] right-0 aspect-[182/272] w-[50.5%] transition-[clip-path] duration-700 ease-in-out motion-reduce:transition-none xl:top-[39px] xl:right-auto xl:left-[913px] xl:aspect-auto xl:h-[668px] xl:w-[447px]"
+            style={{ clipPath: polygon(items[active].shape) }}
           >
-            {ring.map((i, pos) => {
-              const d = pos - (active + 1)
-              return (
-                <div
-                  key={pos}
-                  aria-hidden={pos === 0 || undefined}
-                  className={cn('relative', fade, Math.abs(d) > 1 && 'opacity-0')}
-                >
-                  <span
-                    className={cn(
-                      'absolute -top-[23px] left-[111px] text-step-number xl:-top-[54px] xl:left-[291px]',
-                      fade,
-                      d === 0 ? 'text-accent-red' : 'text-accent-red xl:text-accent-beige',
-                    )}
+            {items.map((item, i) => (
+              <Image
+                key={item.title}
+                src={asset(item.image.src)}
+                alt={i === active ? item.image.alt : ''}
+                fill
+                sizes="(min-width: 1280px) 447px, 50vw"
+                className={cn(
+                  'object-cover transition-opacity duration-700 motion-reduce:transition-none',
+                  i === active ? 'opacity-100' : 'opacity-0',
+                )}
+              />
+            ))}
+          </div>
+
+          <SectionHeading
+            number="01"
+            title={title}
+            step={num(active)}
+            stepHidden
+            bleed
+            className="absolute inset-x-0 top-0 xl:top-[193px]"
+          />
+
+          <div className="absolute top-[60px] bottom-0 left-3 w-[calc(49.5%-19px)] overflow-hidden [mask-image:linear-gradient(#000_80%,transparent)] xl:top-0 xl:left-[546px] xl:w-[317px] xl:overflow-visible xl:[mask-image:none]">
+            <div
+              ref={list}
+              className={cn(
+                'flex flex-col gap-12 xl:gap-[72px]',
+                shift.smooth &&
+                  'transition-transform duration-700 ease-in-out motion-reduce:transition-none',
+              )}
+              style={{ transform: `translateY(${shift.value}px)` }}
+            >
+              {ring.map((i, pos) => {
+                const d = pos - (active + 1)
+                return (
+                  <div
+                    key={pos}
+                    aria-hidden={pos === 0 || undefined}
+                    className={cn('relative', fade, Math.abs(d) > 1 && 'opacity-0')}
                   >
-                    {num(i)}
-                  </span>
-                  <FeatureItem title={items[i].title} active={d === 0}>
-                    {items[i].text}
-                  </FeatureItem>
-                </div>
-              )
-            })}
+                    <span
+                      className={cn(
+                        'absolute -top-[23px] left-[111px] text-step-number xl:-top-[54px] xl:left-[291px]',
+                        fade,
+                        d === 0 ? 'text-accent-red' : 'text-accent-red xl:text-accent-beige',
+                      )}
+                    >
+                      {num(i)}
+                    </span>
+                    <FeatureItem title={items[i].title} active={d === 0}>
+                      {items[i].text}
+                    </FeatureItem>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>

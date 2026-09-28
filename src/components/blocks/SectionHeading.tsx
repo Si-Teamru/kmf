@@ -9,18 +9,24 @@ import { StepDivider } from './StepDivider'
  * с отступом 158 (h2 на 48 ниже линии).
  * `step` — номер на линии; `stepHidden` — только место под него (карусель преимуществ рисует
  * номер сама: цифра пункта приезжает на линию).
+ * Номер на линии закреплён (`anchor`): серая линия 99 / xl 665 — номер с x 123 / 837 от края
+ * контейнера, как цифры пунктов карусели; при любой ширине тянется только красная линия.
+ * `bleed` — шире 1920 красная линия выходит за контейнер (max-w 1920 по центру) до края экрана;
+ * обрезать по ширине должен предок во всю ширину экрана.
  */
 export function SectionHeading({
   number,
   title,
   step,
   stepHidden,
+  bleed = false,
   className,
 }: {
   number: string
   title: string
   step?: string
   stepHidden?: boolean
+  bleed?: boolean
   className?: string
 }) {
   return (
@@ -36,7 +42,11 @@ export function SectionHeading({
       <StepDivider
         step={step}
         stepHidden={stepHidden}
-        className="-mr-3 flex [grid-area:line] xl:mr-0 xl:h-20"
+        anchor="w-[99px] xl:w-[665px]"
+        className={cn(
+          '-mr-3 flex [grid-area:line] xl:h-20',
+          bleed ? 'xl:mr-[min(0px,calc(960px-50vw))]' : 'xl:mr-0',
+        )}
       />
       <h2 className="w-[270px] max-w-full text-h2 text-text-heading uppercase [grid-area:title] xl:-ml-0.5 xl:w-[392px]">
         {title}

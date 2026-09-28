@@ -18,11 +18,13 @@ import { StepDivider } from './StepDivider'
  * Порядок элементов на мобильном и десктопе разный, поэтому раскладка — grid-areas:
  * один DOM, без дублирования h1. Десктопная сетка — с xl (1280): 308 + 40 + 479 + 40 + 334
  * не помещается в более узкий экран.
+ * Шире 1440 сетка не растягивается: композиция 1440 из макета стоит по центру экрана,
+ * Step Divider под ней — на всю ширину.
  */
 export function ProjectIntro({ project }: { project: Project }) {
   return (
     <section className="flex flex-col gap-12 xl:pt-12">
-      <div className="grid grid-cols-1 px-container-padding [grid-template-areas:'title'_'gallery'_'designer'_'tasks'] xl:grid-cols-[308px_minmax(0,479px)_334px] xl:grid-rows-[auto_1fr] xl:gap-x-10 xl:[grid-template-areas:'gallery_title_tasks'_'gallery_designer_tasks']">
+      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 px-container-padding [grid-template-areas:'title'_'gallery'_'designer'_'tasks'] xl:grid-cols-[308px_minmax(0,479px)_334px] xl:grid-rows-[auto_1fr] xl:gap-x-10 xl:[grid-template-areas:'gallery_title_tasks'_'gallery_designer_tasks']">
         <div className="flex flex-col gap-4 text-text-primary [grid-area:title] xl:gap-6">
           <h1 className="text-h1">{project.title}</h1>
           <p className="text-body-l-accent">

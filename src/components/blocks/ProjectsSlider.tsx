@@ -35,34 +35,39 @@ export function ProjectsSlider({ cards }: { cards: ProjectCardData[] }) {
  * container gap 23: projects__aside 454 (pt 40, место compact-bar 41 — её роль играет плавающая шапка;
  * текст pt 106: h2 капсом color_text-heading 268 + body-l 335, gap 16; ссылка pt 32)
  * | лента карточек 418×567, gap 16, уходит за правый край экрана.
+ * Фон bg-cream — на всю ширину, содержимое — не шире 1920 и по центру. Стрелки и «Все проекты»
+ * стоят на месте (как на 1440): левая линия 821 (сжимается на узких экранах), на широких тянется
+ * правая линия (от 200) — как на главной.
  */
 function Desktop({ cards }: { cards: ProjectCardData[] }) {
   const track = useRef<HTMLDivElement>(null)
   return (
-    <div className="relative hidden flex-col gap-8 pt-section-gap pb-20 pl-container-padding xl:flex">
+    <div className="relative hidden pt-section-gap pb-20 xl:block">
       <div className="absolute inset-x-0 bottom-0 h-[289px] bg-bg-cream" />
-      <div className="relative flex h-10 items-center gap-6">
-        <ArrowLine className="flex-1" />
-        <div className="flex items-center gap-10">
-          <TrackArrows track={track} />
-          <ButtonCard href={allProjects.href} variant="sand">
-            {allProjects.label}
-          </ButtonCard>
-        </div>
-        <ArrowLine className="w-[200px] shrink-0" />
-      </div>
-      <div className="relative flex items-start gap-[23px]">
-        <div className="flex w-[454px] shrink-0 flex-col pt-10">
-          <div className="h-[41px]" />
-          <div className="flex flex-col gap-4 pt-[106px]">
-            <h2 className="w-[268px] text-h2 text-text-heading uppercase">{title}</h2>
-            <p className="w-[335px] text-body-l text-text-primary">{lead}</p>
+      <div className="relative mx-auto flex max-w-[1920px] flex-col gap-8 pl-container-padding">
+        <div className="flex h-10 items-center gap-6">
+          <ArrowLine className="w-[821px] min-w-0" />
+          <div className="flex shrink-0 items-center gap-10">
+            <TrackArrows track={track} />
+            <ButtonCard href={allProjects.href} variant="sand">
+              {allProjects.label}
+            </ButtonCard>
           </div>
-          <div className="pt-8">
-            <LinkArrow href={showroom.href}>{showroom.label}</LinkArrow>
-          </div>
+          <ArrowLine className="min-w-[200px] flex-1" />
         </div>
-        <Track track={track} cards={cards} className="gap-4" />
+        <div className="flex items-start gap-[23px]">
+          <div className="flex w-[454px] shrink-0 flex-col pt-10">
+            <div className="h-[41px]" />
+            <div className="flex flex-col gap-4 pt-[106px]">
+              <h2 className="w-[268px] text-h2 text-text-heading uppercase">{title}</h2>
+              <p className="w-[335px] text-body-l text-text-primary">{lead}</p>
+            </div>
+            <div className="pt-8">
+              <LinkArrow href={showroom.href}>{showroom.label}</LinkArrow>
+            </div>
+          </div>
+          <Track track={track} cards={cards} className="gap-4" />
+        </div>
       </div>
     </div>
   )

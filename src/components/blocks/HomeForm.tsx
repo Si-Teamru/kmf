@@ -7,6 +7,7 @@ import { home } from '@/data/home'
  * Mobile: pt 32, px 12; номер + h2 в строку (gap 16) → через 24 линия 1px bg-stone → через 32 форма.
  * xl: pt 72, pl container-padding; колонки 640 | линия 1px bg-stone-light | форма 537 (с x 743):
  * номер с y 133, h2 392 с отступом 158 через 11.
+ * Фон — на всю ширину, содержимое — в пределах 1920 по центру (1760 + поля).
  */
 export function HomeForm() {
   const { title } = home.form
@@ -15,7 +16,7 @@ export function HomeForm() {
       aria-label={title}
       className="bg-bg-cream px-3 pt-8 xl:px-container-padding xl:pt-[72px]"
     >
-      <div className="grid [grid-template-areas:'head'_'line'_'form'] xl:grid-cols-[640px_1px_639px] xl:[grid-template-areas:'head_line_form']">
+      <div className="mx-auto grid max-w-[1760px] [grid-template-areas:'head'_'line'_'form'] xl:grid-cols-[640px_1px_639px] xl:[grid-template-areas:'head_line_form']">
         <div className="flex items-center gap-4 [grid-area:head] xl:flex-col xl:items-start xl:gap-[11px] xl:pt-[133px]">
           <span className="text-numeral-type text-text-numeral" aria-hidden>
             03

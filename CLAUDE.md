@@ -58,7 +58,9 @@ npm run generate:importmap  # после добавления кастомных
 - `src/lib/asset.ts` — `asset()` для путей из `public` (basePath для GitHub Pages)
 - `src/styles/tokens.css` — токены (генерируется, руками не править)
 - `public/icons` — иконки кита (SVG), `public/demo` — демо-фото до CMS
-- `scripts/` — export-tokens, clean-figma-svg, check-layout (далее optimize-model, seed)
+- `scripts/` — export-tokens, clean-figma-svg, check-layout (далее optimize-model, seed);
+  `scripts/plan3d/` — конвейер 3D-модели плана из PDF дизайн-проекта (Python + Blender через MCP,
+  просмотрщик), инструкция — [docs/plan-models.md](docs/plan-models.md)
 - `tests/layout/*.json` — спеки сверки с Figma для `npm run check:layout`
 - `CHANGELOG.md` — журнал изменений, дополнять в каждом PR
 

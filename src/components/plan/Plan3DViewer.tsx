@@ -12,7 +12,11 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js'
 
 import { cn } from '@/components/ui/cn'
 
-export type PlanItem = { key: string; title: string }
+/** Габариты изделия по модели, мм: высота, ширина (длинная сторона в плане), глубина. */
+export type PlanItemSize = { height: number; width: number; depth: number }
+export type PlanItem = { key: string; title: string; size: PlanItemSize }
+/** Рамка, в которую вписывается модель, — px относительно холста. Холст может быть больше рамки. */
+export type PlanRect = { x: number; y: number; w: number; h: number }
 export type PlanZone = { key: string; title: string; items: PlanItem[] }
 export type PlanSelection = { zoneKey: string | null; itemKey: string | null }
 
@@ -80,18 +84,22 @@ const edgeShader = {
  * Plan3DViewer — интерактивная 3D-модель плана (GLB по ТЗ KMF: zone--/item--, подписи в extras.title).
  * Ортокамера 45° / 35°, вращение по кругу (снизу не заглянуть), контуры и AO, подсветка и плашка
  * с названием у курсора. Выбор — снаружи (`selection`), клик по модели сообщает `onSelect`.
+ * `frame` — где на холсте стоит модель: холст бывает шире рамки (модель не обрезается при вращении),
+ * смена рамки анимируется — так модель «отъезжает» и уменьшается при открытой вкладке.
  */
 export function Plan3DViewer({
   src,
   selection,
   onSelect,
   onZones,
+  frame,
   className,
 }: {
   src: string
   selection: PlanSelection
   onSelect: (s: PlanSelection) => void
   onZones?: (zones: PlanZone[]) => void
+  frame?: PlanRect | null
   className?: string
 }) {
   const hostRef = useRef<HTMLDivElement>(null)
@@ -99,11 +107,13 @@ export function Plan3DViewer({
   const apiRef = useRef<{ select: (s: PlanSelection) => void } | null>(null)
   const onSelectRef = useRef(onSelect)
   const onZonesRef = useRef(onZones)
+  const frameRef = useRef(frame)
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     onSelectRef.current = onSelect
     onZonesRef.current = onZones
+    frameRef.current = frame
   })
 
   useEffect(() => {
@@ -174,19 +184,32 @@ export function Plan3DViewer({
     composer.addPass(edgePass)
     composer.addPass(new OutputPass())
 
+    // Текущая рамка модели (анимируется к frameRef). Без рамки — весь холст.
+    let cur: PlanRect | null = null
+    const targetRect = (): PlanRect =>
+      frameRef.current ?? { x: 0, y: 0, w: host.clientWidth, h: host.clientHeight }
+    const applyCamera = () => {
+      const W = host.clientWidth
+      const H = host.clientHeight
+      if (!W || !H || !cur) return
+      const view = Math.max(fit * 0.72, (fit * 1.15) / (cur.w / cur.h)) // мир по высоте рамки
+      const u = view / cur.h // мир на 1 px
+      const cx = cur.x + cur.w / 2
+      const cy = cur.y + cur.h / 2
+      Object.assign(camera, {
+        left: -cx * u,
+        right: (W - cx) * u,
+        top: cy * u,
+        bottom: -(H - cy) * u,
+      })
+      camera.updateProjectionMatrix()
+    }
     const resize = () => {
       const w = host.clientWidth
       const h = host.clientHeight
       if (!w || !h) return
-      const a = w / h
-      const view = Math.max(fit * 0.72, (fit * 1.15) / a)
-      Object.assign(camera, {
-        left: (-view * a) / 2,
-        right: (view * a) / 2,
-        top: view / 2,
-        bottom: -view / 2,
-      })
-      camera.updateProjectionMatrix()
+      cur = targetRect()
+      applyCamera()
       renderer.setSize(w, h)
       composer.setSize(w, h)
       gtao.setSize(w * dpr, h * dpr)
@@ -247,9 +270,16 @@ export function Plan3DViewer({
       model.traverse((o) => {
         if (!o.name.startsWith('zone--')) return
         const items: PlanItem[] = []
-        o.traverse(
-          (c) => c.name.startsWith('item--') && items.push({ key: keyOf(c), title: titleOf(c) }),
-        )
+        o.traverse((c) => {
+          if (!c.name.startsWith('item--')) return
+          const s = new THREE.Box3().setFromObject(c).getSize(new THREE.Vector3())
+          const mm = (v: number) => Math.round(v * 100) * 10
+          items.push({
+            key: keyOf(c),
+            title: titleOf(c),
+            size: { height: mm(s.y), width: mm(Math.max(s.x, s.z)), depth: mm(Math.min(s.x, s.z)) },
+          })
+        })
         zones.push({ key: keyOf(o), title: titleOf(o), items })
       })
       onZonesRef.current?.(zones)
@@ -311,6 +341,25 @@ export function Plan3DViewer({
     canvas.addEventListener('pointerup', onUp)
 
     renderer.setAnimationLoop(() => {
+      // плавный переезд рамки модели (≈0,4 с)
+      const t = targetRect()
+      if (
+        cur &&
+        Math.abs(cur.x - t.x) +
+          Math.abs(cur.y - t.y) +
+          Math.abs(cur.w - t.w) +
+          Math.abs(cur.h - t.h) >
+          0.5
+      ) {
+        const k = 0.14
+        cur = {
+          x: cur.x + (t.x - cur.x) * k,
+          y: cur.y + (t.y - cur.y) * k,
+          w: cur.w + (t.w - cur.w) * k,
+          h: cur.h + (t.h - cur.h) * k,
+        }
+        applyCamera()
+      }
       controls.update()
       if (!model) return
       const bg = scene.background

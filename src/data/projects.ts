@@ -30,6 +30,8 @@ export type Project = {
   solution: string
   gallery: GalleryItem[]
   review?: Review
+  /** Блок «План проекта»: GLB из `public` по ТЗ KMF и параметры справа (пока — тестовая страница). */
+  plan?: { model: string; facts: Array<{ label: string; value: string }> }
 }
 
 const dir = '/demo/mytishchi'
@@ -46,6 +48,15 @@ export const projects: Project[] = [
     slug: 'mytishchi-prospekt-astrakhova',
     title: 'Мытищи. Проспект Астрахова',
     meta: ['Бюджет до 1 340 000 ₽', 'Срок — 64 дня.'],
+    plan: {
+      model: '/plan-demo/mytishchi-astakhova.glb',
+      facts: [
+        { label: 'Тип проекта', value: 'Квартира' },
+        { label: 'Стиль', value: 'Модерн' },
+        { label: 'Бюджет', value: '1 340 000 ₽' },
+        { label: 'Срок реализации', value: '64 дня' },
+      ],
+    },
     designer: {
       name: 'Анна Иванова',
       socials: [{ network: 'telegram', href: 'https://t.me/' }],

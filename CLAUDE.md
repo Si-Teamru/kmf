@@ -51,13 +51,17 @@ npm run generate:importmap  # после добавления кастомных
   `ConsentBanner` (согласие на текстовые файлы данных: баннер + панель настроек, в layout)
 - `src/lib/consent.ts` — выбор пользователя по категориям (`kmf_consent`, 12 месяцев). Аналитику и
   рекламу подключать только при `hasConsent(...)` и слушать `CONSENT_EVENT`
-- `src/components/plan/` — PlanBlock, Plan3DViewer, PlanImageViewer, PlanPanel (этап 3)
+- `src/components/plan/` — `PlanBlock` (секция «План проекта»: вкладки зон, панель, карточка изделия,
+  параметры) и `Plan3DViewer` (three.js: GLB, контуры, AO, подсветка, плашка); пока подключены только
+  на тестовой копии страницы `/projects/[slug]/plan-3d/`. Далее — PlanImageViewer (режим картинки)
+- `public/plan-demo/` — отдельная страница-просмотрщик тестовой модели и её GLB (вне Next)
 - `src/data/` — статические данные до CMS (`site.ts` — контакты/меню, `projects.ts` — проекты,
   `home.ts` — главная);
   поля повторяют будущие коллекции Payload
 - `src/lib/asset.ts` — `asset()` для путей из `public` (basePath для GitHub Pages)
 - `src/styles/tokens.css` — токены (генерируется, руками не править)
-- `public/icons` — иконки кита (SVG), `public/demo` — демо-фото до CMS
+- `public/icons` — иконки кита (SVG), в т.ч. иконки зон плана `plan-zone-<ключ>.svg`;
+  `public/demo` — демо-фото до CMS
 - `scripts/` — export-tokens, clean-figma-svg, check-layout (далее optimize-model, seed);
   `scripts/plan3d/` — конвейер 3D-модели плана из PDF дизайн-проекта (Python + Blender через MCP,
   просмотрщик), инструкция — [docs/plan-models.md](docs/plan-models.md)

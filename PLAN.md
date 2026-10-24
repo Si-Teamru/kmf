@@ -116,7 +116,9 @@ kmf-site/
   планшет — ждут макета. Отправка форм — этап 2.
 - 🟡 **Этап 3** — тестовая 3D-модель квартиры (ЖК Новое Медведково) собрана из PDF дизайн-проекта
   в Blender по ТЗ KMF и проверена в отдельном просмотрщике; ключи тестовые. Как делать —
-  [docs/plan-models.md](docs/plan-models.md), скрипты — `scripts/plan3d/`. Блок плана на сайте не начат.
+  [docs/plan-models.md](docs/plan-models.md), скрипты — `scripts/plan3d/`. Блок плана по макету
+  KMF-to-dev `1:61` сверстан тестово на копии страницы проекта `/projects/[slug]/plan-3d/`
+  (`PlanBlock`, `Plan3DViewer` на three.js); основная страница пока с заглушкой.
 - ⬜ Этапы 2, 4–6 — не начаты.
 - Витрина для показа: https://si-teamru.github.io/kmf/projects/mytishchi-prospekt-astrakhova/
 

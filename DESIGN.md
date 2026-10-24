@@ -36,6 +36,11 @@
   `06` формы `13:14`, `07` карточки и контент `14:40`, `08` навигация (шапка, подвал, заголовки секций)
   `16:70`, `09` план проекта `19:146`, `10` медиа и первый экран `19:484`, `11` план: состояния `30:148`,
   `12` попапы и лайтбокс `79:448`, `13` текстовые файлы данных `94:452`.
+- **Блок «План проекта» на 3D-модели** — отдельный файл `0nFEdW1yKLKVJ6unzAWOot` (KMF-to-dev),
+  узел `1:61` (1440×878): вкладки зон слева, модель 960×622, Info Chip справа. Сверстан тестово на
+  копии страницы проекта `/projects/[slug]/plan-3d/`. Вкладок в макете 4 (кухня, спальня, санузел,
+  прихожая), мобильной версии и раскрытой вкладки нет — раскрытие сделано по варианту «Horizontal
+  Plan», нужно согласовать.
 - **Фреймы «к вёрстке»** (страница `22:2`): проект desktop `23:2`, mobile `27:254`. Секции
   (desktop / mobile): шапка `23:3` / `27:255`, intro `23:35` / `27:270`, план `23:92` / `27:373`,
   галерея `23:118` / `27:460`, проекты `23:191` / `27:506`, подвал `23:277` / `27:551`.
@@ -156,6 +161,7 @@ Desktop/Mobile переключаются сами. Исключение: `text_
 | Lightbox Thumb `79:1418`                                                                                                     | в `popups/Lightbox`                                                       |                                                           |
 | Cookie Category `95:499`                                                                                                     | в `popups/ConsentBanner`                                                  |                                                           |
 | Section Heading `17:138` / `17:147`, Hero Photo `116:463`, Hero Thumb `116:466` (Size=Desktop/Mobile)                        | `blocks/SectionHeading`, `blocks/HomeHero` (+ `HeroSlider`)               | h2 на 48 ниже линии                                       |
+| Plan Block 3D (KMF-to-dev `1:61`)                                                                                            | `plan/PlanBlock` + `plan/Plan3DViewer` (client, three.js)                 | тест; язычки вкладок — `public/icons/plan-tab-*.svg`      |
 | Zone Tab, Plan List Item, Panel Header, Product Info, Dimension Row, Product Sketch, Accordion Item, Photo Strip, Plan Block | —                                                                         | план, этап 3 (`src/components/plan/`)                     |
 
 Витрина всех примитивов — `/ui-kit` (только dev). Новый примитив — добавить туда доской с тем же

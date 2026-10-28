@@ -47,7 +47,7 @@ export function HeaderDesktop() {
   const logo = (
     <motion.div layoutId="header-logo" transition={transition} className="shrink-0">
       <Link href="/" aria-label="KMF — на главную" className="block">
-        <Icon name="logo-desktop-51" className={compact && !home ? 'size-[41px]' : undefined} />
+        <Icon name="logo-desktop-51" className={compact && !home ? 'h-[22px] w-auto' : undefined} />
       </Link>
     </motion.div>
   )

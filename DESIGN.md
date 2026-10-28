@@ -146,7 +146,7 @@ Desktop/Mobile переключаются сами. Исключение: `text_
 | Info Chip `15:65`, Feature Item `15:82`, Text Block `15:90`, Designer Line `15:93`                                           | `InfoChip`, `FeatureItem`, `TextBlock`, `DesignerLine`                    |                                                           |
 | Review `15:113`                                                                                                              | `Review` (`lines`, `more`, `quoteRef`) + `blocks/ProjectReview`           | цитата до 5 строк, «Весь отзыв +» только если длиннее     |
 | Social/* 36 и 22                                                                                                             | `SocialLink`                                                              |                                                           |
-| Logo/*, иконки доски 04                                                                                                      | `Icon name="…"`                                                           | реестр размеров в `Icon.tsx`                              |
+| Logo/*, иконки доски 04                                                                                                      | `Icon name="…"`                                                           | реестр размеров в `Icon.tsx`; логотип — ниже              |
 | Icon Button / Close `79:455` (Light/Inverse)                                                                                 | `IconButtonClose` (`tone`)                                                | 40×40, крестик 20                                         |
 | Icon/Slider Arrows `11:269`                                                                                                  | `SliderArrows` (client)                                                   | см. §5                                                    |
 | Toggle `94:486` (Off/On)                                                                                                     | `Toggle`                                                                  | checkbox `role="switch"`                                  |
@@ -163,6 +163,10 @@ Desktop/Mobile переключаются сами. Исключение: `text_
 | Section Heading `17:138` / `17:147`, Hero Photo `116:463`, Hero Thumb `116:466` (Size=Desktop/Mobile)                        | `blocks/SectionHeading`, `blocks/HomeHero` (+ `HeroSlider`)               | h2 на 48 ниже линии                                       |
 | Plan Block 3D (KMF-to-dev `1:61`, `1:675`, `1:849`, `137:2`)                                                                 | `plan/PlanBlock` + `plan/Plan3DViewer` (client, three.js)                 | тест; иконки зон — `public/icons/plan-zone-*.svg`         |
 | Zone Tab, Plan List Item, Panel Header, Product Info, Dimension Row, Product Sketch, Accordion Item, Photo Strip, Plan Block | —                                                                         | план, этап 3 (`src/components/plan/`)                     |
+
+**Логотип** (`Logo/Desktop 51` `11:169`, `Logo/Mobile 24` `11:183`, `Logo/Footer 60` `11:176`): в шапке —
+знак «К.МФ» без подписи (≈2,86 : 1), в подвале — с подписью «Мебель от фабрики» снизу (≈1,52 : 1). Число в
+имени — прежняя высота, а не размер; размер в коде задавать высотой (`h-*` + `w-auto`).
 
 Витрина всех примитивов — `/ui-kit` (только dev). Новый примитив — добавить туда доской с тем же
 номером, что в ките, и сверить с Figma.
@@ -284,6 +288,23 @@ Desktop/Mobile переключаются сами. Исключение: `text_
 - Состояния (hover, открытые попапы, свайп) — одноразовым Playwright-скриптом со скриншотами 1440 и
   360; запускать из папки проекта, `PLAYWRIGHT_BROWSERS_PATH=D:\dev-cache\ms-playwright`, скрипт удалить.
 - После правок примитивов — посмотреть `/ui-kit` глазами.
+- **Сверка нового блока — по числам, не по картинке:** `getComputedStyle` сверстанных элементов против
+  `get_design_context` / `get_variable_defs` того же узла; опорный кадр — `get_screenshot` самого узла
+  прямо перед сверкой (макет могли поправить). Отчёт — три списка: совпало / в пределах округления /
+  разошлось (пустой список писать явно), «как должно быть» — значениями из макета.
+- **Известные расхождения Figma и браузера** (не дефект вёрстки, не чинить координатами):
+  - коробка совпала, а текст внутри на пару px ниже — метрики шрифта; локальная коррекция `translate-y` с
+    проверкой пиксельным diff;
+  - Figma округляет межстрочный до целого (1.4 × 16 = 22.4 → 22) — если высота коробки в макете круглая,
+    ставить целый `line-height`;
+  - у повёрнутых слоёв координаты `get_metadata` и `get_design_context` расходятся — верить
+    `get_design_context`;
+  - составные фото с масками — экспортом узла (`download_assets`), а не послойно; экспорт приходит с
+    запечённым фоном.
+- **Анимации — покадрово:** значение через `requestAnimationFrame` до действия, в середине перехода и после
+  (в середине — строго между крайними), в обе стороны; отдельно `reducedMotion: 'reduce'` → `0s`.
+- **Ложные срабатывания замеров:** у кнопки сравнивать фрейм кнопки, а не TEXT внутри; градиентный фон —
+  пикселем со скрина; цвет мелочей с прозрачным родителем — пикселем.
 
 ## 11. Грабли вёрстки
 
@@ -301,6 +322,14 @@ Desktop/Mobile переключаются сами. Исключение: `text_
 - Страницы в `(site)` собираются статически (витрина Pages): без cookies/headers/серверных API во
   время запроса; то, что зависит от браузера (cookie согласия), — через `useSyncExternalStore` с
   серверным снимком, чтобы не было расхождения гидрации.
+- `scroll-snap` с левым отступом привязывает первую карточку к краю — нужен `scroll-padding-left` с тем
+  же значением.
+- **Несколько агентов на одной странице:** один агент — один компонент и своя папка ассетов; токены,
+  `globals.css`, страница и отступы между секциями — только у ведущего; у каждого агента свой порт
+  `next dev -p <порт>`. В worktree `node_modules` — junction на основной проект, удалять его **только
+  `cmd /c rmdir`**: `Remove-Item -Recurse` и `git worktree remove --force` стирают `node_modules`
+  основного проекта. Перед коммитом — `git diff --stat`: весь файл в диффе при маленькой правке — это
+  переводы строк (`.gitattributes` держит LF).
 
 ## 12. Правки в Figma через MCP
 

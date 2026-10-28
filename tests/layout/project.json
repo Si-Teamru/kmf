@@ -4,7 +4,7 @@
   "notes": "intro-tasks @1440: допуск 4 — два текстовых блока дают +1..2px округления межстрочного каждый",
   "viewports": {
     "1440": {
-      "header-logo": ["header a[aria-label='KMF — на главную']", [24, 12, 51, 51]],
+      "header-logo": ["header a[aria-label='KMF — на главную']", [24, 24, 77, 27]],
       "intro-h1": ["main > section:first-child h1", [428, 123, 479, 100]],
       "intro-gallery": ["main > section:first-child > div > :nth-child(2)", [80, 123, 308, 308]],
       "intro-designer": [
@@ -46,12 +46,12 @@
       "footer-social": ["footer > div:first-child a[aria-label='Instagram']", [80, 9049, 36, 36]],
       "footer-logo": [
         "footer > div:first-child a[aria-label='KMF — на главную']",
-        [1027, 9015, 60, 60]
+        [996, 9015, 91, 60]
       ]
     },
     "360": {
       "header": ["header > div:last-child", [0, 0, 360, 56]],
-      "header-logo": ["header > div:last-child a", [12, 12, 32, 32]],
+      "header-logo": ["header > div:last-child a", [12, 20, 49, 17]],
       "header-burger": ["header > div:last-child button", [316, 12, 32, 32]],
       "intro-h1": ["main > section:first-child h1", [12, 56, 336, 26]],
       "intro-gallery": ["main > section:first-child > div > :nth-child(2)", [12, 166, 336, 336]],

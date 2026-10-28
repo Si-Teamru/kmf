@@ -7,9 +7,9 @@ import { asset } from '@/lib/asset'
  * и очищены `scripts/clean-figma-svg.mjs`; размеры — как у компонентов в Figma.
  */
 export const icons = {
-  'logo-desktop-51': [51, 51],
-  'logo-footer-60': [60, 60],
-  'logo-mobile-24': [24, 24],
+  'logo-desktop-51': [78, 28],
+  'logo-footer-60': [92, 60],
+  'logo-mobile-24': [37, 13],
   'cta-arrow-red': [40, 41],
   'arrow-outline-45': [45, 45],
   'burger-mobile': [24, 24],

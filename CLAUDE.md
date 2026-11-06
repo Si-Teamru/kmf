@@ -20,7 +20,8 @@
 - Tailwind CSS 4 + CSS-переменные из UI-kit Figma (`src/styles/tokens.css`)
 - Анимации: `motion` (`motion/react`) — шапка Desktop ↔ Compact через `layoutId`; `gsap` (ScrollTrigger +
   Observer) — закреплённые секции с пошаговым листанием (карусель преимуществ на главной)
-- 3D: React Three Fiber + drei (этап 3)
+- 3D: `three` напрямую (`Plan3DViewer`: GLTFLoader, OrbitControls, GTAO, контуры), без React Three Fiber
+- Оценка сроков — глобальный скилл `task-estimate` (факты прошлых проектов, а не «как человек»)
 - Пакетный менеджер: **npm** (lockfile `package-lock.json`)
 
 ## Команды

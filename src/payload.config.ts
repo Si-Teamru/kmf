@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { ru } from '@payloadcms/translations/languages/ru'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -18,7 +19,14 @@ const required = (name: string) => {
   return value
 }
 
+// Адрес сайта: Payload принимает куку входа только с запросов отсюда (CSRF). На сервере — https://домен.
+const serverURL = process.env.NEXT_PUBLIC_SERVER_URL
+
 export default buildConfig({
+  serverURL,
+  csrf: serverURL ? [serverURL] : [],
+  // Только русский: админкой пользуется фабрика, переключатель языка не нужен.
+  i18n: { supportedLanguages: { ru }, fallbackLanguage: 'ru' },
   // GraphQL сайту не нужен, а вход через него обходит лимиты на /api/users/login.
   graphQL: { disable: true },
   telemetry: false, // иначе при сборке и запуске данные о проекте уходят на telemetry.payloadcms.com
@@ -39,6 +47,6 @@ export default buildConfig({
       connectionString: required('DATABASE_URL'),
     },
   }),
-  sharp,
+  sharp, // сжатие фото при загрузке в Media
   plugins: [],
 })

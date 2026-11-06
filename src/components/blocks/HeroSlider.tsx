@@ -95,6 +95,11 @@ export function HeroSlider({ slides, className }: { slides: HeroSlide[]; classNa
         drag.current = null
         setPaused(false)
       }}
+      // Отпустили кнопку за пределами слайдера — pointerup сюда не придёт, автосмена встала бы навсегда.
+      onPointerLeave={() => {
+        drag.current = null
+        setPaused(false)
+      }}
       onClickCapture={(e) => {
         if (!suppressClick.current) return
         suppressClick.current = false

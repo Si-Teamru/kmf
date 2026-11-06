@@ -29,6 +29,7 @@
 npm run db:up        # Postgres в Docker
 npm run dev          # http://localhost:3000, админка /admin
 npm run lint && npm run typecheck && npm run format:check
+npm test                    # unit-тесты vitest: src/**/*.test.ts рядом с кодом (в CI)
 npm run build
 npm run check:layout        # сверка вёрстки с координатами Figma (нужен запущенный dev)
 npm run tokens              # пересобрать src/styles/tokens.css из scripts/figma/variables.json
@@ -48,6 +49,8 @@ npm run generate:importmap  # после добавления кастомных
 - `src/components/popups/` — `Popup` (каркас на `<dialog>`), `PopupHost` (попапы «Отправить проект» /
   «Записаться в выставочный зал», в layout; открываются любой ссылкой на `#send-project` / `#showroom`),
   `Lightbox` (лайтбокс галереи: `LightboxProvider` + `LightboxTrigger`), `lockScroll`,
+  `modal.ts` (`useModal` — открыть `<dialog>` и заблокировать прокрутку, `interceptLinks` — клики по
+  ссылкам в фазе захвата раньше `next/link`),
   `ConsentBanner` (согласие на текстовые файлы данных: баннер + панель настроек, в layout)
 - `src/lib/consent.ts` — выбор пользователя по категориям (`kmf_consent`, 12 месяцев). Аналитику и
   рекламу подключать только при `hasConsent(...)` и слушать `CONSENT_EVENT`

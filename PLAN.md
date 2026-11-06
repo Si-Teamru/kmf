@@ -154,6 +154,11 @@ kmf-site/
   Payload Local API, витрина с GitHub Pages переезжает на прод VPS (отдельного staging пока нет —
   сайт только запускается, деплоим сразу на прод, см. этап 5 и раздел «Staging» ниже).
   Структуру данных держать как в `src/data/projects.ts` — она уже повторяет будущую коллекцию.
+- Схема — только миграциями: `push: false` в `postgresAdapter`, `dev` = `payload migrate && next dev`,
+  `prodMigrations`. После dev-режима с push сборка зависает на вопросе «data loss… (y/N)» (так было
+  в Starfest, `tech/nextjs-payload.md`). Включить до первой коллекции.
+- Перед выдачей админки клиенту — почтовый адаптер (`@payloadcms/email-nodemailer`), иначе «Забыли
+  пароль?» уходит в лог сервера.
 
 **3. Интерактивный план (5–8 дней)**
 
@@ -180,6 +185,10 @@ kmf-site/
   от внешнего CA.
 - Compose-сервисы: `app` (образ из GHCR), `postgres`, `caddy`, volume для медиа.
 - Бэкапы: ежедневный `pg_dump` + архив медиа (restic в S3 или на второй диск).
+- **Первого администратора — до открытия порта наружу.** Пока в базе нет пользователей, `/admin`
+  предлагает создать первого, и админом становится любой, кто зайдёт первым. Поднять стек без Caddy,
+  создать админа `POST /api/users/first-register` изнутри сервера (`docker compose exec`, пароль из
+  окружения), потом включить Caddy; повторный вызов отвечает 403.
 - GitHub Actions `deploy.yml`: build → push в GHCR → `ssh docker compose pull && up -d` → миграции Payload.
 - На старте — без staging, деплоим `main` сразу на прод: перед миграциями БД делать `pg_dump`
   вручную/в CI, чтобы был откат; полный набор проверок (`lint`, `typecheck`, `build`,

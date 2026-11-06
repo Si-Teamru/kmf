@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useRef, type ReactNode } from 'react'
 
 import { cn, IconButtonClose } from '@/components/ui'
 
-import { lockScroll } from './lockScroll'
+import { useModal } from './modal'
 
 /**
  * Каркас попапа (секция «Попапы и лайтбокс — к вёрстке», страница 22:2) на нативном `<dialog>`:
@@ -33,14 +33,7 @@ export function Popup({
 }) {
   const dialog = useRef<HTMLDialogElement>(null)
 
-  useEffect(() => {
-    const el = dialog.current
-    if (!el) return
-    if (open && !el.open) el.showModal()
-    else if (!open && el.open) el.close()
-  }, [open])
-
-  useEffect(() => (open ? lockScroll() : undefined), [open])
+  useModal(dialog, open)
 
   return (
     <dialog

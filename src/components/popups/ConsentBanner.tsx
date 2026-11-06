@@ -14,7 +14,7 @@ import {
   type ConsentCategory,
 } from '@/lib/consent'
 
-import { lockScroll } from './lockScroll'
+import { interceptLinks, useModal } from './modal'
 
 const privacy = site.legal[0]
 const filesPolicy = site.legal[2]
@@ -73,31 +73,19 @@ export function ConsentBanner() {
 
   useEffect(() => {
     const frame = location.hash.slice(1) === settingsHash ? requestAnimationFrame(openSettings) : 0
-    const onClick = (e: MouseEvent) => {
-      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return
-      const a = (e.target as Element).closest?.('a[href]')
-      if (!(a instanceof HTMLAnchorElement) || new URL(a.href).hash.slice(1) !== settingsHash)
-        return
-      // Перехват раньше next/link — хэш в адрес не пишем, просто открываем панель.
-      e.preventDefault()
-      e.stopPropagation()
+    // Хэш в адрес не пишем, просто открываем панель.
+    const unlisten = interceptLinks((url) => {
+      if (url.hash.slice(1) !== settingsHash) return false
       openSettings()
-    }
-    document.addEventListener('click', onClick, true)
+      return true
+    })
     return () => {
       cancelAnimationFrame(frame)
-      document.removeEventListener('click', onClick, true)
+      unlisten()
     }
   }, [])
 
-  useEffect(() => {
-    const el = dialog.current
-    if (!el) return
-    const open = mode === 'settings'
-    if (open && !el.open) el.showModal()
-    else if (!open && el.open) el.close()
-    return open ? lockScroll() : undefined
-  }, [mode])
+  useModal(dialog, mode === 'settings')
 
   const decide = (value: Choice) => {
     saveConsent(value)

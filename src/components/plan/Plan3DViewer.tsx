@@ -108,7 +108,7 @@ export function Plan3DViewer({
   const onSelectRef = useRef(onSelect)
   const onZonesRef = useRef(onZones)
   const frameRef = useRef(frame)
-  const [loaded, setLoaded] = useState(false)
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
 
   useEffect(() => {
     onSelectRef.current = onSelect
@@ -125,6 +125,7 @@ export function Plan3DViewer({
     renderer.setPixelRatio(dpr)
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    renderer.shadowMap.autoUpdate = false // сцена неподвижна: тени считаются один раз после загрузки
     host.prepend(renderer.domElement)
     const canvas = renderer.domElement
     canvas.style.display = 'block'
@@ -238,53 +239,63 @@ export function Plan3DViewer({
     }
 
     let disposed = false
-    new GLTFLoader().load(src, (gltf) => {
-      if (disposed) return
-      model = gltf.scene
-      model.traverse((o) => {
-        const mesh = o as THREE.Mesh
-        if (!mesh.isMesh) return
-        const mats = materials(mesh).map((m) => m.clone())
-        mesh.material = mats.length === 1 ? mats[0] : mats
-        mesh.castShadow = !mats.some((m) => m.transparent)
-        mesh.receiveShadow = true
-      })
-      scene.add(model)
-      const box = new THREE.Box3().setFromObject(model)
-      const center = box.getCenter(new THREE.Vector3())
-      const size = box.getSize(new THREE.Vector3())
-      fit = Math.max(size.x, size.z)
-      const tilt = THREE.MathUtils.degToRad(35)
-      const dir = new THREE.Vector3(
-        -Math.cos(tilt) * Math.SQRT1_2,
-        Math.sin(tilt),
-        Math.cos(tilt) * Math.SQRT1_2,
-      )
-      controls.target.copy(center)
-      camera.position.copy(center).addScaledVector(dir, 40)
-      sun.position.copy(center).add(new THREE.Vector3(-6, 12, 8))
-      sun.target.position.copy(center)
-      resize()
-
-      const zones: PlanZone[] = []
-      model.traverse((o) => {
-        if (!o.name.startsWith('zone--')) return
-        const items: PlanItem[] = []
-        o.traverse((c) => {
-          if (!c.name.startsWith('item--')) return
-          const s = new THREE.Box3().setFromObject(c).getSize(new THREE.Vector3())
-          const mm = (v: number) => Math.round(v * 100) * 10
-          items.push({
-            key: keyOf(c),
-            title: titleOf(c),
-            size: { height: mm(s.y), width: mm(Math.max(s.x, s.z)), depth: mm(Math.min(s.x, s.z)) },
-          })
+    new GLTFLoader().load(
+      src,
+      (gltf) => {
+        if (disposed) return
+        model = gltf.scene
+        model.traverse((o) => {
+          const mesh = o as THREE.Mesh
+          if (!mesh.isMesh) return
+          const mats = materials(mesh).map((m) => m.clone())
+          mesh.material = mats.length === 1 ? mats[0] : mats
+          mesh.castShadow = !mats.some((m) => m.transparent)
+          mesh.receiveShadow = true
         })
-        zones.push({ key: keyOf(o), title: titleOf(o), items })
-      })
-      onZonesRef.current?.(zones)
-      setLoaded(true)
-    })
+        scene.add(model)
+        const box = new THREE.Box3().setFromObject(model)
+        const center = box.getCenter(new THREE.Vector3())
+        const size = box.getSize(new THREE.Vector3())
+        fit = Math.max(size.x, size.z)
+        const tilt = THREE.MathUtils.degToRad(35)
+        const dir = new THREE.Vector3(
+          -Math.cos(tilt) * Math.SQRT1_2,
+          Math.sin(tilt),
+          Math.cos(tilt) * Math.SQRT1_2,
+        )
+        controls.target.copy(center)
+        camera.position.copy(center).addScaledVector(dir, 40)
+        sun.position.copy(center).add(new THREE.Vector3(-6, 12, 8))
+        sun.target.position.copy(center)
+        renderer.shadowMap.needsUpdate = true
+        resize()
+
+        const zones: PlanZone[] = []
+        model.traverse((o) => {
+          if (!o.name.startsWith('zone--')) return
+          const items: PlanItem[] = []
+          o.traverse((c) => {
+            if (!c.name.startsWith('item--')) return
+            const s = new THREE.Box3().setFromObject(c).getSize(new THREE.Vector3())
+            const mm = (v: number) => Math.round(v * 100) * 10
+            items.push({
+              key: keyOf(c),
+              title: titleOf(c),
+              size: {
+                height: mm(s.y),
+                width: mm(Math.max(s.x, s.z)),
+                depth: mm(Math.min(s.x, s.z)),
+              },
+            })
+          })
+          zones.push({ key: keyOf(o), title: titleOf(o), items })
+        })
+        onZonesRef.current?.(zones)
+        setStatus('ready')
+      },
+      undefined,
+      () => !disposed && setStatus('error'),
+    )
 
     const ray = new THREE.Raycaster()
     const ptr = new THREE.Vector2()
@@ -340,7 +351,7 @@ export function Plan3DViewer({
     canvas.addEventListener('pointerdown', onDown)
     canvas.addEventListener('pointerup', onUp)
 
-    renderer.setAnimationLoop(() => {
+    const frameLoop = () => {
       // плавный переезд рамки модели (≈0,4 с)
       const t = targetRect()
       if (
@@ -373,16 +384,34 @@ export function Plan3DViewer({
       scene.overrideMaterial = null
       scene.background = bg
       composer.render()
-    })
+    }
+    // Кадр — четыре прохода (тени, нормали, AO, контуры): блок за экраном не рисуем.
+    const io = new IntersectionObserver(([e]) =>
+      renderer.setAnimationLoop(e.isIntersecting ? frameLoop : null),
+    )
+    io.observe(host)
 
     return () => {
       disposed = true
       ro.disconnect()
+      io.disconnect()
       renderer.setAnimationLoop(null)
       controls.dispose()
+      model?.traverse((o) => {
+        const mesh = o as THREE.Mesh
+        if (!mesh.isMesh) return
+        mesh.geometry.dispose()
+        for (const m of materials(mesh)) {
+          for (const v of Object.values(m)) if (v instanceof THREE.Texture) v.dispose()
+          m.dispose()
+        }
+      })
+      gtao.dispose()
+      normalMaterial.dispose()
       composer.dispose()
       normalTarget.dispose()
       renderer.dispose()
+      renderer.forceContextLoss()
       canvas.remove()
       apiRef.current = null
     }
@@ -390,7 +419,7 @@ export function Plan3DViewer({
 
   useEffect(() => {
     apiRef.current?.select(selection)
-  }, [selection, loaded])
+  }, [selection, status])
 
   return (
     <div ref={hostRef} className={cn('relative overflow-hidden', className)}>
@@ -399,9 +428,9 @@ export function Plan3DViewer({
         aria-hidden
         className="pointer-events-none absolute top-0 left-0 rounded-full bg-bg-cream px-5 py-2.5 text-body-l whitespace-nowrap text-text-primary opacity-0 transition-opacity duration-200"
       />
-      {!loaded && (
+      {status !== 'ready' && (
         <div className="absolute inset-0 grid place-items-center text-caption text-text-secondary">
-          Загрузка модели…
+          {status === 'loading' ? 'Загрузка модели…' : 'Не удалось загрузить модель'}
         </div>
       )}
     </div>

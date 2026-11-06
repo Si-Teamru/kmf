@@ -1,12 +1,11 @@
 import { defineConfig } from 'vitest/config'
-import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
+// Unit-тесты лежат рядом с кодом: src/**/*.test.ts. Браузерные проверки — scripts/check-layout.mjs.
 export default defineConfig({
-  plugins: [tsconfigPaths(), react()],
+  plugins: [tsconfigPaths()],
   test: {
     environment: 'jsdom',
-    setupFiles: ['./vitest.setup.ts'],
-    include: ['tests/int/**/*.int.spec.ts'],
+    include: ['src/**/*.test.ts'],
   },
 })

@@ -6,6 +6,7 @@ import { StepDivider } from '@/components/blocks/StepDivider'
 import { ButtonCta, FormConsent, FormField, FormUpload, NavLink } from '@/components/ui'
 import { site } from '@/data/site'
 
+import { interceptLinks } from './modal'
 import { Popup } from './Popup'
 
 const popups = {
@@ -38,25 +39,18 @@ export function PopupHost() {
       const hash = location.hash.slice(1)
       if (isPopupKey(hash)) setOpen(hash)
     }
-    const onClick = (e: MouseEvent) => {
-      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return
-      const a = (e.target as Element).closest?.('a[href]')
-      if (!(a instanceof HTMLAnchorElement)) return
-      const url = new URL(a.href)
+    const unlisten = interceptLinks((url) => {
       const hash = url.hash.slice(1)
-      if (url.pathname !== location.pathname || !isPopupKey(hash)) return
-      // Перехват в фазе захвата — раньше next/link, который сам сменил бы хэш без hashchange.
-      e.preventDefault()
-      e.stopPropagation()
+      if (url.pathname !== location.pathname || !isPopupKey(hash)) return false
       history.replaceState(history.state, '', `#${hash}`)
       setOpen(hash)
-    }
+      return true
+    })
     fromHash()
     window.addEventListener('hashchange', fromHash)
-    document.addEventListener('click', onClick, true)
     return () => {
       window.removeEventListener('hashchange', fromHash)
-      document.removeEventListener('click', onClick, true)
+      unlisten()
     }
   }, [])
 

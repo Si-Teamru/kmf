@@ -5,9 +5,7 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
   },
-  auth: true,
-  fields: [
-    // Email added by default
-    // Add more fields as needed
-  ],
+  // Кука входа в админку — только по HTTPS на сервере (по умолчанию Payload ставит её без Secure).
+  auth: { cookies: { secure: process.env.NODE_ENV === 'production' } },
+  fields: [],
 }

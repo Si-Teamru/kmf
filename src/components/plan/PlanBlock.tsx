@@ -23,20 +23,10 @@ const TONES = [
   { bg: 'bg-bg-cream', fill: 'fill-bg-cream' },
   { bg: 'bg-gray-200', fill: 'fill-gray-200' },
 ]
-/** Иконки зон (KMF-to-dev: «Таб плана», секция «Вкладки плана — разное число зон» 137:2). */
-const ICONS = new Set([
-  'kitchen',
-  'bedroom',
-  'bathroom',
-  'hallway',
-  'kids',
-  'wardrobe',
-  'bathroom-2',
-  'laundry',
-  'balcony',
-])
-
-/** Порядок вкладок: как в макете (кухня, спальня, санузел, прихожая), затем остальные зоны. */
+/**
+ * Порядок вкладок: как в макете (кухня, спальня, санузел, прихожая), затем остальные зоны.
+ * У каждой зоны списка есть иконка `public/icons/plan-zone-<ключ>.svg` (KMF-to-dev, секция 137:2).
+ */
 const ZONE_ORDER = [
   'kitchen',
   'bedroom',
@@ -48,6 +38,7 @@ const ZONE_ORDER = [
   'laundry',
   'balcony',
 ]
+const ICONS = new Set(ZONE_ORDER)
 const byOrder = (a: PlanZone, b: PlanZone) => {
   const ia = ZONE_ORDER.indexOf(a.key)
   const ib = ZONE_ORDER.indexOf(b.key)

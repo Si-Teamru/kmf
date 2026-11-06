@@ -63,7 +63,12 @@ export function HomeBenefits() {
     let index = 0
     let busy = false
     let saved = 0
-    const restore = () => window.scrollTo(0, saved)
+    // Колесо даёт небольшую утечку — её возвращаем. Прыжок больше экрана — переход по якорю,
+    // полоса прокрутки или End: отпускаем закрепление, иначе «Контакты» в шапке не работают.
+    const restore = () => {
+      if (Math.abs(window.scrollY - saved) > window.innerHeight) intent.disable()
+      else window.scrollTo(0, saved)
+    }
 
     const go = (dir: 1 | -1) => {
       if (busy) return
@@ -112,13 +117,14 @@ export function HomeBenefits() {
       pin: true,
       start: 'center center',
       end: `+=${PIN_DISTANCE}`,
+      // progress 1 / 0 при входе — секцию проскочили одним прыжком (якорь, End): не возвращать к ней.
       onEnter: (self) => {
-        if (intent.isEnabled) return
+        if (intent.isEnabled || self.progress === 1) return
         self.scroll(self.start + 1)
         intent.enable()
       },
       onEnterBack: (self) => {
-        if (intent.isEnabled) return
+        if (intent.isEnabled || self.progress === 0) return
         self.scroll(self.end - 1)
         intent.enable()
       },

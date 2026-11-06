@@ -16,7 +16,7 @@ import { cn, IconButtonClose, SliderArrows } from '@/components/ui'
 import type { GalleryItem } from '@/data/projects'
 import { asset } from '@/lib/asset'
 
-import { lockScroll } from './lockScroll'
+import { useModal } from './modal'
 
 const LightboxContext = createContext<(index: number) => void>(() => {})
 
@@ -83,13 +83,7 @@ function Lightbox({
   const canNext = current < items.length - 1
   const go = (to: number) => onChange(Math.min(Math.max(to, 0), items.length - 1))
 
-  useEffect(() => {
-    const el = dialog.current
-    if (!el) return
-    if (open && !el.open) el.showModal()
-    else if (!open && el.open) el.close()
-    return open ? lockScroll() : undefined
-  }, [open])
+  useModal(dialog, open)
 
   useEffect(() => {
     if (!open) return
